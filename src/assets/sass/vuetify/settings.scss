@@ -1,0 +1,14 @@
+@use 'vuetify/lib/components/VField/_variables.scss' as VField with (
+  $field-outline-opacity: 0.15,
+  $field-border-radius: 6px
+);
+
+// @use 'vuetify/lib/components/VTextField/_variables.scss' as VTextField with ();
+// @use 'vuetify/lib/components/VTextField/_variables.scss' with (
+//   $text-field-affix-color: red
+// );
+
+// $utilities: false,
+// $button-height: 40px,
+// $text-field-affix-color: rgba(255,0,0, 1),
+// $text-field-border-radius: 50px
