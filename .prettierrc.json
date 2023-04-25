@@ -5,8 +5,20 @@
   "tabWidth": 2,
   "singleQuote": true,
   "bracketSpacing": true,
+  "bracketSameLine": true,
+  "quoteProps": "consistent",
   "printWidth": 100,
-  "bracketSameLine": false,
-  "trailingComma": "none",
-  "endOfLine": "lf"
+  "trailingComma": "es5",
+  "endOfLine": "lf",
+  "arrowParens": "always",
+  "singleAttributePerLine": false,
+  "htmlWhitespaceSensitivity": "ignore",
+  "overrides": [
+    {
+      "files": "*.vue",
+      "options": {
+        "parser": "vue"
+      }
+    }
+  ]
 }
