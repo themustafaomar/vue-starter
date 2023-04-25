@@ -1,61 +1,76 @@
 <template>
-  <v-sheet class="h-100 d-flex align-center" color="#f5f7fa">
-    <v-sheet width="360" color="white" rounded class="mx-auto pa-8 border rounded-lg">
-      <h2 class="text-center mb-2">Sign in</h2>
-      <p class="text-center text-grey mb-7">Login to your account - enjoy exclusive features and much more...</p>
+  <AuthLayout>
+    <v-sheet width="360" :color="$vuetify.theme.current.colors.surface" rounded class="position-relative mx-auto pa-8 border rounded-lg">
+      <v-progress-linear :active="isLoading" indeterminate absolute bottom color="blue-accent-3" />
+
+      <app-auth-heading title="Sign in" description="Login to your account - enjoy exclusive features and much more..." />
 
       <v-form validate-on="submit" @submit.prevent="submit">
         <v-text-field
-          v-model="username"
-          :rules="rules"
-          label="User name"
-          variant="outlined"
-          density="comfortable"
+          v-model="form.email"
+          label="Username"
           persistent-hint
           hint="Username or email you used to login with"
-          autofocus
+          class="mb-5"
         ></v-text-field>
 
         <v-text-field
-          v-model="password"
+          v-model="form.password"
           type="password"
-          :rules="rules"
           label="Password"
-          variant="outlined"
-          density="comfortable"
           persistent-hint
           hint="If you forgot your password youi can reset it"
-          class="mt-5"
+          class="mb-5"
         ></v-text-field>
 
-        <v-btn type="submit" color="blue" block elevation="0" class="mt-5">Sign in</v-btn>
+        <v-btn type="submit" :disabled="isLoading" block class="bg-blue-accent-3 py-5" elevation="0">Sign in</v-btn>
 
-        <!-- <div class="text-grey text-center mt-5">OR</div> -->
-        <!-- <v-btn color="red" block elevation="0" class="mt-5">Sign in with Google</v-btn>
-        <v-btn block :style="{ 'background-color': '#272937', color: '#888a95' }" elevation="0" class="text-white mt-5">Sign in with Github</v-btn> -->
+        <div class="text-grey text-center mt-5">OR</div>
+
+        <v-btn
+          block
+          @click.prevent="$router.push({ name: 'register' })"
+          :disabled="isLoading"
+          :style="{ 'background-color': '#1e293b' }"
+          class="text-white font-weight-normal py-5 mt-5"
+          elevation="0">
+          Create an account
+        </v-btn>
 
         <p class="text-center text-grey mt-5">
-          Already have an account? <router-link to="/register" class="text-decoration-none">sign up</router-link>
+          Forgot your password? <router-link to="/forgot-password" class="text-decoration-none text-blue-accent-3">reset it</router-link>
         </p>
       </v-form>
     </v-sheet>
-  </v-sheet>
+  </AuthLayout>
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import { mapActions, mapGetters } from 'vuex'
+import AuthLayout from '@/layouts/auth.vue'
+import { emitter } from '@/utils'
+import AppAuthHeading from '@/components/auth/Heading.vue'
 
 export default {
-  data: vm => ({
-    username: '',
-    password: '',
-    rules: [
-      // value => vm.checkApi(value),
-    ],
+  components: { AuthLayout, AppAuthHeading },
+  data: () => ({
+    form: {
+      email: 'themustafaomar@gmail.com',
+      password: 'password',
+    }
   }),
+  computed: {
+    ...mapGetters({ isLoading: 'auth/isLoading' })
+  },
   methods: {
-    async submit () {
-      await axios.post(`/login`)
+    ...mapActions({ login: 'auth/login' }),
+    submit() {
+      this.login(this.form).then(() => {
+        emitter.emit('toast:show', {
+          message: 'Logged in successfully!',
+          color: 'success'
+        })
+      })
     }
   }
 }
