@@ -1,14 +1,23 @@
-@use 'vuetify/lib/components/VField/_variables.scss' as VField with (
+@use 'vuetify/settings' with (
+  // $border-radius-root: 7px,
+
+  // Text fields
   $field-outline-opacity: 0.15,
-  $field-border-radius: 6px
+  // $field-focused-border-width: 1px,
+  $field-border-radius: 8px,
+
+  // Buttons
+  $button-border-radius: 8px,
+
+  // Adding custom new utilities to the API
+  $utilities: (
+    "background-size": (
+      property: background-size,
+      class: bg,
+      values: (
+        contain: contain,
+        cover: cover
+      )
+    )
+  )
 );
-
-// @use 'vuetify/lib/components/VTextField/_variables.scss' as VTextField with ();
-// @use 'vuetify/lib/components/VTextField/_variables.scss' with (
-//   $text-field-affix-color: red
-// );
-
-// $utilities: false,
-// $button-height: 40px,
-// $text-field-affix-color: rgba(255,0,0, 1),
-// $text-field-border-radius: 50px
