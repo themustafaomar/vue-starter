@@ -1,9 +1,12 @@
 <template>
   <AuthLayout>
     <v-sheet width="360" rounded class="position-relative mx-auto border rounded-lg pa-8">
-      <v-progress-linear :active="isLoading" indeterminate absolute bottom color="blue-accent-3" />
+      <v-progress-linear :active="isLoading" color="primary" indeterminate absolute bottom />
 
-      <app-auth-heading title="Sign in" description="Let us know your email address and we will email you a password reset that will allow you to choose a new one." />
+      <app-auth-heading
+        title="Sign in"
+        description="Enter a new password to reset the password on your account, we'll ask for this password whenever you login"
+      />
 
       <v-form validate-on="submit" @submit.prevent="submit">
         <v-text-field
@@ -11,8 +14,8 @@
           label="Username"
           persistent-hint
           hint="Username or email you used to login with"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+        ></v-text-field>
 
         <v-text-field
           v-model="form.password"
@@ -20,8 +23,9 @@
           label="Password"
           persistent-hint
           hint="Pick a powerful password"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+          autofocus
+        ></v-text-field>
 
         <v-text-field
           v-model="form.password_confirmation"
@@ -29,15 +33,16 @@
           label="Password again"
           persistent-hint
           hint="Repeat the password again"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+        ></v-text-field>
 
-        <v-btn :disabled="isLoading" type="submit" block class="bg-blue-accent-3 py-5" elevation="0">
+        <v-btn :disabled="isLoading" type="submit" block class="bg-primary py-5" elevation="0">
           Reset password
         </v-btn>
 
         <p class="text-center text-grey mt-5">
-          Already have an account? <router-link to="/login" class="text-decoration-none text-blue-accent-3">sign in</router-link>
+          Know your password?
+          <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
       </v-form>
     </v-sheet>
@@ -54,7 +59,7 @@ export default {
   data: () => ({
     form: {
       email: 'themustafaomar@gmail.com',
-    }
+    },
   }),
   computed: {
     ...mapGetters({ isLoading: 'auth/isLoading' }),
@@ -62,7 +67,8 @@ export default {
   methods: {
     ...mapMutations('auth', ['loading', 'loaded']),
     submit() {
+      // ..
     },
-  }
+  },
 }
 </script>

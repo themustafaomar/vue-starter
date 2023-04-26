@@ -1,7 +1,10 @@
 <template>
   <AuthLayout>
     <v-sheet width="360" rounded class="position-relative mx-auto border rounded-lg pa-8">
-      <app-auth-heading title="Sign up" description="Create an account - enjoy exclusive features and much more..." />
+      <app-auth-heading
+        title="Sign up"
+        description="Create an account - enjoy exclusive features and much more..."
+      />
 
       <v-form validate-on="submit" @submit.prevent="submit">
         <v-text-field
@@ -9,16 +12,16 @@
           label="Fullname"
           persistent-hint
           hint="A full name is composed of first/last name"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+        ></v-text-field>
 
         <v-text-field
           v-model="form.email"
           label="Username"
           persistent-hint
           hint="Pick a unique memorable username"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+        ></v-text-field>
 
         <v-text-field
           v-model="form.password"
@@ -26,22 +29,23 @@
           label="Password"
           persistent-hint
           hint="Please choose a strong password"
-          class="mb-5">
-        </v-text-field>
+          class="mb-5"
+        ></v-text-field>
 
         <v-select
           label="Account Type"
-          model-value="Individual"
+          v-model="form.type"
           :items="['Individual', 'Company', 'For My Child']"
           variant="outlined"
           persistent-hint
-          hint="Choose the account type">
-        </v-select>
+          hint="Choose the account type"
+        ></v-select>
 
-        <v-btn type="submit" block class="bg-blue-accent-3 mt-5 py-5" elevation="0">Sign in</v-btn>
+        <v-btn type="submit" block class="bg-primary mt-5 py-5" elevation="0">Sign in</v-btn>
 
         <p class="text-center text-grey mt-5">
-          Already have an account? <router-link to="/login" class="text-decoration-none text-blue-accent-3">sign in</router-link>
+          Already have an account?
+          <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
       </v-form>
     </v-sheet>
@@ -59,22 +63,14 @@ export default {
       full_name: '',
       email: '',
       password: '',
-      password_confirmation: '',
+      type: 'Individual',
     },
-    timeout: null
+    timeout: null,
   }),
   methods: {
     submit() {
       // ..
-    }
-  }
+    },
+  },
 }
 </script>
-
-<style lang="scss">
-#login-page {
-  .v-application {
-    background-color: #f5f7fa;
-  }
-}
-</style>

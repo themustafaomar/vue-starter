@@ -1,9 +1,12 @@
 <template>
   <AuthLayout>
-    <v-sheet width="360" :color="$vuetify.theme.current.colors.surface" rounded class="position-relative mx-auto pa-8 border rounded-lg">
-      <v-progress-linear :active="isLoading" indeterminate absolute bottom color="blue-accent-3" />
+    <v-sheet width="360" rounded class="position-relative mx-auto pa-8 border rounded-lg">
+      <v-progress-linear :active="isLoading" color="primary" indeterminate absolute bottom />
 
-      <app-auth-heading title="Sign in" description="Login to your account - enjoy exclusive features and much more..." />
+      <app-auth-heading
+        title="Sign in"
+        description="Login to your account - enjoy exclusive features and much more..."
+      />
 
       <v-form validate-on="submit" @submit.prevent="submit">
         <v-text-field
@@ -23,7 +26,9 @@
           class="mb-5"
         ></v-text-field>
 
-        <v-btn type="submit" :disabled="isLoading" block class="bg-blue-accent-3 py-5" elevation="0">Sign in</v-btn>
+        <v-btn type="submit" :disabled="isLoading" block class="bg-primary py-5" elevation="0">
+          Sign in
+        </v-btn>
 
         <div class="text-grey text-center mt-5">OR</div>
 
@@ -33,12 +38,16 @@
           :disabled="isLoading"
           :style="{ 'background-color': '#1e293b' }"
           class="text-white font-weight-normal py-5 mt-5"
-          elevation="0">
+          elevation="0"
+        >
           Create an account
         </v-btn>
 
         <p class="text-center text-grey mt-5">
-          Forgot your password? <router-link to="/forgot-password" class="text-decoration-none text-blue-accent-3">reset it</router-link>
+          Forgot your password?
+          <router-link to="/forgot-password" class="text-decoration-none text-primary">
+            reset it
+          </router-link>
         </p>
       </v-form>
     </v-sheet>
@@ -57,10 +66,10 @@ export default {
     form: {
       email: 'themustafaomar@gmail.com',
       password: 'password',
-    }
+    },
   }),
   computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' })
+    ...mapGetters({ isLoading: 'auth/isLoading' }),
   },
   methods: {
     ...mapActions({ login: 'auth/login' }),
@@ -68,10 +77,10 @@ export default {
       this.login(this.form).then(() => {
         emitter.emit('toast:show', {
           message: 'Logged in successfully!',
-          color: 'success'
+          color: 'success',
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
