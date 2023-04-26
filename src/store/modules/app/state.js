@@ -1,8 +1,14 @@
 export default {
   auth: {
-    provider: 'sanctum'
+    provider: 'sanctum',
   },
   locale: {
-    default: 'en'
-  }
+    default: 'en',
+  },
+  snackbar: {
+    show: false,
+    message: '',
+    color: 'primary',
+    position: 'bottom right',
+  },
 }
