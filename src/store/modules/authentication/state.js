@@ -1,4 +1,5 @@
 export default {
   isLoggedIn: false,
-  user: {}
+  user: {},
+  isLoading: false
 }
