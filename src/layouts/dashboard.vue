@@ -15,7 +15,8 @@
 
       <!-- content -->
       <v-main>
-        <div class="pa-5">
+        <app-dashboard-error v-if="state.app.error.show" />
+        <div v-else class="pa-5">
           <router-view />
         </div>
       </v-main>
@@ -26,9 +27,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 import AppSnackbar from '@/components/common/Snackbar.vue'
 import AppDashboardBar from '@/components/dashboard/Bar.vue'
 import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
+import AppDashboardError from '@/components/dashboard/Error.vue'
 
+const { state } = useStore()
 const rail = ref(false)
 </script>
