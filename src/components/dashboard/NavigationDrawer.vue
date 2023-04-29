@@ -1,43 +1,43 @@
 <template>
-  <v-navigation-drawer v-model="drawer" permanent :rail="rail" :border="0">
+  <v-navigation-drawer v-model="drawer" clipped permanent :rail="rail" :border="0">
     <template #prepend>
       <v-list-item
         lines="two"
         prepend-avatar="/avatar.jpg"
         title="Jone Smith"
         subtitle="Logged in"
-        :border="false"
-        class="px-3" />
+      />
     </template>
 
     <v-divider color="grey" />
 
-    <v-list density="comfortable" nav class="mt-3">
+    <v-list density="comfortable" class="mt-2">
       <v-list-item
         v-for="link in links"
-        :key="link.name"
         :value="link.name"
         :to="link.to"
-        active-color="blue-accent-3"
-        class="mb-1 px-3">
+        active-color="primary"
+        exact
+        class="text-medium-emphasis mb-1"
+      >
         <template #prepend>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="2"
-            width="20"
-            class="text-grey-darken-1"
+            width="21"
             stroke="currentColor"
-            v-html="link.hipath"></svg>
+            v-html="link.hipath"
+          ></svg>
         </template>
-        <div class="ms-3">{{ link.name }}</div>
+        <div class="ms-3" :style="{ 'font-size': '.97rem' }">{{ link.name }}</div>
       </v-list-item>
     </v-list>
 
     <template #append>
       <div class="pa-3">
-        <v-btn block text elevation="0">
+        <v-btn @click="logout" block text elevation="0" class="border">
           <v-icon v-if="rail">mdi-logout</v-icon>
           <span v-else>
             <v-icon>mdi-logout</v-icon>
@@ -54,13 +54,15 @@ export default {
   props: {
     rail: Boolean,
   },
-  data: () => ({
+  data: ({ $t }) => ({
     drawer: true,
     // prettier-ignore
     links: [
       {
         to: '/dashboard',
-        name: 'Dashboard',
+        name: $t('dl.dashboard'),
+        // @TODO: `hi` stands for `heroicons`
+        // source: https://heroicons.com/
         hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />',
       },
       {
@@ -103,5 +105,10 @@ export default {
       },
     ],
   }),
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
+    },
+  },
 }
 </script>

@@ -32,5 +32,5 @@ export default {
   },
   setLoaded(state, status) {
     state.loaded = status
-  }
+  },
 }

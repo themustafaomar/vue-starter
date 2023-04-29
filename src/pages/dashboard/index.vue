@@ -104,18 +104,6 @@
           label="Email"
           placeholder="Your Email"
           persistent-placeholder
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.email"
-          :form="form"
-          name="email"
-          label="Email"
-          placeholder="Your Email"
-          persistent-placeholder
-          required
           class="mb-4"
         ></app-text-field>
 
@@ -130,6 +118,17 @@
           required
           class="mb-4"
         ></app-text-field>
+
+        <app-select
+          v-model="form.account_type"
+          :form="form"
+          name="account_type"
+          label="Account Type"
+          :items="['Individual', 'Company', 'For My Child']"
+          persistent-hint
+          hint="Choose the account type"
+          class="mb-5"
+        ></app-select>
 
         <v-btn @click="sendRequest" size="large" block color="primary" elevation="0">
           <v-progress-circular
@@ -170,17 +169,6 @@
           name="email"
           label="Your Email"
           placeholder="Email"
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.email"
-          :form="form"
-          name="email"
-          label="Your Email"
-          placeholder="Email"
-          required
           class="mb-4"
         ></app-text-field>
 
@@ -194,6 +182,16 @@
           required
           class="mb-4"
         ></app-text-field>
+
+        <app-select
+          :form="form"
+          name="account_type"
+          label="Account Type"
+          :items="['Individual', 'Company', 'For My Child']"
+          placeholder="Password"
+          required
+          class="mb-5"
+        ></app-select>
 
         <v-btn
           @click="sendRequest"
@@ -230,19 +228,28 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { Form } from 'vform'
 import AppDialog from '@/components/common/Dialog.vue'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
+import axios from '@/plugins/axios'
 
 const store = useStore()
 const dialog = ref(null)
 const form = reactive(
   new Form({
-    name: 'Mustafa Omar',
+    name: '',
+    email: '',
+    account_type: '',
   })
 )
+
+onMounted(() => {
+  axios.get(`/user`).then((response) => {
+    console.log(response)
+  })
+})
 
 function showToast() {
   store.commit('app/notify', 'This is a message for primary toast!')

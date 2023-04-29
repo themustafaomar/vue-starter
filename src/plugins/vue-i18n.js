@@ -1,6 +1,10 @@
 import { createI18n } from 'vue-i18n'
-import en from '@/locales/en.json'
-import ar from '@/locales/ar.json'
+import en from '@/i18n/en.json'
+import ar from '@/i18n/ar.json'
+
+/**
+ * @deprecated
+ */
 
 export default ({ app, store: { state } }) => {
   const defaultLocale = state.app.locale.default
@@ -8,7 +12,7 @@ export default ({ app, store: { state } }) => {
     locale: defaultLocale,
     fallbackLocale: defaultLocale,
     legacy: false,
-    messages: { en, ar }
+    messages: { en, ar },
   })
 
   app.use(i18n)

@@ -1,15 +1,9 @@
-// import axios from './axios'
 import './axios'
-import i18n from './vue-i18n'
-import vuetify from './vuetify'
+import './vform'
+import { useVuetify } from './vuetify'
+import { useGlobalComponents } from './global-components'
 
-// Callable plugins
-const plugins = {
-  // axios,
-  i18n,
-  vuetify
-}
-
-export default (parameters) => {
-  Object.keys(plugins).forEach((name) => plugins[name].call(parameters.app, parameters))
+export const usePlugins = (ctx) => {
+  useGlobalComponents(ctx)
+  useVuetify(ctx)
 }

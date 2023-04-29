@@ -3,7 +3,7 @@
     <v-card rounded="lg">
       <v-card-title v-if="!$slots.title" class="border-b">
         <h3 class="font-weight-regular text-h6 mb-2">
-          {{ title || 'Are you sure you want to delete this item?' }}
+          {{ title || 'Are you sure you want to apply this action?' }}
         </h3>
       </v-card-title>
       <slot v-else name="title">No title set</slot>

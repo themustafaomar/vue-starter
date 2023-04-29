@@ -1,5 +1,29 @@
-import { base } from './routes/base'
 import { auth } from './routes/auth'
-import { account } from './routes/account'
+import { profile } from './routes/profile'
+import { dashboard } from './routes/dashboard'
 
-export default [...base, ...auth, ...account]
+export default [
+  {
+    name: 'welcome',
+    path: '/',
+    component: () => import('@/pages/index.vue'),
+  },
+  {
+    name: 'about',
+    path: '/about',
+    component: () => import('@/pages/about.vue'),
+  },
+  ...auth,
+  ...profile,
+  ...dashboard,
+  {
+    name: '_profile_',
+    path: '/admin/home',
+    component: () => import('@/layouts/profile.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: import('@/pages/404.vue'),
+  },
+]

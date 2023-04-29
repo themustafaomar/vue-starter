@@ -55,9 +55,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import AuthLayout from '@/layouts/auth.vue'
-import { emitter } from '@/utils'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 export default {
@@ -69,15 +68,22 @@ export default {
     },
   }),
   computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' }),
+    ...mapGetters({
+      isLoading: 'auth/isLoading',
+    }),
   },
   methods: {
-    ...mapActions({ login: 'auth/login' }),
+    ...mapActions({
+      login: 'auth/login',
+    }),
+    ...mapMutations({
+      notify: 'app/notify',
+    }),
     submit() {
       this.login(this.form).then(() => {
-        emitter.emit('toast:show', {
+        this.notify({
           message: 'Logged in successfully!',
-          color: 'success',
+          color: 'primary',
         })
       })
     },

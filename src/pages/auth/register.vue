@@ -7,6 +7,16 @@
       />
 
       <v-form validate-on="submit" @submit.prevent="submit">
+        <!-- <app-text-field
+          v-model="form.test"
+          :form="form"
+          name="test"
+          label="Test"
+          persistent-hint
+          hint="Test is composed of first/last name"
+          class="mb-5"
+        ></app-text-field> -->
+
         <v-text-field
           v-model="form.full_name"
           label="Fullname"
@@ -53,18 +63,19 @@
 </template>
 
 <script>
+import { Form } from 'vform'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 export default {
   components: { AuthLayout, AppAuthHeading },
   data: () => ({
-    form: {
+    form: new Form({
       full_name: '',
       email: '',
       password: '',
       type: 'Individual',
-    },
+    }),
     timeout: null,
   }),
   methods: {

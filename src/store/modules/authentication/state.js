@@ -1,5 +1,6 @@
 export default {
   isLoggedIn: false,
   user: {},
-  isLoading: false
+  roles: {},
+  isLoading: false,
 }

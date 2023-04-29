@@ -29,7 +29,7 @@ import { useTheme } from 'vuetify'
 import { useIsDark } from '@/composables/is-dark'
 
 // Components
-import AppThemeToggle from '@/components/app/common/ThemeToggle.vue'
+import AppThemeToggle from '@/components/common/bar/ThemeToggle.vue'
 import AppSnackbar from '@/components/common/Snackbar.vue'
 
 const { current, global } = useTheme()

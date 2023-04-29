@@ -1,5 +1,5 @@
 <template>
   <!-- Don't modify this unless you know what you're doing -->
-  <!-- This applied to all pages of the app -->
+  <!-- This applied to all pages of the app, no matter which layout you're using.. -->
   <RouterView />
 </template>

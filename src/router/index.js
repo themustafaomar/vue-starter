@@ -6,7 +6,7 @@ import routes from './routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  routes,
 })
 
 router.beforeEach((to, from, next) => {
@@ -15,11 +15,17 @@ router.beforeEach((to, from, next) => {
   const name = to.name
   const middlewaresToRun = []
 
+  // Check if we've a parent, we'll assume this is a layout
+  const parent = to.matched[0]
+  if (to.matched.length > 1 && parent.name) {
+    document.body.classList.add(`${parent.name}__layout`)
+  }
+
   // Add a title and id to the current page
   if (name) {
     document.title = createTitle(name)
     // Set an id depending on the route name value
-    if (document.body) document.body.id = `${name}-page`
+    if (document.body) document.body.id = `${name}__page`
   }
 
   // Get current route middlewares if presented
@@ -45,7 +51,7 @@ router.afterEach(() => {
 
 // Create a title from a given name
 function createTitle(name) {
-  return (name.charAt(0).toUpperCase() + name.slice(1)).replace('-', ' - ')
+  return (name.charAt(0).toUpperCase() + name.slice(1)).replace('_', ' ').replace('-', ' - ')
 }
 
 // Add a middleware or array of middlewares to a given array

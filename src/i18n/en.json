@@ -1,4 +1,8 @@
 {
   "hi": "Hi!",
-  "languages": "Languages"
+  "languages": "Languages",
+  "notifications": "Notifications",
+  "dl": {
+    "dashboard": "Dashboard"
+  }
 }

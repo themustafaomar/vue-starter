@@ -1,6 +1,7 @@
 export default {
   auth: {
     provider: 'sanctum',
+    homeURL: '/dashboard',
   },
   locale: {
     default: 'en',
@@ -9,6 +10,11 @@ export default {
     show: false,
     message: '',
     color: 'primary',
-    position: 'bottom right',
+    location: 'bottom center',
+  },
+  error: {
+    show: false,
+    message: '',
+    type: '',
   },
 }

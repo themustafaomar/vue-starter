@@ -14,19 +14,20 @@
   .
   <a href="https://github.com/themustafaomar/vuetify-starter/issues/new"><strong>Report bug</strong></a>
   ·
-  <a href="https://jvm-docs.vercel.app"><strong>View demo</strong></a>
+  <a href="https://github.com/themustafaomar/vuetify-starter"><strong>View demo (coming soon)</strong></a>
   ·
   <a href="https://github.com/themustafaomar/vuetify-starter/archive/main.zip"><strong>Download</strong></a>
 </p>
 
 ## Features
 
-- Common reusable components with less code
+- Commonly reusable components while using less code
 - Dark mode & light mode etc..
 - Multiple layouts etc..
 - Multilangual
 - Vuetify style customization using Sass variables
-- Backend validation handling with zero code
+- Backend validation handling with zero configuration
+- Complete authentication system & rules
 - Complete notifications system
 - Powerful middleware functionlaity
 - Standard ESLint and Prettier config for consistent development

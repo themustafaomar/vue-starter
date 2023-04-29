@@ -4,6 +4,6 @@ import auth from './authentication'
 
 export default {
   app,
-  auth
+  auth,
   // notifications
 }

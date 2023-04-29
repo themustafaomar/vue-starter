@@ -1,16 +1,13 @@
 <template>
   <v-snackbar
-    :color="options.color"
     v-model="options.show"
+    :color="options.color"
     :timeout="options.timeout"
     :location="options.location"
   >
     {{ options.message }}
-
     <template #actions>
-      <v-btn color="white" variant="text" @click="store.state.app.snackbar.show = false">
-        Close
-      </v-btn>
+      <v-btn color="white" variant="text" @click="state.app.snackbar.show = false">Close</v-btn>
     </template>
   </v-snackbar>
 </template>
@@ -19,6 +16,6 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
-const store = useStore()
-const options = computed(() => store.state.app.snackbar)
+const { state } = useStore()
+const options = computed(() => state.app.snackbar)
 </script>

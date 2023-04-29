@@ -16,5 +16,5 @@ export default {
     state.user = {}
     state.isLoggedIn = false
     storage.remove('user')
-  }
+  },
 }

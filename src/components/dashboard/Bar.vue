@@ -2,13 +2,14 @@
   <v-app-bar elevation="0" prominent>
     <v-app-bar-nav-icon variant="text" @click.stop="$emit('rail:switch')" />
 
-    <v-toolbar-title class="text-uppercase text-grey-darken-1">Wakeb</v-toolbar-title>
+    <v-toolbar-title class="text-uppercase text-medium-emphasis">Wakeb</v-toolbar-title>
 
     <v-text-field
       density="compact"
       placeholder="Search term..."
       prepend-inner-icon="mdi-magnify"
-      class="rounded-pill mt-5" />
+      class="rounded-pill mt-5"
+    />
 
     <v-spacer></v-spacer>
 
@@ -19,11 +20,11 @@
 
       <v-btn variant="text">Other</v-btn>
 
-      <v-divider class="mx-2 my-auto" inset vertical style="height: 16px" />
+      <v-divider class="mx-2 my-auto" style="height: 16px" inset vertical />
 
       <theme-toggle />
 
-      <v-divider class="mx-2 my-auto" inset vertical style="height: 16px" />
+      <v-divider class="mx-2 my-auto" style="height: 16px" inset vertical />
 
       <app-bar-notifications-menu />
 
@@ -35,8 +36,8 @@
 </template>
 
 <script setup>
-import ThemeToggle from '../app/common/ThemeToggle.vue'
-import AppBarNotificationsMenu from '../app/bar/NotificationsMenu.vue'
-import AppBarLanguageMenu from '../app/bar/LanguageMenu.vue'
-import AppSettingsMenu from '../app/bar/SettingsMenu.vue'
+import ThemeToggle from '../common/bar/ThemeToggle.vue'
+import AppBarNotificationsMenu from '../common/bar/NotificationsMenu.vue'
+import AppBarLanguageMenu from '../common/bar/LanguageMenu.vue'
+import AppSettingsMenu from '../common/bar/SettingsMenu.vue'
 </script>

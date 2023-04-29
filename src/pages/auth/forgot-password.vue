@@ -69,13 +69,12 @@ export default {
     ...mapMutations('auth', ['loading', 'loaded']),
     submit() {
       this.loading()
-
       setTimeout(() => {
         this.loaded()
-        this.showSuccessMessage()
+        this._showSuccessMessage()
       }, 1500)
     },
-    showSuccessMessage() {
+    _showSuccessMessage() {
       this.showMessage = true
       setTimeout(() => (this.showMessage = false), 5000)
     },

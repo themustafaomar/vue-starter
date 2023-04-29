@@ -27,9 +27,9 @@ export default {
   },
   async remove({ commit }, id) {
     await axios.post(`/notifications/${id}`, {
-      _method: 'DELETE'
+      _method: 'DELETE',
     })
 
     commit('remove', id)
-  }
+  },
 }

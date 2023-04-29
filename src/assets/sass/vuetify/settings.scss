@@ -1,6 +1,5 @@
 @use 'vuetify/settings' with (
   // $border-radius-root: 7px,
-
   // Text fields
   $field-outline-opacity: 0.15,
   // $field-focused-border-width: 1px,
@@ -10,14 +9,31 @@
   $button-border-radius: 8px,
 
   // Adding custom new utilities to the API
-  $utilities: (
-    "background-size": (
-      property: background-size,
-      class: bg,
-      values: (
-        contain: contain,
-        cover: cover
+  $utilities:
+    (
+      'background-size': (
+        property: background-size,
+        class: bg,
+        values: (
+          contain: contain,
+          cover: cover,
+        ),
+      ),
+      'bg-opacity': (
+        property: '--v-opacity',
+        class: bg-opacity,
+        values: (
+          10: 0.1,
+          20: 0.2,
+          30: 0.3,
+          40: 0.4,
+          50: 0.5,
+          60: 0.6,
+          70: 0.7,
+          80: 0.8,
+          90: 0.9,
+          100: 1,
+        ),
       )
     )
-  )
 );
