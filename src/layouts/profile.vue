@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- This layout still in development -->
     <app-bar></app-bar>
     <!-- <v-app-bar flat>
       <v-container class="fill-height d-flex align-center">
