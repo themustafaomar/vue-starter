@@ -57,11 +57,11 @@
 
 <script setup>
 import { useDisplay } from 'vuetify'
-import AppBtn from '../Btn.vue'
 import AppBarLanguageMenu from './LanguageMenu.vue'
 import AppBarNotificationsMenu from './NotificationsMenu.vue'
 import AppSettingsMenu from './SettingsMenu.vue'
 import ThemeToggle from '@/components/app/ThemeToggle.vue'
+import AppBtn from '../Btn.vue'
 
 const { smAndUp, mdAndUp, mdAndDown } = useDisplay()
 </script>
