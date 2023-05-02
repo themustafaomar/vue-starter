@@ -3,8 +3,9 @@
 </template>
 
 <script setup>
-import { useTheme } from 'vuetify'
 import { computed } from 'vue'
+import { useTheme } from 'vuetify'
+import AppBtn from './Btn.vue'
 
 const theme = useTheme()
 const icon = computed(() =>

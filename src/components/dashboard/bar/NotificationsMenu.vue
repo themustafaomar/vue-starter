@@ -1,16 +1,16 @@
 <template>
   <v-menu
+    v-model="menu"
     close-delay="100"
     location="bottom end"
     open-delay="0"
-    v-model="menu"
     :close-on-content-click="false"
     :open-on-hover="false"
     :width="width"
     offset="9"
   >
     <template #activator="{ props }">
-      <app-tooltip-btn path="notifications" v-bind="props">
+      <app-tooltip-btn path="notifications" v-bind="props" @click="getNotifications">
         <template #icon>
           <v-badge color="#ED561B" dot location="top end">
             <v-icon :icon="icon" class="mx-1" color="medium-emphasis" />
@@ -52,27 +52,46 @@
 
         <template v-else>
           <v-list lines="three">
-            <template v-for="notification in notifications" :key="notification.id">
+            <template v-if="isNotificationsLoading">
+              <div class="d-flex mt-2" :style="{ 'max-width': '75%' }">
+                <v-skeleton-loader type="avatar" loading></v-skeleton-loader>
+                <v-skeleton-loader class="flex-grow-1" type="sentences" loading></v-skeleton-loader>
+              </div>
+              <div class="d-flex">
+                <v-skeleton-loader type="avatar" loading></v-skeleton-loader>
+                <v-skeleton-loader class="flex-grow-1" type="sentences" loading></v-skeleton-loader>
+              </div>
+              <div class="d-flex mt-2">
+                <v-skeleton-loader type="avatar" loading></v-skeleton-loader>
+                <v-skeleton-loader class="flex-grow-1" type="sentences" loading></v-skeleton-loader>
+              </div>
+              <div class="d-flex mt-2" :style="{ 'max-width': '75%' }">
+                <v-skeleton-loader type="avatar" loading></v-skeleton-loader>
+                <v-skeleton-loader class="flex-grow-1" type="sentences" loading></v-skeleton-loader>
+              </div>
+            </template>
+
+            <template v-for="notification in notifications" v-else :key="notification.id">
               <v-list-item :ripple="false" class="py-2">
                 <template #prepend>
                   <v-avatar size="large" icon image="/avatar.jpg" height="80" />
                 </template>
 
                 <v-list-item-title class="text-wrap font-weight-medium text-h7 mb-1">
-                  {{ notification.title }}
+                  {{ notification.data.title }}
                 </v-list-item-title>
 
                 <div class="text-body-2">
-                  <p class="mb-1">{{ notification.description.slice(0, 75) }}</p>
+                  <p class="mb-1">{{ notification.data.description.slice(0, 75) }}</p>
 
                   <p
-                    v-if="!notification.metadata.read_at"
+                    v-if="!notification.read_at"
                     class="text-decoration-none text-blue-accent-4 font-weight-medium d-block"
                   >
-                    {{ notification.metadata.created }}
+                    {{ notification.created }}
                   </p>
                   <p v-else class="text-decoration-none text-grey font-weight-medium d-block">
-                    {{ notification.metadata.created }}
+                    {{ notification.created }}
                   </p>
                 </div>
 
@@ -93,65 +112,28 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useI18n } from 'vue-i18n'
-import AppTooltipBtn from '@/components/common/TooltipBtn.vue'
+import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
 
 const { t } = useI18n()
 const { mobile } = useDisplay()
 const menu = ref(false)
-
-// prettier-ignore
-const notifications = reactive([
-  {
-    id: 1,
-    title: 'Friend Request Sent',
-    description: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.',
-    metadata: {
-      action: '/path/to/action',
-      action_text: 'Accept',
-      created: '30 seconds ago',
-      read_at: null,
-    },
-  },
-  {
-    id: 2,
-    title: 'Friend Request Sent',
-    description: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.',
-    metadata: {
-      action: '/path/to/action',
-      action_text: 'Accept',
-      created: '1 hour ago',
-      read_at: null,
-    },
-  },
-  {
-    id: 3,
-    title: 'Friend Request Sent',
-    description: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.',
-    metadata: {
-      action: '/path/to/action',
-      action_text: 'Accept',
-      created: '3 hours ago',
-      read_at: '2022-11-23T00:10:18.000000Z',
-    },
-  },
-  {
-    id: 4,
-    title: 'Friend Request Sent',
-    description: 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.',
-    metadata: {
-      action: '/path/to/action',
-      action_text: 'Accept',
-      created: '4 months ago',
-      read_at: '2022-11-23T00:10:18.000000Z',
-    },
-  },
-])
-
+const notifications = ref([])
+const store = useStore()
+const isNotificationsLoading = computed(() => {
+  return store.getters['notifications/loading']
+})
 const icon = computed(() => 'mdi-bell-ring-outline')
 const width = computed(() => (mobile.value ? 420 : 390))
+
+async function getNotifications() {
+  await store.dispatch('notifications/get')
+
+  notifications.value = store.getters['notifications/get']
+}
 </script>
 
 <style>

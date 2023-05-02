@@ -12,6 +12,6 @@
 <script setup>
 defineProps({
   title: String,
-  description: String,
+  description: String
 })
 </script>

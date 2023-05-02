@@ -1,4 +1,5 @@
 <template>
+  <!-- This page is just for testing. -->
   <v-sheet class="pa-6" rounded="lg">
     <h2 class="font-weight-medium text-h5">Comments</h2>
     <p class="text-blue-grey-darken-2">

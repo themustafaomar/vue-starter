@@ -22,8 +22,8 @@ defineProps({
   text: String,
   variant: {
     type: String,
-    default: 'text',
-  },
+    default: 'text'
+  }
 })
 
 const { t } = useI18n()

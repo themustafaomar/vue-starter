@@ -2,8 +2,8 @@
   <!-- global component: YES -->
   <v-select
     density="comfortable"
-    :error-messages="form.errors.has(name) ? form.errors.get(name) : ''"
     append-inner-icon="mdi-chevron-down"
+    :error-messages="form.errors.has(name) ? form.errors.get(name) : ''"
   >
     <template #label="{ label }">
       <span v-if="required" class="text-red font-weight-bold mt-1 text-body-1 me-1">*</span>

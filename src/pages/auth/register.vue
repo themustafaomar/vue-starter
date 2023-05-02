@@ -6,52 +6,60 @@
         description="Create an account - enjoy exclusive features and much more..."
       />
 
-      <v-form validate-on="submit" @submit.prevent="submit">
-        <!-- <app-text-field
-          v-model="form.test"
+      <v-form @submit.prevent="submit">
+        <app-text-field
+          v-model="form.name"
           :form="form"
-          name="test"
-          label="Test"
-          persistent-hint
-          hint="Test is composed of first/last name"
-          class="mb-5"
-        ></app-text-field> -->
-
-        <v-text-field
-          v-model="form.full_name"
-          label="Fullname"
-          persistent-hint
+          name="name"
+          label="Name"
+          placeholder="Your Name"
+          persistent-placeholder
           hint="A full name is composed of first/last name"
-          class="mb-5"
-        ></v-text-field>
-
-        <v-text-field
-          v-model="form.email"
-          label="Username"
           persistent-hint
-          hint="Pick a unique memorable username"
-          class="mb-5"
-        ></v-text-field>
+          required
+          class="mb-4"
+        ></app-text-field>
 
-        <v-text-field
+        <app-text-field
+          v-model="form.email"
+          :form="form"
+          name="email"
+          label="Email"
+          persistent-placeholder
+          placeholder="Your email"
+          hint="Pick a unique memorable username"
+          persistent-hint
+          required
+          class="mb-4"
+        ></app-text-field>
+
+        <app-text-field
           v-model="form.password"
           type="password"
+          :form="form"
+          name="password"
           label="Password"
-          persistent-hint
+          placeholder="Your password"
           hint="Please choose a strong password"
-          class="mb-5"
-        ></v-text-field>
-
-        <v-select
-          label="Account Type"
-          v-model="form.type"
-          :items="['Individual', 'Company', 'For My Child']"
-          variant="outlined"
           persistent-hint
-          hint="Choose the account type"
-        ></v-select>
+          required
+          class="mb-4"
+        ></app-text-field>
 
-        <v-btn type="submit" block class="bg-primary mt-5 py-5" elevation="0">Sign in</v-btn>
+        <app-select
+          v-model="form.type"
+          :form="form"
+          name="type"
+          label="Account Type"
+          :items="types"
+          hint="Choose the account type"
+          persistent-hint
+          required
+        ></app-select>
+
+        <v-btn type="submit" :disabled="form.busy" elevation="0" block class="bg-primary mt-5 py-5">
+          <app-btn-loader :state="form.busy" text="Sign in" />
+        </v-btn>
 
         <p class="text-center text-grey mt-5">
           Already have an account?
@@ -64,6 +72,7 @@
 
 <script>
 import { Form } from 'vform'
+import { mapMutations } from 'vuex'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
@@ -76,11 +85,20 @@ export default {
       password: '',
       type: 'Individual',
     }),
-    timeout: null,
+    types: [
+      { title: 'Individual', value: 1 },
+      { title: 'Company', value: 2 },
+      { title: 'For My Child', value: 3 },
+    ],
   }),
   methods: {
-    submit() {
-      // ..
+    ...mapMutations('auth', ['login']),
+    async submit() {
+      const { data } = await this.form.post(`${import.meta.env.VITE_SERVER_URL}/register`)
+
+      this.login(data.data)
+
+      this.$router.push('/dashboard')
     },
   },
 }

@@ -1,9 +1,9 @@
 <template>
   <v-menu
+    key="language-menu"
     close-delay="100"
     location="bottom end"
     open-delay="60"
-    key="language-menu"
     :close-on-content-click="false"
     :open-on-hover="false"
   >
@@ -42,6 +42,6 @@ const links = ref([
   { title: 'Posts & Activity', to: '/' },
   { title: 'Language', to: '/' },
   { type: 'divider', to: '/' },
-  { title: 'Logout', fn: () => store.dispatch('auth/logout'), to: '/' },
+  { title: 'Logout', fn: () => store.dispatch('auth/logout'), to: '/' }
 ])
 </script>

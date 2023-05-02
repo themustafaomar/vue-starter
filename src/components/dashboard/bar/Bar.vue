@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar elevation="0" prominent>
+  <v-app-bar :style="{ position: 'fixed' }" elevation="0" prominent>
     <v-app-bar-nav-icon variant="text" @click.stop="$emit('rail:switch')" />
 
     <v-toolbar-title class="text-uppercase text-medium-emphasis">Wakeb</v-toolbar-title>
@@ -36,8 +36,8 @@
 </template>
 
 <script setup>
-import ThemeToggle from '../common/bar/ThemeToggle.vue'
-import AppBarNotificationsMenu from '../common/bar/NotificationsMenu.vue'
-import AppBarLanguageMenu from '../common/bar/LanguageMenu.vue'
-import AppSettingsMenu from '../common/bar/SettingsMenu.vue'
+import ThemeToggle from '@/components/app/ThemeToggle.vue'
+import AppBarNotificationsMenu from './NotificationsMenu.vue'
+import AppBarLanguageMenu from './LanguageMenu.vue'
+import AppSettingsMenu from './SettingsMenu.vue'
 </script>

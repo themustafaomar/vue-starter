@@ -34,7 +34,7 @@ const payload = ref(null)
 function show(data) {
   dialog.value = true
 
-  if (typeof payload !== 'undefined') {
+  if (typeof payload.value !== 'undefined') {
     payload.value = data
   }
 }

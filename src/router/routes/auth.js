@@ -16,8 +16,8 @@ export const auth = [
   },
   {
     name: 'reset_password',
-    path: '/reset-password',
-    component: () => import('@/pages/auth/reset-password.vue'),
+    path: '/password-reset/:token',
+    component: () => import('@/pages/auth/password-reset.vue'),
   },
 ].map((route) => ({
   ...route,

@@ -4,14 +4,14 @@ export const profile = [
     path: '/profile',
     component: () => import('@/layouts/profile.vue'),
     meta: {
-      middleware: 'auth',
+      middleware: 'auth'
     },
     children: [
       {
         name: 'home',
         path: '',
-        component: () => import('@/pages/profile/index.vue'),
-      },
-    ],
-  },
+        component: () => import('@/pages/profile/index.vue')
+      }
+    ]
+  }
 ]

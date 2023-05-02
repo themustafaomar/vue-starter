@@ -4,7 +4,7 @@ import router from '@/router'
 
 // Axios instance
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
   withCredentials: true,
 })

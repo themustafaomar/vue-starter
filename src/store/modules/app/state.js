@@ -1,20 +1,20 @@
 export default {
   auth: {
     provider: 'sanctum',
-    homeURL: '/dashboard',
+    homeURL: '/dashboard'
   },
   locale: {
-    default: 'en',
+    default: 'en'
   },
   snackbar: {
     show: false,
     message: '',
     color: 'primary',
-    location: 'bottom center',
+    location: 'bottom center'
   },
   error: {
     show: false,
     message: '',
-    type: '',
-  },
+    type: ''
+  }
 }

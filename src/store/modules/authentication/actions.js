@@ -13,7 +13,7 @@ export default {
         .then(async () => {
           commit('loaded')
 
-          const { data } = await axios.post(`${SERVER_URL}/login`, form)
+          const { data } = await form.post(`${SERVER_URL}/login`)
 
           // We've just get the user from the response
           commit('login', data.user)
@@ -28,7 +28,6 @@ export default {
     })
   },
   async logout({ commit }) {
-    // Fake logout request
     await axios.post(`${SERVER_URL}/logout`)
 
     // Logout by clearning authentication data

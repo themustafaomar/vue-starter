@@ -27,14 +27,19 @@
         description="Let us know your email address and we will email you a password reset that will allow you to choose a new one."
       />
 
-      <v-form validate-on="submit" @submit.prevent="submit">
-        <v-text-field
+      <v-form @submit.prevent="submit">
+        <app-text-field
           v-model="form.email"
-          label="Username"
+          :form="form"
+          name="email"
+          label="Email"
+          placeholder="Your Email"
+          persistent-placeholder
+          hint="Your email you used to login with"
           persistent-hint
-          hint="Username or email you used to login with"
+          required
           class="mb-5"
-        ></v-text-field>
+        ></app-text-field>
 
         <v-btn :disabled="isLoading" type="submit" block class="bg-primary py-5" elevation="0">
           Send verification code
@@ -50,6 +55,7 @@
 </template>
 
 <script>
+import { Form } from 'vform'
 import { mapGetters, mapMutations } from 'vuex'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
@@ -58,26 +64,27 @@ export default {
   components: { AuthLayout, AppAuthHeading },
   data: () => ({
     showMessage: false,
-    form: {
-      email: 'themustafaomar@gmail.com',
-    },
+    form: new Form({
+      email: 'themustafaomar@gmail.com'
+    })
   }),
   computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' }),
+    ...mapGetters({ isLoading: 'auth/isLoading' })
   },
   methods: {
     ...mapMutations('auth', ['loading', 'loaded']),
-    submit() {
+    async submit() {
       this.loading()
-      setTimeout(() => {
-        this.loaded()
-        this._showSuccessMessage()
-      }, 1500)
+
+      await this.form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
+
+      this._showSuccessMessage()
+      this.loaded()
     },
     _showSuccessMessage() {
       this.showMessage = true
       setTimeout(() => (this.showMessage = false), 5000)
-    },
-  },
+    }
+  }
 }
 </script>

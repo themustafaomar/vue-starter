@@ -8,23 +8,33 @@
         description="Login to your account - enjoy exclusive features and much more..."
       />
 
-      <v-form validate-on="submit" @submit.prevent="submit">
-        <v-text-field
+      <v-form @submit.prevent="submit">
+        <app-text-field
           v-model="form.email"
-          label="Username"
-          persistent-hint
+          :form="form"
+          name="email"
+          label="Email"
+          placeholder="Your Username"
+          persistent-placeholder
           hint="Username or email you used to login with"
+          persistent-hint
+          required
           class="mb-5"
-        ></v-text-field>
+        ></app-text-field>
 
-        <v-text-field
+        <app-text-field
           v-model="form.password"
           type="password"
+          :form="form"
+          name="password"
           label="Password"
-          persistent-hint
+          placeholder="Your Password"
+          persistent-placeholder
           hint="If you forgot your password youi can reset it"
+          persistent-hint
+          required
           class="mb-5"
-        ></v-text-field>
+        ></app-text-field>
 
         <v-btn type="submit" :disabled="isLoading" block class="bg-primary py-5" elevation="0">
           Sign in
@@ -33,12 +43,12 @@
         <div class="text-grey text-center mt-5">OR</div>
 
         <v-btn
-          block
-          @click.prevent="$router.push({ name: 'register' })"
           :disabled="isLoading"
           :style="{ 'background-color': '#1e293b' }"
           class="text-white font-weight-normal py-5 mt-5"
           elevation="0"
+          block
+          @click.prevent="$router.push({ name: 'register' })"
         >
           Create an account
         </v-btn>
@@ -55,6 +65,7 @@
 </template>
 
 <script>
+import { Form } from 'vform'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
@@ -62,31 +73,31 @@ import AppAuthHeading from '@/components/auth/Heading.vue'
 export default {
   components: { AuthLayout, AppAuthHeading },
   data: () => ({
-    form: {
+    form: new Form({
       email: 'themustafaomar@gmail.com',
-      password: 'password',
-    },
+      password: 'password'
+    })
   }),
   computed: {
     ...mapGetters({
-      isLoading: 'auth/isLoading',
-    }),
+      isLoading: 'auth/isLoading'
+    })
   },
   methods: {
     ...mapActions({
-      login: 'auth/login',
+      login: 'auth/login'
     }),
     ...mapMutations({
-      notify: 'app/notify',
+      notify: 'app/notify'
     }),
     submit() {
       this.login(this.form).then(() => {
         this.notify({
           message: 'Logged in successfully!',
-          color: 'primary',
+          color: 'primary'
         })
       })
-    },
-  },
+    }
+  }
 }
 </script>

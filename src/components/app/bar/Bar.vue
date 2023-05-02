@@ -7,8 +7,6 @@
 
       <!-- @click="app.drawer = !app.drawer" -->
       <v-btn v-if="mdAndDown" icon="mdi-menu" />
-
-      <!-- <app-search /> -->
     </template>
 
     <template #append>
@@ -58,12 +56,12 @@
 </template>
 
 <script setup>
+import { useDisplay } from 'vuetify'
+import AppBtn from '../Btn.vue'
 import AppBarLanguageMenu from './LanguageMenu.vue'
 import AppBarNotificationsMenu from './NotificationsMenu.vue'
 import AppSettingsMenu from './SettingsMenu.vue'
-import ThemeToggle from './ThemeToggle.vue'
-
-import { useDisplay } from 'vuetify'
+import ThemeToggle from '@/components/app/ThemeToggle.vue'
 
 const { smAndUp, mdAndUp, mdAndDown } = useDisplay()
 </script>

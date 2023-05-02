@@ -13,12 +13,12 @@
 
 <script setup>
 // Components
-import AppList from '@/components/common/List.vue'
+import AppList from '@/components/app/List.vue'
 
 defineProps({
   items: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 })
 </script>

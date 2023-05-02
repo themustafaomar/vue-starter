@@ -13,13 +13,13 @@ export default defineConfig({
     vuetify({
       autoImport: true,
       styles: {
-        configFile: './src/assets/sass/vuetify/settings.scss',
-      },
-    }),
+        configFile: './src/assets/sass/vuetify/settings.scss'
+      }
+    })
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
 })

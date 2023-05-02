@@ -1,7 +1,7 @@
 import axios from '@/plugins/axios'
 
 export default {
-  async fetch({ commit }) {
+  async get({ commit }) {
     commit('setLoading', true)
 
     const notifications = await axios.get('/notifications')

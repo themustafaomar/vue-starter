@@ -4,11 +4,11 @@
       <pre>{{ state.app.error }}</pre>
     </h3>
     <v-btn
-      @click.prevent="state.app.error.show = false"
       color="red"
       elevation="0"
       rounded="pill"
       class="mt-4"
+      @click.prevent="state.app.error.show = false"
     >
       Return to previous page
     </v-btn>

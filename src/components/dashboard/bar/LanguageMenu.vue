@@ -1,9 +1,9 @@
 <template>
   <v-menu
+    key="language-menu"
     close-delay="100"
     location="bottom end"
     open-delay="60"
-    key="language-menu"
     :close-on-content-click="false"
     :open-on-hover="false"
   >
@@ -17,25 +17,24 @@
     </template>
 
     <v-sheet class="overflow-hidden" border rounded>
-      <app-list @click:select="changeLocale" nav :items="locales" />
+      <app-list :items="locales" @click:select="changeLocale" nav />
     </v-sheet>
   </v-menu>
 </template>
 
 <script setup>
-import AppList from '@/components/common/List.vue'
 import { useLocale } from 'vuetify'
+import AppList from '@/components/app/List.vue'
+import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
 
 const locales = [
   { title: 'Translations', type: 'subheader' },
   {
     title: 'English',
-    // to: route.fullPath.replace(/^\/[a-zA-Z-]+/, `/${locale}`),
     value: 'en',
   },
   {
     title: 'Arabic',
-    // to: route.fullPath.replace(/^\/[a-zA-Z-]+/, `/${locale}`),
     value: 'ar',
   },
 ]

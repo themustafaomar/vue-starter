@@ -6,7 +6,7 @@
 
   <!-- grid system -->
   <v-row v-for="n in 1" :key="n" class="mt-2">
-    <v-col v-for="n in 3" cols="4" :key="n">
+    <v-col v-for="n in 3" :key="n" cols="4">
       <v-sheet class="pa-5" rounded="lg">
         <h3 class="font-weight-regular text-h6 mb-2">Grid system box {{ n }}</h3>
         <p class="text-medium-emphasis">
@@ -29,12 +29,12 @@
           Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
           veniam vero sapiente, aperiam at!
         </p>
-        <v-btn @click="showToast" color="primary" elevation="0" rounded="pill" class="mt-4">
+        <v-btn color="primary" elevation="0" rounded="pill" class="mt-4" @click="showToast">
           Show toast
           <v-icon class="ms-1">mdi-bell-outline</v-icon>
         </v-btn>
-        <v-btn @click="showErrorToast" color="red" elevation="0" rounded="pill" class="ms-3 mt-4">
-          Show toast error
+        <v-btn color="red" elevation="0" rounded="pill" class="ms-3 mt-4" @click="showErrorToast">
+          Show error
           <v-icon class="ms-1">mdi-bell-outline</v-icon>
         </v-btn>
       </v-sheet>
@@ -51,7 +51,7 @@
           Are you sure you want to delete this item? this item will be deleted immediately. you
           cannot undo this action.
         </p>
-        <v-btn @click="dialog.show(10)" color="primary" elevation="0" rounded="pill" class="mt-4">
+        <v-btn color="primary" elevation="0" rounded="pill" class="mt-4" @click="dialog.show(10)">
           Show delete dialog
           <v-icon class="ms-1">mdi-delete-outline</v-icon>
         </v-btn>
@@ -70,7 +70,7 @@
           Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
           veniam vero sapiente, aperiam at!
         </p>
-        <v-btn @click.prevent="makeError" color="red" elevation="0" rounded="pill" class="mt-4">
+        <v-btn color="red" elevation="0" rounded="pill" class="mt-4" @click.prevent="makeError">
           Simulate error
           <v-icon class="ms-1">mdi-delete-outline</v-icon>
         </v-btn>
@@ -78,7 +78,7 @@
     </v-col>
 
     <!-- text fields -->
-    <v-col cols="3">
+    <v-col cols="4">
       <v-sheet class="pa-5" rounded="lg">
         <h3 class="font-weight-regular text-h6 mb-2">
           This is to test
@@ -130,7 +130,7 @@
           class="mb-5"
         ></app-select>
 
-        <v-btn @click="sendRequest" size="large" block color="primary" elevation="0">
+        <v-btn size="large" block color="primary" elevation="0" @click="sendRequest">
           <v-progress-circular
             v-if="form.busy"
             color="white"
@@ -144,8 +144,8 @@
       </v-sheet>
     </v-col>
 
-    <!-- text fields -->
-    <v-col cols="3">
+    <!-- forms -->
+    <v-col cols="4">
       <v-sheet class="pa-5" rounded="lg">
         <h3 class="font-weight-regular text-h6 mb-2">
           This is to test
@@ -194,12 +194,12 @@
         ></app-select>
 
         <v-btn
-          @click="sendRequest"
           :disabled="form.busy"
           size="large"
           block
           color="primary"
           elevation="0"
+          @click="sendRequest"
         >
           <v-progress-circular
             v-if="form.busy"
@@ -228,12 +228,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { useStore } from 'vuex'
 import { Form } from 'vform'
-import AppDialog from '@/components/common/Dialog.vue'
-import AppDashboardHeading from '@/components/dashboard/Heading.vue'
+import { useStore } from 'vuex'
+import { ref, reactive, onMounted } from 'vue'
 import axios from '@/plugins/axios'
+import AppDialog from '@/components/app/Dialog.vue'
+import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
 const store = useStore()
 const dialog = ref(null)
@@ -246,8 +246,8 @@ const form = reactive(
 )
 
 onMounted(() => {
-  axios.get(`/user`).then((response) => {
-    console.log(response)
+  axios.get('/user').then((response) => {
+    // console.log(response)
   })
 })
 
@@ -281,7 +281,7 @@ function sendRequest() {
     .catch((error) => {
       store.commit('app/notify', {
         message: error.response.data.message,
-        color: 'red',
+        color: 'red'
       })
     })
 }

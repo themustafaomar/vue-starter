@@ -12,7 +12,7 @@ export default ({ app, store: { state } }) => {
     locale: defaultLocale,
     fallbackLocale: defaultLocale,
     legacy: false,
-    messages: { en, ar },
+    messages: { en, ar }
   })
 
   app.use(i18n)
