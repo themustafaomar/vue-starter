@@ -76,17 +76,17 @@ export default {
       email: $route.query.email,
       token: $route.params.token,
       password: '',
-      password_confirmation: ''
-    })
+      password_confirmation: '',
+    }),
   }),
   computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' })
+    ...mapGetters({ isLoading: 'auth/isLoading' }),
   },
   methods: {
     ...mapMutations({
       loading: 'auth/loading',
       loaded: 'auth/loaded',
-      notify: 'app/notify'
+      notify: 'app/notify',
     }),
     submit() {
       this.loading()
@@ -97,7 +97,7 @@ export default {
           this.loaded()
           this.notify({
             message: data.status,
-            color: 'primary'
+            color: 'primary',
           })
           this.$router.push('/login')
         })
@@ -105,12 +105,12 @@ export default {
           this.loaded()
           this.notify({
             message: error.response.data.message,
-            color: 'red'
+            color: 'red',
           })
         })
 
       this.loaded()
-    }
-  }
+    },
+  },
 }
 </script>

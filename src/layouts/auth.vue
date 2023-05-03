@@ -23,13 +23,10 @@
 </template>
 
 <script setup>
-// Composables
 import { nextTick, watch } from 'vue'
 import { useTheme } from 'vuetify'
 import { useIsDark } from '@/composables/is-dark'
-
-// Components
-import AppThemeToggle from '@/components/app/bar/ThemeToggle.vue'
+import AppThemeToggle from '@/components/app/ThemeToggle.vue'
 import AppSnackbar from '@/components/app/Snackbar.vue'
 
 const { current, global } = useTheme()

@@ -75,29 +75,29 @@ export default {
   data: () => ({
     form: new Form({
       email: 'themustafaomar@gmail.com',
-      password: 'password'
-    })
+      password: 'password',
+    }),
   }),
   computed: {
     ...mapGetters({
-      isLoading: 'auth/isLoading'
-    })
+      isLoading: 'auth/isLoading',
+    }),
   },
   methods: {
     ...mapActions({
-      login: 'auth/login'
+      login: 'auth/login',
     }),
     ...mapMutations({
-      notify: 'app/notify'
+      notify: 'app/notify',
     }),
     submit() {
       this.login(this.form).then(() => {
         this.notify({
           message: 'Logged in successfully!',
-          color: 'primary'
+          color: 'primary',
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
