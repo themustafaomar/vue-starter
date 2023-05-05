@@ -13,5 +13,13 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
+
+const { state } = useStore()
+
+onMounted(() => {
+  setTimeout(() => (state.app.isLoading = false), 1000)
+})
 </script>
