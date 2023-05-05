@@ -4,57 +4,58 @@
       <v-avatar size="large" image="/avatar.jpg" height="80" icon />
     </template>
 
-    <v-list-item-title class="text-wrap font-weight-medium text-h7 mb-1">
-      {{ notification.data.title }}
-    </v-list-item-title>
-
-    <div class="text-body-2">
-      <p class="mb-1">{{ notification.data.description.slice(0, 75) }}</p>
-
-      <p
-        class="text-decoration-none font-weight-medium d-block"
-        :class="!notification.read_at ? 'text-blue-accent-4' : 'text-gray'"
-      >
-        {{ notification.created }}
-      </p>
-    </div>
+    <component :is="getComponent" :notification="notification" />
 
     <template #append>
       <v-btn color="transparent" icon="mdi-dots-vertical" density="compact" rounded flat>
         <v-icon icon="mdi-dots-vertical" size="20" color="grey" />
-        <v-menu activator="parent">
-          <v-list elevation="2">
-            <v-list-item @click.stop="markAsRead(notification.id)">
-              <v-list-item-title>
-                <v-icon size="20">mdi-check</v-icon>
-                Mark as read
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click.stop="remove(notification.id)">
-              <v-list-item-title>
-                <v-icon size="20">mdi-close</v-icon>
-                Remove this notification
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
       </v-btn>
+
+      <v-menu v-model="isActive" activator="parent">
+        <v-list elevation="2" rounded="lg">
+          <v-list-item
+            @click.stop="markAsRead(notification.id)"
+            :disabled="typeof notification.read_at === 'string'"
+          >
+            <v-list-item-title>
+              <v-icon size="20">mdi-check</v-icon>
+              Mark as read
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click.stop="remove(notification.id)">
+            <v-list-item-title>
+              <v-icon size="20">mdi-close</v-icon>
+              Remove this notification
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </template>
   </v-list-item>
 </template>
 
 <script setup>
+import { ref, computed, defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
-
-defineProps({ notification: Object })
+const isActive = ref(false)
+const { notification } = defineProps({ notification: Object })
+const getComponent = computed(() =>
+  defineAsyncComponent(() => import(`./templates/${notification.data.template}.vue`))
+)
 
 function markAsRead(id) {
   store.dispatch('notifications/markAsRead', id)
+  _forceCloseMenu()
 }
 
 function remove(id) {
   store.dispatch('notifications/remove', id)
+  _forceCloseMenu()
+}
+
+function _forceCloseMenu() {
+  isActive.value = false
 }
 </script>

@@ -12,9 +12,10 @@
     <template #activator="{ props }">
       <app-tooltip-btn @click="getNotifications" path="notifications.title" v-bind="props">
         <template #icon>
-          <v-badge color="red" location="top end" dot>
+          <v-badge v-if="hasUnread" color="red" location="top end" dot>
             <v-icon icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
           </v-badge>
+          <v-icon v-else icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
         </template>
       </app-tooltip-btn>
     </template>
@@ -45,7 +46,7 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useI18n } from 'vue-i18n'
 import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
@@ -59,6 +60,7 @@ const { getters, dispatch } = useStore()
 const notifications = computed(() => getters['notifications/get'])
 const isLoading = computed(() => getters['notifications/loading'])
 const hasLoaded = computed(() => getters['notifications/loaded'])
+const hasUnread = computed(() => getters['notifications/hasUnread'])
 const width = computed(() => (mobile.value ? 420 : 380))
 
 function getNotifications() {
