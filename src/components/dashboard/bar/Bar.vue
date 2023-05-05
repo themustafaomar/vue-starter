@@ -22,7 +22,7 @@
 
       <v-divider class="mx-2 my-auto" style="height: 16px" inset vertical />
 
-      <theme-toggle />
+      <app-theme-toggle />
 
       <v-divider class="mx-2 my-auto" style="height: 16px" inset vertical />
 
@@ -36,8 +36,8 @@
 </template>
 
 <script setup>
-import ThemeToggle from '@/components/app/ThemeToggle.vue'
-import AppBarNotificationsMenu from './NotificationsMenu.vue'
-import AppBarLanguageMenu from './LanguageMenu.vue'
+import AppThemeToggle from '@/components/app/ThemeToggle.vue'
 import AppSettingsMenu from './SettingsMenu.vue'
+import AppBarLanguageMenu from './LanguageMenu.vue'
+import AppBarNotificationsMenu from './notifications/NotificationsMenu.vue'
 </script>
