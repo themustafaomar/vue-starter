@@ -15,8 +15,8 @@ const app = createApp({
 // Context parameters
 const context = { app, store, router }
 
-// Router and store
-app.use(router).use(store).mount('#app')
-
 // Use plugins and components
 usePlugins(context)
+
+// Router and store
+app.use(router).use(store).mount('#app')
