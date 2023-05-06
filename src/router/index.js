@@ -11,13 +11,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   progress.start()
+  store.commit('loading')
 
   const name = to.name
   const middlewaresToRun = []
 
   // Check if we've a parent, we'll assume this is a layout
   const parent = to.matched[0]
-  if (to.matched.length > 1 && parent.name) {
+  if (hasLayout(to) && parent.name) {
     document.body.classList.add(`${parent.name}__layout`)
   }
 
@@ -31,7 +32,11 @@ router.beforeEach((to, from, next) => {
   // Get current route middlewares if presented
   const currentMware = to.meta.middleware
   if (currentMware) {
-    addMiddleware(middlewaresToRun, currentMware)
+    if (Array.isArray(currentMware)) {
+      middlewaresToRun.push(...currentMware)
+    } else if (typeof currentMware === 'string') {
+      middlewaresToRun.push(currentMware)
+    }
   }
 
   // Hmm, looks like we don't have any middleware to run
@@ -49,18 +54,14 @@ router.afterEach(() => {
   setTimeout(() => progress.finish(), 500)
 })
 
+// Check if the current has a layout
+function hasLayout({ matched }) {
+  return matched.length <= 1
+}
+
 // Create a title from a given name
 function createTitle(name) {
   return (name.charAt(0).toUpperCase() + name.slice(1)).replace('_', ' ').replace('-', ' - ')
-}
-
-// Add a middleware or array of middlewares to a given array
-function addMiddleware(middlewaresToRun, middleware) {
-  if (Array.isArray(middleware)) {
-    middlewaresToRun.push(...middleware)
-  } else if (typeof middleware === 'string') {
-    middlewaresToRun.push(middleware)
-  }
 }
 
 // Let's run the middleware and give the

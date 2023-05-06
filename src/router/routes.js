@@ -17,13 +17,8 @@ export default [
   ...profile,
   ...dashboard,
   {
-    name: '_profile_',
-    path: '/admin/home',
-    component: () => import('@/layouts/profile.vue'),
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: import('@/pages/404.vue'),
+    component: () => import('@/pages/404.vue'),
   },
 ]

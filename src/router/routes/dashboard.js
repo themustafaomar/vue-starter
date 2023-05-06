@@ -11,6 +11,11 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/index.vue'),
       },
       {
+        name: 'dashboard_components',
+        path: 'components',
+        component: () => import('@/pages/dashboard/components.vue'),
+      },
+      {
         name: 'dashboard_comments',
         path: 'comments',
         component: () => import('@/pages/dashboard/comments/index.vue'),
