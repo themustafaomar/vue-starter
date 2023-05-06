@@ -50,7 +50,7 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn :disabled="isLoading" type="submit" block class="bg-primary py-5" elevation="0">
+        <v-btn :disabled="isLoading" type="submit" block elevation="0" class="bg-primary py-5">
           <app-btn-loader :state="form.busy" text="Reset Password" />
         </v-btn>
 
@@ -86,7 +86,7 @@ export default {
     ...mapMutations({
       loading: 'auth/loading',
       loaded: 'auth/loaded',
-      notify: 'app/notify',
+      notify: 'notify',
     }),
     submit() {
       this.loading()
@@ -95,18 +95,12 @@ export default {
         .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
         .then(({ data }) => {
           this.loaded()
-          this.notify({
-            message: data.status,
-            color: 'primary',
-          })
+          this.notify({ message: data.status, color: 'primary' })
           this.$router.push('/login')
         })
         .catch((error) => {
           this.loaded()
-          this.notify({
-            message: error.response.data.message,
-            color: 'red',
-          })
+          this.notify({ message: error.response.data.message, color: 'red' })
         })
 
       this.loaded()

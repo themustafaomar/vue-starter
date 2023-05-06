@@ -41,8 +41,8 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn :disabled="isLoading" type="submit" block class="bg-primary py-5" elevation="0">
-          Send verification code
+        <v-btn type="submit" :disabled="isLoading" block elevation="0" class="bg-primary py-5">
+          <app-btn-loader :state="isLoading" text="Send verification code" />
         </v-btn>
 
         <p class="text-center text-grey mt-5">
@@ -65,26 +65,28 @@ export default {
   data: () => ({
     showMessage: false,
     form: new Form({
-      email: 'themustafaomar@gmail.com'
-    })
+      email: 'themustafaomar@gmail.com',
+    }),
   }),
   computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' })
+    ...mapGetters({ isLoading: 'auth/isLoading' }),
   },
   methods: {
     ...mapMutations('auth', ['loading', 'loaded']),
     async submit() {
       this.loading()
 
-      await this.form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
-
-      this._showSuccessMessage()
-      this.loaded()
+      try {
+        await this.form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
+        this._showSuccessMessage()
+      } catch (error) {
+        this.loaded()
+      }
     },
     _showSuccessMessage() {
       this.showMessage = true
       setTimeout(() => (this.showMessage = false), 5000)
-    }
-  }
+    },
+  },
 }
 </script>

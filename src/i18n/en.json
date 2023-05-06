@@ -1,7 +1,10 @@
 {
-  "hi": "Hi!",
   "languages": "Languages",
-  "notifications": "Notifications",
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Great, you're all caught up!",
+    "empty_subtitle": "You're all caught up, we don't have notifications for you."
+  },
   "dl": {
     "dashboard": "Dashboard"
   }

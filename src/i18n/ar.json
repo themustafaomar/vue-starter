@@ -1,5 +1,9 @@
 {
-  "hi": "أهلا!",
+  "languages": "Languages",
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Great, you're all caught up!"
+  },
   "dl": {
     "dashboard": "لوحة التحكم"
   }

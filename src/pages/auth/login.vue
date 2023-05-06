@@ -30,25 +30,25 @@
           label="Password"
           placeholder="Your Password"
           persistent-placeholder
-          hint="If you forgot your password youi can reset it"
+          hint="If you forgot your password you can reset it"
           persistent-hint
           required
           class="mb-5"
         ></app-text-field>
 
-        <v-btn type="submit" :disabled="isLoading" block class="bg-primary py-5" elevation="0">
-          Sign in
+        <v-btn type="submit" :disabled="isLoading" block elevation="0" class="bg-primary py-5">
+          <app-btn-loader :state="isLoading" text="Sign in" />
         </v-btn>
 
         <div class="text-grey text-center mt-5">OR</div>
 
         <v-btn
+          @click.prevent="$router.push({ name: 'register' })"
           :disabled="isLoading"
           :style="{ 'background-color': '#1e293b' }"
           class="text-white font-weight-normal py-5 mt-5"
           elevation="0"
           block
-          @click.prevent="$router.push({ name: 'register' })"
         >
           Create an account
         </v-btn>
@@ -88,7 +88,7 @@ export default {
       login: 'auth/login',
     }),
     ...mapMutations({
-      notify: 'app/notify',
+      notify: 'notify',
     }),
     submit() {
       this.login(this.form).then(() => {

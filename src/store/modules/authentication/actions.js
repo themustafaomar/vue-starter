@@ -34,6 +34,6 @@ export default {
     commit('logout')
 
     // Go to login
-    router.push('login')
+    router.push('/login')
   },
 }

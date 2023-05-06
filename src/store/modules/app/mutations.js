@@ -2,18 +2,19 @@ import storage from '@/plugins/storage'
 
 export default {
   setup() {
-    const { user, mode } = storage.getMany('user', 'mode')
+    const { user, mode, locale } = storage.getMany('user', 'mode', 'locale')
 
-    if (mode) {
-      this.commit('app/setMode', mode)
-    }
+    if (user) this.commit('auth/login', JSON.parse(user))
 
-    if (user) {
-      this.commit('auth/login', JSON.parse(user))
-    }
+    if (mode) this.commit('setMode', mode)
+
+    if (locale) this.commit('setLocale', locale)
   },
   setMode(state, mode) {
     state.mode = mode
+  },
+  setLocale(state, locale) {
+    state.locale.current = locale
   },
   loading(state) {
     state.isLoading = true

@@ -1,5 +1,12 @@
 <template>
   <v-navigation-drawer v-model="drawer" :style="{ position: 'fixed' }" :rail="rail" :border="0">
+    <!-- <template #prepend>
+      <v-list-item lines="two">
+        <v-img src="/logo.png" width="100"></v-img>
+      </v-list-item>
+    </template> -->
+    <!-- <v-icon>
+    </v-icon> -->
     <template #prepend>
       <v-list-item
         lines="two"
@@ -9,7 +16,7 @@
       />
     </template>
 
-    <v-divider color="grey" />
+    <!-- <v-divider color="grey" /> -->
 
     <v-list density="comfortable" class="mt-2">
       <v-list-item
@@ -18,20 +25,20 @@
         :to="link.to"
         active-color="primary"
         exact
-        class="text-medium-emphasis mb-1"
+        class="mb-1"
       >
         <template #prepend>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="2"
+            stroke-width="1.5"
             width="21"
             stroke="currentColor"
             v-html="link.hipath"
           ></svg>
         </template>
-        <div class="ms-3" :style="{ 'font-size': '.97rem' }">
+        <div class="ms-3" :style="{ 'font-size': '.96rem' }">
           {{ link.name }}
         </div>
       </v-list-item>
@@ -42,8 +49,10 @@
         <v-btn block text elevation="0" class="border" @click="logout">
           <v-icon v-if="rail">mdi-logout</v-icon>
           <span v-else>
-            <v-icon>mdi-logout</v-icon>
-            Logout
+            <app-btn-loader :state="isLoading" color="blue-grey-darken-3">
+              <v-icon>mdi-logout</v-icon>
+              Logout
+            </app-btn-loader>
           </span>
         </v-btn>
       </div>
@@ -58,6 +67,7 @@ export default {
   },
   data: ({ $t }) => ({
     drawer: true,
+    isLoading: false,
     // prettier-ignore
     links: [
       {
@@ -66,11 +76,6 @@ export default {
         // @TODO: `hi` stands for `heroicons`
         // source: https://heroicons.com/
         hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />'
-      },
-      {
-        to: '/login',
-        name: 'Authentication',
-        hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />'
       },
       {
         to: '/dashboard/components',
@@ -108,8 +113,12 @@ export default {
     ],
   }),
   methods: {
-    logout() {
-      this.$store.dispatch('auth/logout')
+    async logout() {
+      this.isLoading = true
+
+      await this.$store.dispatch('auth/logout')
+
+      this.isLoading = false
     },
   },
 }

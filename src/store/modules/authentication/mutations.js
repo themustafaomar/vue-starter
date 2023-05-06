@@ -10,7 +10,7 @@ export default {
   login(state, user) {
     state.user = user
     state.isLoggedIn = true
-    storage.create('user', JSON.stringify(user))
+    storage.set('user', JSON.stringify(user))
   },
   logout(state) {
     state.user = {}

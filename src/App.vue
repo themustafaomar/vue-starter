@@ -7,12 +7,21 @@
 <script setup>
 import { onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
-import { useTheme } from 'vuetify'
+import { useTheme, useLocale } from 'vuetify'
 
-const store = useStore()
+const { state } = useStore()
+const { current } = useLocale()
 const theme = useTheme()
 
 onBeforeMount(() => {
-  theme.global.name.value = store.state.app.mode
+  theme.global.name.value = state.app.mode
+  current.value = state.app.locale.current
 })
 </script>
+
+<style lang="sass">
+// Vuetify adds a scrollbar by default
+// we don't do that here :]
+html
+  overflow-y: auto !important
+</style>

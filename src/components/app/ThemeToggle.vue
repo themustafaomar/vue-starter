@@ -15,6 +15,6 @@ const icon = computed(() =>
 
 function onClick() {
   theme.global.name.value = theme.global.name.value === 'dark' ? 'light' : 'dark'
-  storage.create('mode', theme.global.name.value)
+  storage.set('mode', theme.global.name.value)
 }
 </script>

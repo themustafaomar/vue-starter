@@ -5,5 +5,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "prettier.configPath": ".prettierrc.json",
-  "prettier.useEditorConfig": false
+  "prettier.useEditorConfig": false,
+  "vue.inlayHints.optionsWrapper": false
 }

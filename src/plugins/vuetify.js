@@ -37,7 +37,7 @@ export const useVuetify = ({ app }) => {
         light: {
           colors: {
             primary: '#2563eb',
-            background: '#f4f5f5',
+            background: '#f1f3f7',
             error: '#ff3122',
           },
         },

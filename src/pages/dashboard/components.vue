@@ -239,18 +239,18 @@ onMounted(() => {
 })
 
 function showToast() {
-  store.commit('app/notify', 'This is a message for primary toast!')
+  store.commit('notify', 'This is a message for primary toast!')
 }
 
 function showErrorToast() {
-  store.commit('app/notify', {
+  store.commit('notify', {
     message: 'This is a message for error toast.',
     color: 'red',
   })
 }
 
 function makeError() {
-  store.commit('app/error', {
+  store.commit('error', {
     message: 'Page not found',
     type: 404,
   })
@@ -266,7 +266,7 @@ function sendRequest() {
   form.post('/test')
     .then(() => {})
     .catch((error) => {
-      store.commit('app/notify', {
+      store.commit('notify', {
         message: error.response.data.message,
         color: 'red'
       })

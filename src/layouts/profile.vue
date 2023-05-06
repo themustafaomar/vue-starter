@@ -72,10 +72,10 @@
 </template>
 
 <script>
-import AppBar from '@/components/app/bar/Bar.vue'
+// import AppBar from '@/components/app/bar/Bar.vue'
 
 export default {
-  components: { AppBar },
+  // components: { AppBar },
   data: () => ({
     links: ['Dashboard', 'Messages', 'Profile', 'Updates'],
   }),

@@ -1,22 +1,24 @@
 <template>
   <v-progress-circular
     v-if="state"
-    color="white"
+    :color="color"
     bg-color="transparent"
     indeterminate
     size="25"
     width="2"
   ></v-progress-circular>
-  <template v-else>{{ text }}</template>
+  <template v-else>
+    <slot>{{ text }}</slot>
+  </template>
 </template>
 
 <script setup>
 defineProps({
-  state: {
-    type: Boolean
+  state: Boolean,
+  text: String,
+  color: {
+    type: String,
+    default: 'white',
   },
-  text: {
-    type: String
-  }
 })
 </script>

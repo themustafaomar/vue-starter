@@ -12,9 +12,9 @@
 
     <!-- wrapper -->
     <v-sheet
+      color="background"
       class="h-100 d-flex align-center"
       :class="{ 'auth-dark-wrapper': isDark }"
-      :color="current.dark ? current.colors.surface : '#f5f7fa'"
     >
       <slot></slot>
     </v-sheet>
@@ -29,7 +29,7 @@ import { useIsDark } from '@/composables/is-dark'
 import AppThemeToggle from '@/components/app/ThemeToggle.vue'
 import AppSnackbar from '@/components/app/Snackbar.vue'
 
-const { current, global } = useTheme()
+const { global } = useTheme()
 const isDark = useIsDark()
 
 watch(global.name, () => themeTransition())
@@ -110,8 +110,8 @@ function hasScrollbar(el) {
 </script>
 
 <style lang="sass">
-.auth-dark-wrapper
-  background-image: url('/vector-background.jpg')
+.v-sheet.auth-dark-wrapper
+  background: url('/vector-background.jpg')
   background-size: cover
   position: relative
   z-index: 1

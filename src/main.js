@@ -8,7 +8,7 @@ import { usePlugins } from './plugins'
 
 // Create an app
 const app = createApp({
-  beforeCreate: () => store.commit('app/setup'),
+  beforeCreate: () => store.commit('setup'),
   render: () => h(App),
 })
 

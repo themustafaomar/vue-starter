@@ -2,9 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "~component": ["./src/components"]
+      "@/*": ["./src/*"]
     }
-  }
-  // "exclude": ["node_modules", ".vscode", "public", "*.js"]
+  },
+  "exclude": ["node_modules", "public"]
 }

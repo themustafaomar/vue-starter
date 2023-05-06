@@ -6,7 +6,7 @@
     :error-messages="form.errors.has(name) ? form.errors.get(name) : ''"
   >
     <template #label="{ label }">
-      <span v-if="required" class="text-red font-weight-bold mt-1 text-body-1 me-1">*</span>
+      <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
       {{ label }}
     </template>
   </v-select>
@@ -18,7 +18,7 @@ defineProps({
     type: String,
     required: true,
   },
-  form: { type: Object },
-  required: { type: Boolean },
+  form: Object,
+  required: Boolean,
 })
 </script>

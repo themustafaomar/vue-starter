@@ -54,7 +54,6 @@
           :items="types"
           hint="Choose the account type"
           persistent-hint
-          required
         ></app-select>
 
         <v-btn type="submit" :disabled="form.busy" elevation="0" block class="bg-primary mt-5 py-5">

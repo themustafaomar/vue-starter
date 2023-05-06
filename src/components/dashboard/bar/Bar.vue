@@ -1,6 +1,11 @@
 <template>
   <v-app-bar :style="{ position: 'fixed' }" elevation="0" prominent>
-    <v-app-bar-nav-icon variant="text" @click.stop="$emit('rail:switch')" />
+    <v-app-bar-nav-icon
+      variant="text"
+      color="grey-darken-1"
+      :ripple="false"
+      @click.stop="$emit('rail:switch')"
+    />
 
     <v-toolbar-title class="text-uppercase text-medium-emphasis">Wakeb</v-toolbar-title>
 

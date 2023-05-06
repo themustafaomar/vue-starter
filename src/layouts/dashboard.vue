@@ -16,11 +16,9 @@
       <!-- content -->
       <v-main>
         <app-loader v-show="isLoading" />
-        <div v-show="!isLoading">
-          <app-dashboard-error v-if="state.app.error.show" />
-          <div v-else class="pa-5">
-            <router-view />
-          </div>
+        <app-dashboard-error v-if="state.app.error.show" />
+        <div v-else v-show="!isLoading" class="pa-5">
+          <router-view />
         </div>
       </v-main>
       <!-- end content -->
@@ -29,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import AppSnackbar from '@/components/app/Snackbar.vue'
 import AppLoader from '@/components/dashboard/Loader.vue'
@@ -38,6 +36,10 @@ import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawe
 import AppDashboardError from '@/components/dashboard/Error.vue'
 
 const rail = ref(false)
-const { state } = useStore()
+const { state, dispatch } = useStore()
 const isLoading = computed(() => state.app.isLoading)
+
+onMounted(() => {
+  dispatch('notifications/get')
+})
 </script>

@@ -7,6 +7,7 @@ export default {
   },
   locale: {
     default: 'en',
+    current: 'en',
   },
   snackbar: {
     show: false,
