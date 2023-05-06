@@ -8,7 +8,7 @@
 
     <div class="mb-2">
       <v-btn color="primary" elevation="0">Accept</v-btn>
-      <v-btn color="red" class="ms-2" elevation="0">Decline</v-btn>
+      <v-btn color="red" class="ms-2" elevation="0" variant="outlined">Decline</v-btn>
     </div>
 
     <p

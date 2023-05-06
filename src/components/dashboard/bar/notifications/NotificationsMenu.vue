@@ -10,7 +10,7 @@
     offset="9"
   >
     <template #activator="{ props }">
-      <app-tooltip-btn @click="getNotifications" path="notifications.title" v-bind="props">
+      <app-tooltip-btn path="notifications.title" v-bind="props">
         <template #icon>
           <v-badge v-if="hasUnread" color="red" location="top end" dot>
             <v-icon icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
@@ -45,8 +45,8 @@
 </template>
 
 <script setup>
+import { computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useI18n } from 'vue-i18n'
 import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
@@ -56,20 +56,19 @@ import AppDashboardBarNotificationsItem from './Item.vue'
 const { t } = useI18n()
 const { mobile } = useDisplay()
 const menu = ref(false)
-const { getters, dispatch } = useStore()
+const { getters, commit } = useStore()
 const notifications = computed(() => getters['notifications/get'])
 const isLoading = computed(() => getters['notifications/loading'])
-const hasLoaded = computed(() => getters['notifications/loaded'])
 const hasUnread = computed(() => getters['notifications/hasUnread'])
+const user = computed(() => getters['auth/user'])
 const width = computed(() => (mobile.value ? 420 : 380))
 
-function getNotifications() {
-  if (hasLoaded.value) {
-    return
-  }
-
-  dispatch('notifications/get')
-}
+onMounted(() => {
+  Echo.private(`notifications.${user.value.id}`).notification(({ notification }) => {
+    console.log(notification)
+    commit('notifications/push', notification)
+  })
+})
 </script>
 
 <style lang="sass">

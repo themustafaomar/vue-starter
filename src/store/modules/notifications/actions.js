@@ -6,12 +6,12 @@ export default {
 
     const notifications = await axios.get('/notifications')
 
-    commit('setNotifications', notifications.data.data)
+    commit('set', notifications.data.data)
     commit('setLoading', false)
     commit('setLoaded', true)
   },
   async markAsRead({ commit }, id) {
-    await axios.post(`/notifications/${id}/markas/read`)
+    await axios.post(`/notifications/${id}/markas-read`)
 
     commit('markAsRead', id)
   },
@@ -30,6 +30,6 @@ export default {
       _method: 'DELETE',
     })
 
-    commit('remove', id)
+    commit('pop', id)
   },
 }

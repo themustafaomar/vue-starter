@@ -1,7 +1,17 @@
 <template>
-  <v-list-item class="py-1">
+  <v-list-item class="py-1 ps-4 pe-2">
     <template #prepend>
       <v-avatar size="large" image="/avatar.jpg" height="80" icon />
+      <!-- <v-badge
+        color="dark"
+        location="bottom end"
+        class="pe-4"
+        offset-y="4"
+        offset-x="4"
+        icon="mdi-comment"
+      >
+        <v-avatar size="large" image="/avatar.jpg" height="80"></v-avatar>
+      </v-badge> -->
     </template>
 
     <component :is="getComponent" :notification="notification" />
@@ -47,11 +57,13 @@ const getComponent = computed(() =>
 
 function markAsRead(id) {
   store.dispatch('notifications/markAsRead', id)
+
   _forceCloseMenu()
 }
 
 function remove(id) {
   store.dispatch('notifications/remove', id)
+
   _forceCloseMenu()
 }
 

@@ -1,6 +1,13 @@
 export default {
-  setNotifications(state, notifications) {
+  set(state, notifications) {
     state.notifications = notifications
+  },
+  push(state, notification) {
+    state.notifications.unshift(notification)
+  },
+  pop(state, id) {
+    // prettier-ignore
+    state.notifications.splice(state.notifications.findIndex((n) => n.id === id), 1)
   },
   markAsRead(state, id) {
     const notification = state.notifications.find((n) => n.id === id)
@@ -14,15 +21,7 @@ export default {
     }
   },
   markAllAsRead(state) {
-    state.notifications.forEach((n) => {
-      n.read_at = true
-    })
-  },
-  remove(state, id) {
-    state.notifications.splice(
-      state.notifications.findIndex((n) => n.id === id),
-      1
-    )
+    state.notifications.forEach((n) => (n.read_at = true))
   },
   setUnreadBadge(state, status) {
     state.unreadBadge = status

@@ -1,5 +1,8 @@
 import './axios'
 import './vform'
+import './laravel-echo'
+
+// Callable plugins
 import { useVuetify } from './vuetify'
 import { useGlobalComponents } from './global-components'
 
