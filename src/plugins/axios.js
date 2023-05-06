@@ -18,7 +18,7 @@ instance.interceptors.response.use(
     // Sometimes we don't have an error response
     // most likely this is happening with CORS errors and network errors.
     if (typeof statusCode === 'undefined') {
-      store.commit('app/notify', {
+      store.commit('notify', {
         message: `${error.message} - [${error.code}]`,
         color: 'red',
       })
@@ -29,7 +29,7 @@ instance.interceptors.response.use(
     if (statusCode === 401 || statusCode === 419) {
       store.commit('auth/logout')
       router.push('/login').then(() => {
-        store.commit('app/notify', {
+        store.commit('notify', {
           message: error.response.data.message,
           color: 'red',
         })
@@ -38,7 +38,7 @@ instance.interceptors.response.use(
 
     // Page not found, too many attempts (requests) and server errors
     if (statusCode === 404 || statusCode === 429 || statusCode >= 500) {
-      store.commit('app/notify', {
+      store.commit('notify', {
         // prettier-ignore
         message: error.response?.data.message || error.response.statusText || error.message || error.code,
         color: 'red',

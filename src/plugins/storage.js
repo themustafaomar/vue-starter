@@ -12,11 +12,11 @@ class Storage {
     })
     return data
   }
-  create(key, value) {
+  set(key, value) {
     this._provider.setItem(key, value)
   }
   createMany(object) {
-    Object.keys(object).forEach((key) => this.store(key, object[key]))
+    Object.keys(object).forEach((key) => this.set(key, object[key]))
   }
   has(key) {
     return this._provider.getItem(key) !== null

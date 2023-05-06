@@ -14,22 +14,21 @@ window.Echo = new Echo({
   forceTLS: false,
   enctyped: true,
   logToConsole: true,
-  // authEndpoint: `${env.VITE_SERVER_URL}/broadcasting/auth`,
   // Sanctum authorization
   // https://laravel.com/docs/10.x/sanctum#authorizing-private-broadcast-channels
-  authorizer: (channel) => ({
+  authorizer: (channel, options) => ({
     authorize: (socketId, callback) => {
-      // prettier-ignore
-      axios.post(`${env.VITE_SERVER_URL}/broadcasting/auth`, {
-        socket_id: socketId,
-        channel_name: channel.name,
-      })
-      .then((response) => {
-        callback(false, response.data)
-      })
-      .catch((error) => {
-        callback(true, error)
-      })
+      axios
+        .post(`${env.VITE_SERVER_URL}/broadcasting/auth`, {
+          socket_id: socketId,
+          channel_name: channel.name,
+        })
+        .then((response) => {
+          callback(false, response.data)
+        })
+        .catch((error) => {
+          callback(true, error)
+        })
     },
   }),
 })

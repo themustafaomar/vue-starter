@@ -19,58 +19,58 @@ export const useVuetify = ({ app }) => {
     messages: {
       en: {
         $vuetify: vuetifyEN,
-        ...en
+        ...en,
       },
       ar: {
         $vuetify: vuetifyAR,
-        ...ar
-      }
-    }
+        ...ar,
+      },
+    },
   })
 
   // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
   const vuetify = createVuetify({
     components: { VDataTable, VSkeletonLoader },
     theme: {
-      defaultTheme: 'dark',
+      // defaultTheme: 'dark',
       themes: {
         light: {
           colors: {
             primary: '#2563eb',
-            background: '#f5f7fa',
-            error: '#ff3122'
-          }
+            background: '#f4f5f5',
+            error: '#ff3122',
+          },
         },
         dark: {
           colors: {
             primary: '#2563eb',
             background: '#181c24',
-            surface: '#0c111c'
-          }
-        }
-      }
+            surface: '#0c111c',
+          },
+        },
+      },
     },
     locale: {
-      adapter: createVueI18nAdapter({ i18n, useI18n })
+      adapter: createVueI18nAdapter({ i18n, useI18n }),
     },
     defaults: {
       global: {
-        ripple: true
+        ripple: true,
       },
       VTextField: {
         variant: 'outlined',
         density: 'comfortable',
-        color: 'blue'
+        color: 'blue',
       },
       VSelect: {
         variant: 'outlined',
         density: 'comfortable',
-        color: 'blue'
+        color: 'blue',
       },
       VBtn: {
-        rounded: 'md'
-      }
-    }
+        rounded: 'md',
+      },
+    },
   })
 
   loadFonts()
