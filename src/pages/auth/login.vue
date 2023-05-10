@@ -15,7 +15,6 @@
           name="email"
           label="Email"
           placeholder="Your Username"
-          persistent-placeholder
           hint="Username or email you used to login with"
           persistent-hint
           required
@@ -29,7 +28,6 @@
           name="password"
           label="Password"
           placeholder="Your Password"
-          persistent-placeholder
           hint="If you forgot your password you can reset it"
           persistent-hint
           required
@@ -79,17 +77,11 @@ export default {
     }),
   }),
   computed: {
-    ...mapGetters({
-      isLoading: 'auth/isLoading',
-    }),
+    ...mapGetters({ isLoading: 'auth/isLoading' }),
   },
   methods: {
-    ...mapActions({
-      login: 'auth/login',
-    }),
-    ...mapMutations({
-      notify: 'notify',
-    }),
+    ...mapMutations(['notify']),
+    ...mapActions({ login: 'auth/login' }),
     submit() {
       this.login(this.form).then(() => {
         this.notify({

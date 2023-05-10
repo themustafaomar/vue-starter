@@ -16,9 +16,9 @@
 defineProps({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   form: { type: Object },
-  required: { type: Boolean }
+  required: { type: Boolean },
 })
 </script>

@@ -12,7 +12,7 @@
     <template #activator="{ props }">
       <app-tooltip-btn path="notifications.title" v-bind="props">
         <template #icon>
-          <v-badge v-if="hasUnread" color="red" location="top end" dot>
+          <v-badge v-if="hasUnread" color="red" location="top end" :content="unreadNumber">
             <v-icon icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
           </v-badge>
           <v-icon v-else icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
@@ -20,9 +20,11 @@
       </app-tooltip-btn>
     </template>
 
-    <v-toolbar color="surface" density="compact" class="notifications-toolbar ps-4 pe-6">
-      <h3 class="text-blue-grey-darken-3">{{ t('notifications.title') }}</h3>
+    <v-toolbar color="surface" density="compact" class="ps-4 pe-6">
+      <h3>{{ t('notifications.title') }}</h3>
     </v-toolbar>
+
+    <v-divider />
 
     <v-sheet rounded="lg" class="notifications-menu overflow-hidden">
       <v-responsive max-height="400" min-height="250" style="overflow-y: scroll">
@@ -58,6 +60,7 @@ const { mobile } = useDisplay()
 const menu = ref(false)
 const { getters, commit } = useStore()
 const notifications = computed(() => getters['notifications/get'])
+const unreadNumber = computed(() => getters['notifications/unreadNumber'])
 const isLoading = computed(() => getters['notifications/loading'])
 const hasUnread = computed(() => getters['notifications/hasUnread'])
 const user = computed(() => getters['auth/user'])
@@ -65,8 +68,9 @@ const width = computed(() => (mobile.value ? 420 : 380))
 
 onMounted(() => {
   Echo.private(`notifications.${user.value.id}`).notification(({ notification }) => {
-    console.log(notification)
+    // Sometimes duplication happens, we need to handle that
     commit('notifications/push', notification)
+    // Use dayjs to reflect date each five seconds
   })
 })
 </script>
@@ -74,7 +78,4 @@ onMounted(() => {
 <style lang="sass">
 .notifications-menu
   box-shadow: 0 10px 15px -3px #0000001a, 0 4px 6px -2px #0000000d !important
-
-.notifications-toolbar
-  border-bottom: 1px solid #eee !important
 </style>

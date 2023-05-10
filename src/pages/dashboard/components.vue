@@ -263,13 +263,6 @@ function deleteItem(id) {
 
 function sendRequest() {
   // prettier-ignore
-  form.post('/test')
-    .then(() => {})
-    .catch((error) => {
-      store.commit('notify', {
-        message: error.response.data.message,
-        color: 'red'
-      })
-    })
+  form.post('/test').then(() => {})
 }
 </script>

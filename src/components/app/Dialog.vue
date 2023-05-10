@@ -3,19 +3,19 @@
     <v-card rounded="lg">
       <v-card-title v-if="!$slots.title" class="border-b">
         <h3 class="font-weight-regular text-h6 mb-2">
-          {{ title || 'Are you sure you want to apply this action?' }}
+          {{ title }}
         </h3>
       </v-card-title>
       <slot v-else name="title">No title set</slot>
 
-      <v-card-text v-if="!$slots.message">
+      <v-card-text v-if="!$slots.content">
         <p class="text-medium-emphasis">
           {{ message }}
         </p>
       </v-card-text>
-      <slot v-else></slot>
+      <slot v-else name="default"></slot>
 
-      <v-card-actions class="px-4 pb-4">
+      <v-card-actions class="px-4 py-4 border-t">
         <template v-if="!$slots.actions">
           <v-btn color="red" @click="dialog = false">Close</v-btn>
         </template>

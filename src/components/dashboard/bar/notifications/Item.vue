@@ -1,17 +1,17 @@
 <template>
   <v-list-item class="py-1 ps-4 pe-2">
     <template #prepend>
-      <v-avatar size="large" image="/avatar.jpg" height="80" icon />
-      <!-- <v-badge
-        color="dark"
+      <!-- <v-avatar size="large" image="/avatar.jpg" height="80" icon /> -->
+      <v-badge
+        color="primary"
         location="bottom end"
         class="pe-4"
         offset-y="4"
         offset-x="4"
-        icon="mdi-comment"
+        icon="mdi-account-circle"
       >
-        <v-avatar size="large" image="/avatar.jpg" height="80"></v-avatar>
-      </v-badge> -->
+        <v-avatar size="large" image="/avatar.jpg" height="80" />
+      </v-badge>
     </template>
 
     <component :is="getComponent" :notification="notification" />
@@ -28,13 +28,13 @@
             :disabled="typeof notification.read_at === 'string'"
           >
             <v-list-item-title>
-              <v-icon size="20">mdi-check</v-icon>
+              <v-icon size="20">mdi-read</v-icon>
               Mark as read
             </v-list-item-title>
           </v-list-item>
           <v-list-item @click.stop="remove(notification.id)">
             <v-list-item-title>
-              <v-icon size="20">mdi-close</v-icon>
+              <v-icon size="20">mdi-trash-can-outline</v-icon>
               Remove this notification
             </v-list-item-title>
           </v-list-item>

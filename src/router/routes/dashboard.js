@@ -25,6 +25,16 @@ export const dashboard = [
         path: 'layouts',
         component: () => import('@/pages/dashboard/layouts.vue'),
       },
+      {
+        name: 'dashboard_roles',
+        path: 'roles',
+        component: () => import('@/pages/dashboard/roles.vue'),
+      },
+      {
+        name: 'dashboard_permissions',
+        path: 'permissions',
+        component: () => import('@/pages/dashboard/permissions.vue'),
+      },
     ],
   },
 ]

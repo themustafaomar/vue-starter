@@ -1,16 +1,16 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :style="{ position: 'fixed' }" :rail="rail" :border="0">
+  <v-navigation-drawer :style="{ position: 'fixed' }" :border="0">
     <!-- <template #prepend>
       <v-list-item lines="two">
-        <v-img src="/logo.png" width="100"></v-img>
+        <v-img src="/logo-dark.png" width="100"></v-img>
       </v-list-item>
     </template> -->
-    <!-- <v-icon>
-    </v-icon> -->
+
     <template #prepend>
       <v-list-item
         lines="two"
         prepend-avatar="/avatar.jpg"
+        :density="'comfortable'"
         title="Jone Smith"
         subtitle="Logged in"
       />
@@ -24,6 +24,7 @@
         :value="link.name"
         :to="link.to"
         active-color="primary"
+        active-class="list-item-active"
         exact
         class="mb-1"
       >
@@ -43,31 +44,12 @@
         </div>
       </v-list-item>
     </v-list>
-
-    <template #append>
-      <div class="pa-3">
-        <v-btn block text elevation="0" class="border" @click="logout">
-          <v-icon v-if="rail">mdi-logout</v-icon>
-          <span v-else>
-            <app-btn-loader :state="isLoading" color="blue-grey-darken-3">
-              <v-icon>mdi-logout</v-icon>
-              Logout
-            </app-btn-loader>
-          </span>
-        </v-btn>
-      </div>
-    </template>
   </v-navigation-drawer>
 </template>
 
 <script>
 export default {
-  props: {
-    rail: Boolean,
-  },
   data: ({ $t }) => ({
-    drawer: true,
-    isLoading: false,
     // prettier-ignore
     links: [
       {
@@ -103,6 +85,21 @@ export default {
         hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />'
       },
       {
+        to: '/dashboard/roles',
+        name: 'Roles',
+        hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" /> <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" />',
+        // children: [{
+        //   to: '/dashboard/roles/create',
+        //   name: 'Create role',
+        //   hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z" /> <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z" />',
+        // }]
+      },
+      {
+        to: '/dashboard/permissions',
+        name: 'Permissions',
+        hipath: '<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />',
+      },
+      {
         to: '/dashboard/settings',
         name: 'Settings',
         hipath: `
@@ -123,3 +120,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.list-item-active {
+  border-left: 4px solid rgba(var(--v-theme-primary), 0.75);
+}
+</style>

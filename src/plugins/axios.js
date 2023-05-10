@@ -36,6 +36,14 @@ instance.interceptors.response.use(
       })
     }
 
+    // Show an error with the m the common error
+    if (statusCode === 422) {
+      store.commit('notify', {
+        message: error.response.data.message,
+        color: 'red',
+      })
+    }
+
     // Page not found, too many attempts (requests) and server errors
     if (statusCode === 404 || statusCode === 429 || statusCode >= 500) {
       store.commit('notify', {
