@@ -41,7 +41,7 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn type="submit" :disabled="isLoading" block elevation="0" class="bg-primary py-5">
+        <v-btn type="submit" :disabled="isLoading" color="primary" block elevation="0" class="py-5">
           <app-btn-loader :state="isLoading" text="Send verification code" />
         </v-btn>
 

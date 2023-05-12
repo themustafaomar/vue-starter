@@ -56,7 +56,14 @@
           persistent-hint
         ></app-select>
 
-        <v-btn type="submit" :disabled="form.busy" elevation="0" block class="bg-primary mt-5 py-5">
+        <v-btn
+          type="submit"
+          :disabled="form.busy"
+          elevation="0"
+          color="primary"
+          block
+          class="mt-5 py-5"
+        >
           <app-btn-loader :state="form.busy" text="Sign in" />
         </v-btn>
 

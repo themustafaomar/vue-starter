@@ -50,7 +50,7 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn :disabled="isLoading" type="submit" block elevation="0" class="bg-primary py-5">
+        <v-btn :disabled="isLoading" type="submit" color="primary" block elevation="0" class="py-5">
           <app-btn-loader :state="form.busy" text="Reset Password" />
         </v-btn>
 

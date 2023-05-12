@@ -15,29 +15,57 @@
 
     <v-divider />
 
-    <p class="mt-4">
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima quod quia asperiores! Veniam
-      iusto nulla assumenda nostrum temporibus id fuga recusandae. Mollitia assumenda illum sequi
-      corrupti esse ad molestias veritatis.
-    </p>
+    <v-table class="mt-5">
+      <thead>
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="text-left">Description</th>
+          <th class="text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mustafa Omar</td>
+          <td>25</td>
+          <td>
+            <v-btn id="menu-activator" color="white" elevation="0" size="small" icon>
+              <v-icon>mdi-gesture-tap</v-icon>
+            </v-btn>
+
+            <v-menu activator="#menu-activator">
+              <v-list>
+                <v-list-item
+                  v-for="(item, index) in [{ title: 'Edit' }, { title: 'Delete' }]"
+                  :key="index"
+                  :value="index"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
 
     <!-- dialog -->
-    <app-dialog ref="createDialog" title="Add new permission">
-      <v-card-text class="py-6">
+    <app-dialog ref="dialog" title="Add new permission">
+      <v-card-text>
         <app-text-field
-          v-model="form.email"
+          v-model="form.name"
           :form="form"
-          name="email"
+          name="name"
           label="Permission Name"
           placeholder="Enter the permission name"
           hide-details
           required
         ></app-text-field>
       </v-card-text>
+
       <template #actions="{ close }">
-        <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
-        <v-btn :disabled="form.busy" variant="flat" color="primary" @click="create">
-          <app-btn-loader :state="form.busy">Create permission</app-btn-loader>
+        <v-btn @click="close" variant="flat" color="red">Cancel</v-btn>
+        <v-btn @click="create" :disabled="form.busy" variant="flat" color="primary">
+          <app-btn-loader :state="form.busy">Add permission</app-btn-loader>
         </v-btn>
       </template>
     </app-dialog>
@@ -52,10 +80,10 @@ import { useLoader } from '@/composables/loader'
 import AppDialog from '@/components/app/Dialog.vue'
 
 const loader = useLoader()
-const createDialog = ref(null)
+const dialog = ref(null)
 const form = reactive(
   new Form({
-    name: '',
+    name: 'A Permission Name',
   })
 )
 
@@ -64,11 +92,11 @@ onMounted(() => {
 })
 
 function activateDialog() {
-  createDialog.value.show()
+  dialog.value.show()
 }
 
 function create() {
-  const { data } = form.post('/permissions/create')
+  const { data } = form.post('/permissions')
 
   // ..
 }
