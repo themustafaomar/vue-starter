@@ -9,13 +9,13 @@
 
     <v-toolbar-title text="Wakeb" class="text-uppercase text-medium-emphasis" />
 
-    <v-text-field
+    <!-- <v-text-field
       v-if="lgAndUp"
       density="compact"
       placeholder="Search term..."
       prepend-inner-icon="mdi-magnify"
       class="rounded-pill mt-5"
-    />
+    /> -->
 
     <v-spacer></v-spacer>
 
@@ -48,7 +48,7 @@ import { useDisplay } from 'vuetify'
 import AppSettingsMenu from './SettingsMenu.vue'
 import AppBarLanguageMenu from './LanguageMenu.vue'
 import AppThemeToggle from '@/components/app/ThemeToggle.vue'
-import AppBarNotificationsMenu from './notifications/NotificationsMenu.vue'
+import AppBarNotificationsMenu from './notifications/Menu.vue'
 
 const { lgAndUp } = useDisplay()
 </script>

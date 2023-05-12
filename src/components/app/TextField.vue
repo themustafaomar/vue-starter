@@ -2,11 +2,11 @@
   <!-- global component: YES -->
   <v-text-field
     density="comfortable"
-    :error-messages="form.errors.has(name) ? form.errors.get(name) : ''"
+    :error-messages="form && form.errors.has(name) ? form.errors.get(name) : ''"
     persistent-placeholder
   >
     <template #label="{ label }">
-      <span v-if="required" class="text-red font-weight-bold mt-1 text-body-1 me-1">*</span>
+      <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
       {{ label }}
     </template>
   </v-text-field>
@@ -18,7 +18,10 @@ defineProps({
     type: String,
     required: true,
   },
-  form: { type: Object },
+  form: {
+    type: [Object, Boolean],
+    default: false,
+  },
   required: { type: Boolean },
 })
 </script>

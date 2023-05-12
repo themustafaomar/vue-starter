@@ -68,9 +68,15 @@ const width = computed(() => (mobile.value ? 420 : 380))
 
 onMounted(() => {
   Echo.private(`notifications.${user.value.id}`).notification(({ notification }) => {
-    // Sometimes duplication happens, we need to handle that
+    // Sometimes duplication happens, as a developer
+    // we want to track this, and if the problem consists
+    // we will find a way to handle that.
+    if (notifications.value.find((n) => n.id == notification.id)) {
+      console.log('Duplication.')
+      return
+    }
+
     commit('notifications/push', notification)
-    // Use dayjs to reflect date each five seconds
   })
 })
 </script>

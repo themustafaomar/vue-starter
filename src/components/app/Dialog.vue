@@ -1,21 +1,19 @@
 <template>
-  <v-dialog v-model="dialog" width="600px">
-    <v-card rounded="lg">
-      <v-card-title v-if="!$slots.title" class="border-b">
-        <h3 class="font-weight-regular text-h6 mb-2">
-          {{ title }}
-        </h3>
+  <v-dialog :attach="true" contained location="top" v-model="dialog" width="600px">
+    <v-card rounded="lg" class="pa-2">
+      <v-card-title v-if="!$slots.title">
+        <h3 class="font-weight-regular text-h6">{{ title }}</h3>
       </v-card-title>
       <slot v-else name="title">No title set</slot>
 
-      <v-card-text v-if="!$slots.content">
-        <p class="text-medium-emphasis">
-          {{ message }}
-        </p>
+      <v-card-text v-if="!$slots.default">
+        <p class="text-medium-emphasis mx-n2">{{ content }}</p>
       </v-card-text>
-      <slot v-else name="default"></slot>
+      <div class="mx-n1">
+        <slot></slot>
+      </div>
 
-      <v-card-actions class="px-4 py-4 border-t">
+      <v-card-actions class="mt-2">
         <template v-if="!$slots.actions">
           <v-btn color="red" @click="dialog = false">Close</v-btn>
         </template>
@@ -43,6 +41,6 @@ function hide() {
   dialog.value = false
 }
 
-defineProps({ title: String, message: String })
+defineProps({ title: String, content: String })
 defineExpose({ show, hide, dialog })
 </script>

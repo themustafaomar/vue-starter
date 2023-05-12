@@ -1,5 +1,5 @@
 <template>
-  <v-list-item class="py-1 ps-4 pe-2">
+  <v-list-item ref="notificationHeight" class="py-1 ps-4 pe-2">
     <template #prepend>
       <!-- <v-avatar size="large" image="/avatar.jpg" height="80" icon /> -->
       <v-badge
@@ -14,6 +14,7 @@
       </v-badge>
     </template>
 
+    <!-- <pre>{{ notification.data.title }}</pre> -->
     <component :is="getComponent" :notification="notification" />
 
     <template #append>
@@ -23,10 +24,7 @@
 
       <v-menu v-model="isActive" activator="parent">
         <v-list elevation="2" rounded="lg">
-          <v-list-item
-            @click.stop="markAsRead(notification.id)"
-            :disabled="typeof notification.read_at === 'string'"
-          >
+          <v-list-item @click.stop="markAsRead(notification.id)" :disabled="!!notification.read_at">
             <v-list-item-title>
               <v-icon size="20">mdi-read</v-icon>
               Mark as read
