@@ -1,6 +1,8 @@
 /* eslint-disable */
-export default ({ store, router, from, to, next, guest }) => {
+export default ({ store, router, from, to, next, guest, permissions }) => {
   const isLoggedIn = store.getters['auth/isLoggedIn']
+
+  console.log(to)
 
   // This is a guest route, we want
   // to redirect this user to the home.

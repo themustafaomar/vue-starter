@@ -6,9 +6,8 @@
         description="Create an account - enjoy exclusive features and much more..."
       />
 
-      <v-form @submit.prevent="submit">
+      <Form as="v-form" :validation-schema="schema" @submit.prevent="submit">
         <app-text-field
-          v-model="form.name"
           :form="form"
           name="name"
           label="Name"
@@ -71,24 +70,26 @@
           Already have an account?
           <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
-      </v-form>
+      </Form>
     </v-sheet>
   </AuthLayout>
 </template>
 
 <script>
-import { Form } from 'vform'
+import { Form as VForm } from 'vform'
+import { Form } from 'vee-validate'
 import { mapMutations } from 'vuex'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
+import { rules } from '@/validations/auth/register'
 
 export default {
-  components: { AuthLayout, AppAuthHeading },
+  components: { AuthLayout, AppAuthHeading, Form },
   data: () => ({
-    form: new Form({
-      full_name: '',
-      email: '',
-      password: '',
+    form: new VForm({
+      name: 'Muhammad',
+      email: 'sdadsad@gmail.com',
+      password: 'password',
       type: 'Individual',
     }),
     types: [
@@ -96,10 +97,12 @@ export default {
       { title: 'Company', value: 2 },
       { title: 'For My Child', value: 3 },
     ],
+    schema: rules,
   }),
   methods: {
     ...mapMutations('auth', ['login']),
     async submit() {
+      console.log('works')
       const { data } = await this.form.post(`${import.meta.env.VITE_SERVER_URL}/register`)
 
       this.login(data.data)

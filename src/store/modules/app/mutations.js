@@ -1,26 +1,35 @@
 import storage from '@/plugins/storage'
 
 export default {
-  setup() {
-    const { user, mode, locale } = storage.getMany('user', 'mode', 'locale')
+  // Here we will populate the store with the initial data
+  // required to run the app, this data will come from local storage
+  // it's important to know that this `init` method runs only once.
+  init() {
+    // prettier-ignore
+    let {
+      user,
+      mode,
+      locale,
+      permissions,
+    } = storage.get('user', 'permissions', 'mode', 'locale')
 
-    if (user) this.commit('auth/login', JSON.parse(user))
+    try {
+      user = JSON.parse(user)
+      permissions = JSON.parse(permissions)
+    } catch (err) {
+      this.dispatch('auth/logout')
+      return
+    }
 
-    if (mode) this.commit('setMode', mode)
+    if (user) {
+      this.commit('auth/login', {
+        user,
+        permissions,
+      })
+    }
 
-    if (locale) this.commit('setLocale', locale)
-  },
-  setMode(state, mode) {
-    state.mode = mode
-  },
-  setLocale(state, locale) {
-    state.locale.current = locale
-  },
-  loading(state) {
-    state.isLoading = true
-  },
-  loaded(state) {
-    state.isLoading = false
+    this.commit('setLocale', locale)
+    this.commit('setMode', mode)
   },
   notify(state, options) {
     state.snackbar = {
@@ -32,10 +41,18 @@ export default {
     }
   },
   error(state, options) {
-    state.error = {
-      ...state.error,
-      ...options,
-      show: true,
-    }
+    state.error = { ...state.error, ...options, show: true }
+  },
+  setLocale(state, locale) {
+    state.locale.current = locale || state.locale.default
+  },
+  setMode(state, mode) {
+    state.mode = mode || state.mode
+  },
+  loading(state) {
+    state.isLoading = true
+  },
+  loaded(state) {
+    state.isLoading = false
   },
 }

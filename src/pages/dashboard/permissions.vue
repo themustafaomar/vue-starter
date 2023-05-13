@@ -19,30 +19,21 @@
       <thead>
         <tr>
           <th class="text-left">Name</th>
-          <th class="text-left">Description</th>
+          <th class="text-left">Guard</th>
           <th class="text-left">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Mustafa Omar</td>
-          <td>25</td>
+        <tr v-for="permission in permissions">
+          <td>{{ permission.name }}</td>
+          <td>{{ permission.guard_name }}</td>
           <td>
-            <v-btn id="menu-activator" color="white" elevation="0" size="small" icon>
-              <v-icon>mdi-gesture-tap</v-icon>
+            <v-btn color="red" elevation="0" size="33" icon class="me-2">
+              <v-icon size="15">mdi-delete-outline</v-icon>
             </v-btn>
-
-            <v-menu activator="#menu-activator">
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in [{ title: 'Edit' }, { title: 'Delete' }]"
-                  :key="index"
-                  :value="index"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <v-btn color="primary" elevation="0" size="33" icon>
+              <v-icon size="15">mdi-eye</v-icon>
+            </v-btn>
           </td>
         </tr>
       </tbody>
@@ -77,19 +68,27 @@
 import { Form } from 'vform'
 import { ref, onMounted, reactive } from 'vue'
 import { useLoader } from '@/composables/loader'
+import axios from '@/plugins/axios'
 import AppDialog from '@/components/app/Dialog.vue'
 
 const loader = useLoader()
 const dialog = ref(null)
+const permissions = ref([])
 const form = reactive(
   new Form({
     name: 'A Permission Name',
   })
 )
 
-onMounted(() => {
+onMounted(async () => {
+  const { data } = await axios.get('/permissions')
+
+  permissions.value = data
+
   loader.markAsLoaded()
 })
+
+// Functions
 
 function activateDialog() {
   dialog.value.show()

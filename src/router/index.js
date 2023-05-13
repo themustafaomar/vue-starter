@@ -15,6 +15,7 @@ router.beforeEach((to, from, next) => {
 
   const name = to.name
   const middlewaresToRun = []
+  let permissions = null
 
   // Check if we've a parent, we'll assume this is a layout
   const parent = to.matched[0]
@@ -44,9 +45,14 @@ router.beforeEach((to, from, next) => {
     return next()
   }
 
+  // Check for permissions
+  if (to.meta.permissions?.length) {
+    permissions = to.meta.permissions
+  }
+
   // Run an array of middlewares in order
   for (let middlewareName of middlewaresToRun) {
-    runMiddleware(middlewareName, router, next, from, to)
+    runMiddleware(middlewareName, router, next, from, to, permissions)
   }
 })
 
@@ -66,14 +72,14 @@ function createTitle(name) {
 
 // Let's run the middleware and give the
 // middleware a bunch of parameters to play around with.
-function runMiddleware(name, router, next, from, to) {
+function runMiddleware(name, router, next, from, to, permissions) {
   const [middleware, type] = name.split(':')
 
   if (!Array.prototype.hasOwnProperty.call(middlewares, middleware)) {
     throw new Error(`Unknown [${middleware}] middleware, did you register this middleware?`)
   }
 
-  const params = { store, router, from, to, next, guest: type === 'guest' }
+  const params = { store, router, from, to, next, guest: type === 'guest', permissions }
 
   middlewares[middleware](params)
 }

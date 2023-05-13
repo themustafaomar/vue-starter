@@ -130,82 +130,12 @@
         </v-btn>
       </v-sheet>
     </v-col>
-
-    <!-- forms -->
-    <v-col cols="4" xl="3">
-      <v-sheet class="pa-5" rounded="lg">
-        <h3 class="font-weight-regular text-h6 mb-2">
-          This is to test
-          <code>text fields</code>
-        </h3>
-        <p class="text-medium-emphasis mb-6">This is an example of using the custom text fields.</p>
-
-        <app-text-field
-          v-model="form.name"
-          :form="form"
-          name="name"
-          label="Your Name"
-          placeholder="Name"
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.email"
-          :form="form"
-          name="email"
-          label="Your Email"
-          placeholder="Email"
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.password"
-          :form="form"
-          name="password"
-          type="password"
-          label="Your Password"
-          placeholder="Password"
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-select
-          :form="form"
-          name="account_type"
-          label="Account Type"
-          :items="['Individual', 'Company', 'For My Child']"
-          placeholder="Password"
-          required
-          class="mb-5"
-        ></app-select>
-
-        <v-btn
-          :disabled="form.busy"
-          size="large"
-          block
-          color="primary"
-          elevation="0"
-          @click="sendRequest"
-        >
-          <v-progress-circular
-            v-if="form.busy"
-            color="white"
-            bg-color="transparent"
-            indeterminate
-            size="27"
-            width="2"
-          ></v-progress-circular>
-          <template v-else>Send</template>
-        </v-btn>
-      </v-sheet>
-    </v-col>
   </v-row>
 
   <app-dialog
     ref="dialog"
     title="Are you sure you want to delete this item?"
-    message="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
+    content="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
   >
     <template #actions="{ close, payload }">
       <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
@@ -215,12 +145,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { useStore } from 'vuex'
 import { Form } from 'vform'
+import { useStore } from 'vuex'
+import { ref, reactive, onMounted } from 'vue'
 import { useLoader } from '@/composables/loader'
-import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 import AppDialog from '@/components/app/Dialog.vue'
+import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
 const store = useStore()
 const dialog = ref(null)
