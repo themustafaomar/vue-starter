@@ -1,6 +1,6 @@
 # Middleware
 
-Middleware is a function that allows or prevents the user from accessing the current route.
+Middleware is a function that allows or prevents the user from accessing a route.
 
 ## How to add a new middleware
 

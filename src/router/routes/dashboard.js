@@ -3,7 +3,9 @@ export const dashboard = [
     name: 'dashboard',
     path: '/dashboard',
     component: () => import('@/layouts/dashboard.vue'),
-    meta: { middleware: 'dashboard' },
+    meta: {
+      middleware: 'dashboard',
+    },
     children: [
       {
         name: 'dashboard_home',
@@ -14,11 +16,6 @@ export const dashboard = [
         name: 'dashboard_components',
         path: 'components',
         component: () => import('@/pages/dashboard/components.vue'),
-      },
-      {
-        name: 'dashboard_comments',
-        path: 'comments',
-        component: () => import('@/pages/dashboard/comments/index.vue'),
       },
       {
         name: 'dashboard_layouts',
@@ -34,6 +31,14 @@ export const dashboard = [
         name: 'dashboard_permissions',
         path: 'permissions',
         component: () => import('@/pages/dashboard/permissions.vue'),
+        meta: {
+          permissions: ['manage permissions'],
+        },
+      },
+      {
+        name: 'dashboard_profile',
+        path: 'profile',
+        component: () => import('@/pages/dashboard/profile.vue'),
       },
     ],
   },

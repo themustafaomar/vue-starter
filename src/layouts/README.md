@@ -20,7 +20,7 @@ export const account = [
     name: 'account',
     path: '/account',
     component: () => import('@/layouts/account.vue'),
-  }
+  },
 ]
 ```
 
@@ -36,12 +36,15 @@ export const account = [
     component: () => import('@/layouts/account.vue'),
     children: [
       {
+        // Notice: this is gonna set the page title as Account - home
+        // this is done automcatically, thanks to our `@/router/index.js`
+        // in `createTitle` function.
         name: 'account_home',
         path: 'home',
         component: () => import('@/pages/account/home.vue'),
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]
 ```
 

@@ -2,33 +2,30 @@ class Storage {
   constructor(provider) {
     this._provider = provider
   }
-  get(key) {
-    return this._provider.getItem(key)
-  }
-  getMany() {
-    const data = {}
-    Array.from(arguments).forEach((key, v) => {
-      data[key] = this.get(key)
-    })
-    return data
+  get() {
+    const obj = {}
+    return arguments.length > 1
+      ? this._arrayFrom(arguments).map((key) => (obj[key] = this._provider.getItem(key))) && obj
+      : this._provider.getItem(arguments[0])
   }
   set(key, value) {
-    this._provider.setItem(key, value)
+    typeof key === 'object'
+      ? Object.keys(key).forEach((name) => this._provider.setItem(name, key[name]))
+      : this._provider.setItem(key, value)
   }
-  createMany(object) {
-    Object.keys(object).forEach((key) => this.set(key, object[key]))
+  remove() {
+    arguments.length > 1
+      ? this._arrayFrom(arguments).forEach((key) => this._provider.removeItem(key))
+      : this._provider.removeItem(arguments[0])
   }
   has(key) {
     return this._provider.getItem(key) !== null
   }
-  remove(key) {
-    this._provider.removeItem(key)
-  }
-  removeMany() {
-    Array.from(arguments).forEach((key) => this.remove(key))
+  _arrayFrom(args) {
+    return Array.from(args)
   }
 }
 
-const storage = new Storage(localStorage)
+const storage = new Storage(sessionStorage)
 
 export default storage

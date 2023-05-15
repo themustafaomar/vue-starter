@@ -16,7 +16,7 @@ export default {
           const { data } = await form.post(`${SERVER_URL}/login`)
 
           // We've just get the user from the response
-          commit('login', data.user)
+          commit('login', { user: data.data, permissions: data.permissions })
           resolve()
 
           // Go home

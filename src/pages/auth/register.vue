@@ -86,9 +86,9 @@ export default {
   components: { AuthLayout, AppAuthHeading },
   data: () => ({
     form: new Form({
-      full_name: '',
-      email: '',
-      password: '',
+      name: 'Muhammad',
+      email: 'sdadsad@gmail.com',
+      password: 'password',
       type: 'Individual',
     }),
     types: [

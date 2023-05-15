@@ -8,34 +8,34 @@ module.exports = {
     'plugin:import/errors',
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier/skip-formatting',
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
   },
   env: {
     browser: true,
     amd: true,
-    node: true
+    node: true,
   },
   rules: {
     'strict': 'error',
-    'vue/multi-word-component-names': 0,
+    'vue/multi-word-component-names': 'off',
     'object-curly-spacing': ['error', 'always'],
     'operator-linebreak': ['error', 'after'],
     'comma-dangle': ['error', 'never'],
     'import/no-duplicates': 'error',
-    "import/no-unresolved": 0,
-    semi: ['error', 'never'],
-    indent: [
+    'import/no-unresolved': 0,
+    'semi': ['error', 'never'],
+    'indent': [
       'error',
       2,
       {
         MemberExpression: 'off',
-        SwitchCase: 1
-      }
+        SwitchCase: 1,
+      },
     ],
     // override/add rules settings here, such as:
-    'vue/no-unused-vars': 'error'
-  }
+    'vue/no-unused-vars': 'error',
+  },
 }

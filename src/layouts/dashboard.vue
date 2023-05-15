@@ -15,7 +15,7 @@
 
       <!-- content -->
       <v-main>
-        <app-loader v-show="isLoading" />
+        <app-dashboard-loader v-show="isLoading" />
         <app-dashboard-error v-if="state.app.error.show" />
         <div v-else v-show="!isLoading" class="pa-5">
           <router-view />
@@ -31,7 +31,7 @@ import { useStore } from 'vuex'
 import { useDisplay } from 'vuetify'
 import { ref, computed, onMounted } from 'vue'
 import AppSnackbar from '@/components/app/Snackbar.vue'
-import AppLoader from '@/components/dashboard/Loader.vue'
+import AppDashboardLoader from '@/components/dashboard/Loader.vue'
 import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
 import AppDashboardError from '@/components/dashboard/Error.vue'

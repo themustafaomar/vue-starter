@@ -1,22 +1,17 @@
 import { createApp, h } from 'vue'
+import { plugins } from './plugins'
 import store from './store'
 import router from './router'
 import App from './App.vue'
 
-// Plugins
-import { usePlugins } from './plugins'
-
-// Create an app
+// Create a new Vue app
 const app = createApp({
-  beforeCreate: () => store.commit('setup'),
+  beforeCreate: () => store.commit('init'),
   render: () => h(App),
 })
 
-// Context parameters
-const context = { app, store, router }
+// Register plugins
+plugins(app)
 
-// Use plugins and components
-usePlugins(context)
-
-// Router and store
-app.use(router).use(store).mount('#app')
+// Use Vue plugins
+app.use(store).use(router).mount('#app')

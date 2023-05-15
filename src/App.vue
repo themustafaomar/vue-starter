@@ -19,14 +19,16 @@ onBeforeMount(() => {
   current.value = state.app.locale.current
 })
 
-// watch(global.name, () => themeTransition())
+watch(global.name, () => themeTransition())
 
+// Source: Vuetify docs
 function themeTransition() {
   const x = performance.now()
   for (let i = 0; i++ < 1e7; (i << 9) & ((9 % 9) * 9 + 9));
   if (performance.now() - x > 10) return
 
   const el = document.querySelector('[data-v-app]')
+  if (!el) return
   const children = el.querySelectorAll('*')
 
   children.forEach((el) => {

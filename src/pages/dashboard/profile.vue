@@ -37,7 +37,6 @@
           type="submit"
           :disabled="form.busy"
           elevation="0"
-          size="large"
           color="primary"
         >
           <app-btn-loader :state="form.busy" text="Save changes" />
@@ -88,7 +87,6 @@
           type="submit"
           :disabled="passwordForm.busy"
           elevation="0"
-          size="large"
           color="primary"
         >
           <app-btn-loader :state="passwordForm.busy" text="Update password" />
@@ -109,12 +107,16 @@ import { useLoader } from '@/composables/loader'
 const { commit } = useStore()
 const user = useUser()
 const loader = useLoader()
+
+// The profile info form
 const form = reactive(
   new Form({
     name: '',
     email: '',
   })
 )
+
+// The password form
 const passwordForm = reactive(
   new Form({
     password: '',

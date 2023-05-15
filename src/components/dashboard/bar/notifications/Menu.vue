@@ -72,7 +72,6 @@ onMounted(() => {
     // we want to track this, and if the problem consists
     // we will find a way to handle that.
     if (notifications.value.find((n) => n.id == notification.id)) {
-      console.log('Duplication.')
       return
     }
 
