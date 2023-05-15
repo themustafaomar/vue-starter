@@ -1,6 +1,5 @@
 <template>
   <!-- global component: YES -->
-  <!-- form && form.errors.has(name) ? form.errors.get(name) : '' -->
   <v-text-field
     density="comfortable"
     :error-messages="getErrors"

@@ -1,5 +1,4 @@
 import { auth } from './routes/auth'
-import { profile } from './routes/profile'
 import { dashboard } from './routes/dashboard'
 
 export default [
@@ -14,7 +13,6 @@ export default [
     component: () => import('@/pages/about.vue'),
   },
   ...auth,
-  ...profile,
   ...dashboard,
   {
     path: '/:pathMatch(.*)*',

@@ -2,7 +2,7 @@ import storage from '@/plugins/storage'
 
 export default {
   // Here we will populate the store with the initial data
-  // required to run the app, this data will come from local storage
+  // needed to run the app, this data will come from the local storage
   // it's important to know that this `init` method runs only once.
   init() {
     // prettier-ignore
@@ -22,10 +22,7 @@ export default {
     }
 
     if (user) {
-      this.commit('auth/login', {
-        user,
-        permissions,
-      })
+      this.commit('auth/login', { user, permissions })
     }
 
     this.commit('setLocale', locale)

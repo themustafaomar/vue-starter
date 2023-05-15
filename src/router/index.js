@@ -15,7 +15,6 @@ router.beforeEach((to, from, next) => {
 
   const name = to.name
   const middlewaresToRun = []
-  let permissions = null
 
   // Check if we've a parent, we'll assume this is a layout
   const parent = to.matched[0]
@@ -45,14 +44,9 @@ router.beforeEach((to, from, next) => {
     return next()
   }
 
-  // Check for permissions
-  if (to.meta.permissions?.length) {
-    permissions = to.meta.permissions
-  }
-
   // Run an array of middlewares in order
   for (let middlewareName of middlewaresToRun) {
-    runMiddleware(middlewareName, router, next, from, to, permissions)
+    runMiddleware(middlewareName, router, next, from, to, to.meta.permissions || null)
   }
 })
 
@@ -67,7 +61,7 @@ function hasLayout({ matched }) {
 
 // Create a title from a given name
 function createTitle(name) {
-  return (name.charAt(0).toUpperCase() + name.slice(1)).replace('_', ' ').replace('-', ' - ')
+  return (name.charAt(0).toUpperCase() + name.slice(1)).replace(/_|-/gi, ' - ')
 }
 
 // Let's run the middleware and give the

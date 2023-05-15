@@ -6,11 +6,12 @@ import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
 import { createI18n, useI18n } from 'vue-i18n'
 import { loadFonts } from './webfontloader'
+import { theme } from '@/data/theme'
 import { ar as vuetifyAR, en as vuetifyEN } from 'vuetify/locale'
 import en from '@/i18n/en.json'
 import ar from '@/i18n/ar.json'
 
-export const useVuetify = ({ app }) => {
+export const useVuetify = (app) => {
   const i18n = new createI18n({
     legacy: false, // Vuetify does not support the legacy mode of vue-i18n
     locale: 'en',
@@ -31,25 +32,7 @@ export const useVuetify = ({ app }) => {
   // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
   const vuetify = createVuetify({
     components: { VDataTable, VSkeletonLoader },
-    theme: {
-      // defaultTheme: 'dark',
-      themes: {
-        light: {
-          colors: {
-            primary: '#2563eb',
-            background: '#f1f3f7',
-            error: '#ff3122',
-          },
-        },
-        dark: {
-          colors: {
-            primary: '#2563eb',
-            background: '#181c24',
-            surface: '#0c111c',
-          },
-        },
-      },
-    },
+    theme,
     locale: {
       adapter: createVueI18nAdapter({ i18n, useI18n }),
     },

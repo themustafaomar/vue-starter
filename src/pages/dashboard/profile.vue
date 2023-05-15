@@ -37,7 +37,6 @@
           type="submit"
           :disabled="form.busy"
           elevation="0"
-          size="large"
           color="primary"
         >
           <app-btn-loader :state="form.busy" text="Save changes" />
@@ -88,7 +87,6 @@
           type="submit"
           :disabled="passwordForm.busy"
           elevation="0"
-          size="large"
           color="primary"
         >
           <app-btn-loader :state="passwordForm.busy" text="Update password" />

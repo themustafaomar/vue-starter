@@ -26,6 +26,6 @@ class Storage {
   }
 }
 
-const storage = new Storage(localStorage)
+const storage = new Storage(sessionStorage)
 
 export default storage

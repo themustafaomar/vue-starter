@@ -12,6 +12,15 @@ import { useForm } from 'vee-validate'
 import { validationSchema } from '@/validations/auth/register'
 import TheTextField from './TextField.vue'
 import storage from '@/plugins/storage'
+import * as yup from 'yup'
+
+// prettier-ignore
+// const validationSchema = yup.object({
+//   name: yup.string()
+//     .min(5)
+//     .required()
+//     .label('Name'),
+// })
 
 export default {
   components: { TheTextField },
@@ -46,4 +55,6 @@ export default {
 // const submit = handleSubmit((values) => {
 //   form.post('/hi').then(() => {})
 // })
+
+// { name: 'test', path: '/test', component: () => import('@/pages/auth/test.vue'), },
 </script>
