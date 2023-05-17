@@ -7,16 +7,11 @@ export default [
     path: '/',
     component: () => import('@/pages/index.vue'),
   },
-  {
-    name: 'about',
-    path: '/about',
-    component: () => import('@/pages/about.vue'),
-  },
   ...auth,
   ...dashboard,
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('@/pages/404.vue'),
+    component: () => import('@/layouts/404.vue'),
   },
 ]
