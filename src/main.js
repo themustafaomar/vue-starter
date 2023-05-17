@@ -13,5 +13,8 @@ const app = createApp({
 // Register plugins
 plugins(app)
 
+//
+router.watch(app)
+
 // Use Vue plugins
 app.use(store).use(router).mount('#app')

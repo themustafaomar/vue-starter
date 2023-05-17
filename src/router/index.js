@@ -9,46 +9,56 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
-  progress.start()
-  store.commit('loading')
+// Well, let's talk about that, we need the Vue instance
+// but we can't access it, there is no an easy way for doing this
+// so, we will create a watch method and call it from main.js.
+router.watch = (app) => watch(app)
 
-  const name = to.name
-  const middlewaresToRun = []
+// Run middlewares before each route
+function watch(app) {
+  const { can, is } = app.config.globalProperties
 
-  // Check if we've a parent, we'll assume this is a layout
-  const parent = to.matched[0]
-  if (hasLayout(to) && parent.name) {
-    document.body.classList.add(`${parent.name}__layout`)
-  }
+  router.beforeEach((to, from, next) => {
+    progress.start()
+    store.commit('loading')
 
-  // Add a title and id to the current page
-  if (name) {
-    document.title = createTitle(name)
-    // Set an id depending on the route name value
-    if (document.body) document.body.id = `${name}__page`
-  }
+    const name = to.name
+    const middlewaresToRun = []
 
-  // Get current route middlewares if presented
-  const currentMware = to.meta.middleware
-  if (currentMware) {
-    if (Array.isArray(currentMware)) {
-      middlewaresToRun.push(...currentMware)
-    } else if (typeof currentMware === 'string') {
-      middlewaresToRun.push(currentMware)
+    // Check if we've a parent, we'll assume this is a layout
+    const parent = to.matched[0]
+    if (hasLayout(to) && parent.name) {
+      document.body.classList.add(`${parent.name}__layout`)
     }
-  }
 
-  // Hmm, looks like we don't have any middleware to run
-  if (!middlewaresToRun.length) {
-    return next()
-  }
+    // Add a title and id to the current page
+    if (name) {
+      document.title = createTitle(name)
+      // Set an id depending on the route name value
+      if (document.body) document.body.id = `${name}__page`
+    }
 
-  // Run an array of middlewares in order
-  for (let middlewareName of middlewaresToRun) {
-    runMiddleware(middlewareName, router, next, from, to, to.meta.permissions || null)
-  }
-})
+    // Get current route middlewares if presented
+    const currentMware = to.meta.middleware
+    if (currentMware) {
+      if (Array.isArray(currentMware)) {
+        middlewaresToRun.push(...currentMware)
+      } else if (typeof currentMware === 'string') {
+        middlewaresToRun.push(currentMware)
+      }
+    }
+
+    // Hmm, looks like we don't have any middleware to run
+    if (!middlewaresToRun.length) {
+      return next()
+    }
+
+    // Run an array of middlewares in order
+    for (let middlewareName of middlewaresToRun) {
+      runMiddleware(middlewareName, router, next, from, to, normalizePermissions(to, can, is))
+    }
+  })
+}
 
 router.afterEach(() => {
   setTimeout(() => progress.finish(), 500)
@@ -76,6 +86,16 @@ function runMiddleware(name, router, next, from, to, permissions) {
   const params = { store, router, from, to, next, guest: type === 'guest', permissions }
 
   middlewares[middleware](params)
+}
+
+// Give the middleware a clean permission parameter to play around with.
+function normalizePermissions(to, can, is) {
+  return {
+    exist: !!to.meta.permissions?.length,
+    get: () => to.meta.permissions.join(' & '),
+    can,
+    is,
+  }
 }
 
 export default router
