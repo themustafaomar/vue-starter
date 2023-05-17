@@ -24,13 +24,14 @@ You must ask yourself the following:
 
 - If this comment has more than one component we're going to add it in a folder matching the same sequence like so.
 
-<!-- prettier-ignore -->
+```
 components/
 |- dashboard/
   |- comments/
     |- Comments.vue
     |- Comment.vue
     |- Reply.vue
+```
 
 The last step is to declare that component, the declaration must match the following pattern.
 
