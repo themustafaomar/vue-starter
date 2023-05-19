@@ -5,7 +5,7 @@
       Profile section where you can change your account information or change your password.
     </p>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <!-- profile info form -->
     <v-row class="mt-5">
@@ -125,9 +125,8 @@ const passwordForm = reactive(
 )
 
 onMounted(() => {
-  setTimeout(() => loader.markAsLoaded(), 250)
-
   form.update(user)
+  setTimeout(() => loader.markAsLoaded(), 250)
 })
 
 // Functions

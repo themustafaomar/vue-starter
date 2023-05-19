@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import { useLoader } from '@/composables/loader'
 import { onMounted } from 'vue'
+import { useLoader } from '@/composables/loader'
 
 const loader = useLoader()
 

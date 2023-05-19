@@ -152,7 +152,7 @@ import { useLoader } from '@/composables/loader'
 import AppDialog from '@/components/app/Dialog.vue'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
-const store = useStore()
+const { commit } = useStore()
 const dialog = ref(null)
 const form = reactive(
   new Form({
@@ -169,19 +169,19 @@ onMounted(() => {
 })
 
 function showToast() {
-  store.commit('notify', 'This is a message for primary toast!')
+  commit('notify', 'This is a message for primary toast!')
 }
 
 function showErrorToast() {
-  store.commit('notify', {
+  commit('notify', {
     message: 'This is a message for error toast.',
     color: 'red',
   })
 }
 
 function makeError() {
-  store.commit('error', {
-    message: 'Page not found',
+  commit('error', {
+    message: 'Page Not Found',
     type: 404,
   })
 }
@@ -192,7 +192,6 @@ function deleteItem(id) {
 }
 
 function sendRequest() {
-  // prettier-ignore
   form.post('/test').then(() => {})
 }
 </script>
