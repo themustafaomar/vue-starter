@@ -27,7 +27,7 @@
           label="Email"
           persistent-placeholder
           placeholder="Your email"
-          hint="Pick a unique memorable username"
+          hint="We'll sent updates in this email"
           persistent-hint
           required
           class="mb-4"
@@ -58,7 +58,7 @@
 
         <v-btn
           type="submit"
-          :disabled="form.busy"
+          :disabled="form.busy || !isValid"
           elevation="0"
           color="primary"
           block
@@ -76,36 +76,48 @@
   </AuthLayout>
 </template>
 
-<script>
+<script setup>
+import { reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 import { Form } from 'vform'
-import { mapMutations } from 'vuex'
+import { useRouter } from 'vue-router'
+import { useValidator } from '@/composables/useValidator'
+import { registerValidation } from '@/validations/auth'
+import axios from '@/plugins/axios'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
-export default {
-  components: { AuthLayout, AppAuthHeading },
-  data: () => ({
-    form: new Form({
-      name: 'Muhammad',
-      email: 'sdadsad@gmail.com',
-      password: 'password',
-      type: 'Individual',
-    }),
-    types: [
-      { title: 'Individual', value: 1 },
-      { title: 'Company', value: 2 },
-      { title: 'For My Child', value: 3 },
-    ],
-  }),
-  methods: {
-    ...mapMutations('auth', ['login']),
-    async submit() {
-      const { data } = await this.form.post(`${import.meta.env.VITE_SERVER_URL}/register`)
+const router = useRouter()
+const { commit } = useStore()
+const { handleSubmit, isValid } = useValidator(registerValidation)
+const form = reactive(
+  new Form({
+    name: '',
+    email: '',
+    password: '',
+    type: 1,
+  })
+)
+const types = ref([
+  { title: 'Individual', value: 1 },
+  { title: 'Company', value: 2 },
+  { title: 'For My Child', value: 3 },
+])
 
-      this.login(data.data)
+// Functions
 
-      this.$router.push('/dashboard')
-    },
-  },
-}
+const submit = handleSubmit(async () => {
+  const SERVER_URL = import.meta.env.VITE_SERVER_URL
+
+  await axios.get(`${SERVER_URL}/sanctum/csrf-cookie`)
+
+  const { data } = await form.post(`${SERVER_URL}/register`)
+
+  commit('auth/login', {
+    user: data.data,
+    permissions: data.permissions,
+  })
+
+  router.push('/dashboard')
+})
 </script>

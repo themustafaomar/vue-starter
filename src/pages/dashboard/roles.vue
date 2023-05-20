@@ -13,7 +13,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useLoader } from '@/composables/loader'
+import { useLoader } from '@/composables/useLoader'
 
 const loader = useLoader()
 

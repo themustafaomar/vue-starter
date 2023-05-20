@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { useIsDark } from '@/composables/is-dark'
+import { useIsDark } from '@/composables/useIsDark'
 
 const props = defineProps({
   title: String,

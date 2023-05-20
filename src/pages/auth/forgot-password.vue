@@ -41,7 +41,14 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn type="submit" :disabled="isLoading" color="primary" block elevation="0" class="py-5">
+        <v-btn
+          type="submit"
+          :disabled="isLoading || !isValid"
+          color="primary"
+          block
+          elevation="0"
+          class="py-5"
+        >
           <app-btn-loader :state="isLoading" text="Send verification code" />
         </v-btn>
 
@@ -54,39 +61,39 @@
   </AuthLayout>
 </template>
 
-<script>
+<script setup>
 import { Form } from 'vform'
-import { mapGetters, mapMutations } from 'vuex'
+import { ref, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useValidator } from '@/composables/useValidator'
+import { forgotPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
-export default {
-  components: { AuthLayout, AppAuthHeading },
-  data: () => ({
-    showMessage: false,
-    form: new Form({
-      email: 'themustafaomar@gmail.com',
-    }),
-  }),
-  computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' }),
-  },
-  methods: {
-    ...mapMutations('auth', ['loading', 'loaded']),
-    async submit() {
-      this.loading()
+const showMessage = ref(false)
+const { getters, commit } = useStore()
+const { handleSubmit, isValid } = useValidator(forgotPasswordValidation)
+const isLoading = computed(() => getters['auth/isLoading'])
+const form = new reactive(
+  new Form({
+    email: 'themustafaomar@gmail.com',
+  })
+)
 
-      try {
-        await this.form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
-        this._showSuccessMessage()
-      } catch (error) {
-        this.loaded()
-      }
-    },
-    _showSuccessMessage() {
-      this.showMessage = true
-      setTimeout(() => (this.showMessage = false), 5000)
-    },
-  },
+// Functions
+
+const submit = handleSubmit(async () => {
+  commit('auth/loading')
+  try {
+    await form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
+    showSuccessMessage()
+  } catch (error) {
+    commit('auth/loaded')
+  }
+})
+
+function showSuccessMessage() {
+  showMessage.value = true
+  setTimeout(() => (showMessage.value = false), 5000)
 }
 </script>

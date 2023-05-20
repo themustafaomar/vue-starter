@@ -68,7 +68,7 @@
 import { Form } from 'vform'
 import { ref, onMounted, reactive } from 'vue'
 import axios from '@/plugins/axios'
-import { useLoader } from '@/composables/loader'
+import { useLoader } from '@/composables/useLoader'
 import AppDialog from '@/components/app/Dialog.vue'
 
 const loader = useLoader()

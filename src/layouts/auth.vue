@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { useIsDark } from '@/composables/is-dark'
+import { useIsDark } from '@/composables/useIsDark'
 import AppThemeToggle from '@/components/app/ThemeToggle.vue'
 import AppSnackbar from '@/components/app/Snackbar.vue'
 

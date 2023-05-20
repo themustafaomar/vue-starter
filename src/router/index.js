@@ -9,9 +9,9 @@ const router = createRouter({
   routes,
 })
 
-// Well, let's talk about that, we need the Vue instance
-// but we can't access it, there is no an easy way for doing this
-// so, we will create a watch method and call it from main.js.
+// Well, let's talk about that, we need the Vue instance but we can't access it
+// there is no an easy way for doing this so, we will create a watch
+// method and call it from main.js, so we can pass the app instance.
 router.watch = (app) => watch(app)
 
 // Run middlewares before each route
@@ -90,12 +90,21 @@ function runMiddleware(name, router, next, from, to, permissions) {
 
 // Give the middleware a clean permission parameter to play around with.
 function normalizePermissions(to, can, is) {
-  return {
-    exist: !!to.meta.permissions?.length,
-    get: () => to.meta.permissions.join(' & '),
-    can,
-    is,
+  const permissions = to.meta.permissions
+
+  function get() {
+    if (Array.isArray(permissions)) {
+      return permissions.join('&')
+    }
+
+    if (typeof permissions === 'string') {
+      return permissions
+    }
+
+    return ''
   }
+
+  return { exist: () => !!permissions?.length, get, can, is }
 }
 
 export default router

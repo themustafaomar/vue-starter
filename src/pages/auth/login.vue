@@ -34,7 +34,14 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn type="submit" :disabled="isLoading" color="primary" block elevation="0" class="py-5">
+        <v-btn
+          type="submit"
+          :disabled="isLoading || !isValid"
+          color="primary"
+          block
+          elevation="0"
+          class="py-5"
+        >
           <app-btn-loader :state="isLoading" text="Sign in" />
         </v-btn>
 
@@ -62,34 +69,33 @@
   </AuthLayout>
 </template>
 
-<script>
+<script setup>
+import { reactive, computed } from 'vue'
 import { Form } from 'vform'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { useStore } from 'vuex'
+import { useValidator } from '@/composables/useValidator'
+import { loginValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
-export default {
-  components: { AuthLayout, AppAuthHeading },
-  data: () => ({
-    form: new Form({
-      email: 'themustafaomar@gmail.com',
-      password: 'password',
-    }),
-  }),
-  computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' }),
-  },
-  methods: {
-    ...mapMutations(['notify']),
-    ...mapActions({ login: 'auth/login' }),
-    submit() {
-      this.login(this.form).then(() => {
-        this.notify({
-          message: 'Logged in successfully!',
-          color: 'primary',
-        })
-      })
-    },
-  },
-}
+const { dispatch, commit, getters } = useStore()
+const { handleSubmit, isValid } = useValidator(loginValidation)
+const isLoading = computed(() => getters['auth/isLoading'])
+const form = reactive(
+  new Form({
+    email: 'themustafaomar@gmail.com',
+    password: 'password',
+  })
+)
+
+// Functions
+
+const submit = handleSubmit(() => {
+  dispatch('auth/login', form).then(() => {
+    commit('notify', {
+      message: 'Logged in successfully!',
+      color: 'primary',
+    })
+  })
+})
 </script>

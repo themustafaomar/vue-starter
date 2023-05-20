@@ -148,7 +148,7 @@
 import { Form } from 'vform'
 import { useStore } from 'vuex'
 import { ref, reactive, onMounted } from 'vue'
-import { useLoader } from '@/composables/loader'
+import { useLoader } from '@/composables/useLoader'
 import AppDialog from '@/components/app/Dialog.vue'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
@@ -167,6 +167,8 @@ const loader = useLoader()
 onMounted(() => {
   setTimeout(() => loader.markAsLoaded(), 1000)
 })
+
+// Functions
 
 function showToast() {
   commit('notify', 'This is a message for primary toast!')

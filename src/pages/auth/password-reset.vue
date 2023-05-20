@@ -40,7 +40,7 @@
           v-model="form.password_confirmation"
           type="password"
           :form="form"
-          name="password"
+          name="password_confirmation"
           label="Confirm Password"
           placeholder="Your Password Again"
           persistent-placeholder
@@ -50,7 +50,14 @@
           class="mb-5"
         ></app-text-field>
 
-        <v-btn :disabled="isLoading" type="submit" color="primary" block elevation="0" class="py-5">
+        <v-btn
+          :disabled="isLoading || !isValid"
+          type="submit"
+          color="primary"
+          block
+          elevation="0"
+          class="py-5"
+        >
           <app-btn-loader :state="form.busy" text="Reset Password" />
         </v-btn>
 
@@ -63,48 +70,49 @@
   </AuthLayout>
 </template>
 
-<script>
+<script setup>
 import { Form } from 'vform'
-import { mapGetters, mapMutations } from 'vuex'
+import { reactive, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
+import { useValidator } from '@/composables/useValidator'
+import { resetPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
-export default {
-  components: { AuthLayout, AppAuthHeading },
-  data: ({ $route }) => ({
-    form: new Form({
-      email: $route.query.email,
-      token: $route.params.token,
-      password: '',
-      password_confirmation: '',
-    }),
-  }),
-  computed: {
-    ...mapGetters({ isLoading: 'auth/isLoading' }),
-  },
-  methods: {
-    ...mapMutations({
-      loading: 'auth/loading',
-      loaded: 'auth/loaded',
-      notify: 'notify',
-    }),
-    submit() {
-      this.loading()
+const route = useRoute()
+const router = useRouter()
+const { getters, commit } = useStore()
+const { handleSubmit, isValid } = useValidator(resetPasswordValidation)
 
-      this.form
-        .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
-        .then(({ data }) => {
-          this.loaded()
-          this.notify({ message: data.status, color: 'primary' })
-          this.$router.push('/login')
-        })
-        .catch((error) => {
-          this.loaded()
-          this.notify({ message: error.response.data.message, color: 'red' })
-        })
+const form = reactive(
+  new Form({
+    email: route.query.email,
+    token: route.params.token,
+    password: '',
+    password_confirmation: '',
+  })
+)
+const isLoading = computed(() => getters['auth/isLoading'])
 
-      this.loaded()
-    },
-  },
-}
+// Functions
+
+const submit = handleSubmit(async () => {
+  commit('auth/loading')
+
+  form
+    .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
+    .then(({ data }) => {
+      commit('auth/loaded')
+      commit('notify', { message: data.status, color: 'primary' })
+      router.push('/login')
+    })
+    .catch((error) => {
+      commit('auth/loaded')
+      commit('notify', {
+        message: error.response.data.message,
+        color: 'red',
+      })
+    })
+})
 </script>

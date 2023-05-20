@@ -101,8 +101,8 @@
 import { Form } from 'vform'
 import { useStore } from 'vuex'
 import { reactive, onMounted } from 'vue'
-import { useUser } from '@/composables/user'
-import { useLoader } from '@/composables/loader'
+import { useUser } from '@/composables/useUser'
+import { useLoader } from '@/composables/useLoader'
 
 const { commit } = useStore()
 const user = useUser()

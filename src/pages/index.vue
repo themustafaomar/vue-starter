@@ -1,12 +1,14 @@
 <template>
-  <v-sheet width="300" class="mx-auto mt-10"></v-sheet>
+  <v-sheet width="300" class="mx-auto border rounded-lg pa-5 mt-16">
+    Hi! want to
+    <router-link to="/login" class="text-decoration-none text-primary">login?</router-link>
+  </v-sheet>
 </template>
 
-<script setup>
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+<script setup></script>
 
-const router = useRouter()
-
-onMounted(() => router.push('/login'))
-</script>
+<style>
+#welcome__page {
+  background-color: rgba(var(--v-theme-background), 0.25);
+}
+</style>

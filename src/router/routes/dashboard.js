@@ -27,7 +27,7 @@ export const dashboard = [
         path: 'roles',
         component: () => import('@/pages/dashboard/roles.vue'),
         meta: {
-          permissions: ['manage permissions', 'manage controls'],
+          permissions: 'manage permissions & manage roles',
         },
       },
       {
@@ -35,7 +35,7 @@ export const dashboard = [
         path: 'permissions',
         component: () => import('@/pages/dashboard/permissions.vue'),
         meta: {
-          permissions: ['manage permissions'],
+          permissions: ['manage permissions', 'manage roles'],
         },
       },
       {

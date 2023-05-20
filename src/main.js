@@ -13,7 +13,7 @@ const app = createApp({
 // Register plugins
 plugins(app)
 
-//
+// Run before each method of the router
 router.watch(app)
 
 // Use Vue plugins

@@ -28,12 +28,16 @@ export default {
     })
   },
   async logout({ commit }) {
+    commit('loading')
+
     await axios.post(`${SERVER_URL}/logout`)
 
     // Logout by clearning authentication data
     commit('logout')
 
     // Go to login
-    router.push('/login')
+    router.push('/login').then(() => {
+      commit('loaded')
+    })
   },
 }

@@ -16,8 +16,25 @@
     <v-list elevation="4" density="compact">
       <template v-for="item in links" :key="item.title">
         <v-divider v-if="item.type === 'divider'" class="my-2" />
-        <v-list-item v-else link :to="item.to" @click="handle($event, item)">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list-item
+          v-else
+          @click="handle($event, item)"
+          :to="item.to"
+          :disabled="item.hasLoader && isLoading"
+          link
+        >
+          <v-list-item-title class="d-flex align-center">
+            {{ item.title }}
+            <v-progress-circular
+              v-if="item.hasLoader && isLoading"
+              color="dark"
+              bg-color="transparent"
+              indeterminate
+              size="18"
+              width="2"
+              class="ms-2"
+            ></v-progress-circular>
+          </v-list-item-title>
         </v-list-item>
       </template>
     </v-list>
@@ -25,10 +42,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
-const store = useStore()
+const { dispatch, getters } = useStore()
+const isLoading = computed(() => getters['auth/isLoading'])
 const handle = (event, item) => {
   if (item.fn) {
     event.preventDefault()
@@ -42,6 +60,6 @@ const links = ref([
   { title: 'Posts & Activity', to: '/' },
   { title: 'Language', to: '/' },
   { type: 'divider', to: '/' },
-  { title: 'Logout', fn: () => store.dispatch('auth/logout'), to: '/' }
+  { title: 'Logout', hasLoader: true, fn: () => dispatch('auth/logout'), to: '/' },
 ])
 </script>
