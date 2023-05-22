@@ -50,7 +50,7 @@ const getClientOrBackEndErrors = computed(() => {
 
 // Handle initial data coming from the `vform` we need to do this because the initial
 // data not passed to `vee-validate` hence, `meta.valid` will be always `false`, we don't want
-// this to happen. so, what we're doing here is force update the value of `vee-validate`
+// this to happen. so, what we're doing here is force update the value of `vee-validate` initially.
 onMounted(() => {
   let _value = props.form[props.name]
 
