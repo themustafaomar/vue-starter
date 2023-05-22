@@ -58,13 +58,13 @@
 
         <v-btn
           type="submit"
-          :disabled="form.busy || !isValid"
+          :disabled="isLoading || !isValid"
           elevation="0"
           color="primary"
           block
           class="mt-5 py-5"
         >
-          <app-btn-loader :state="form.busy" text="Sign in" />
+          <app-btn-loader :state="isLoading" text="Sign in" />
         </v-btn>
 
         <p class="text-center text-grey mt-5">
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { Form } from 'vform'
 import { useRouter } from 'vue-router'
@@ -88,8 +88,9 @@ import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const router = useRouter()
-const { commit } = useStore()
+const { getters, commit } = useStore()
 const { handleSubmit, isValid } = useValidator(registerValidation)
+const isLoading = computed(() => getters['auth/isLoading'])
 const form = reactive(
   new Form({
     name: '',
@@ -107,6 +108,8 @@ const types = ref([
 // Functions
 
 const submit = handleSubmit(async () => {
+  commit('auth/loading')
+
   const SERVER_URL = import.meta.env.VITE_SERVER_URL
 
   await axios.get(`${SERVER_URL}/sanctum/csrf-cookie`)
@@ -118,6 +121,8 @@ const submit = handleSubmit(async () => {
     permissions: data.permissions,
   })
 
-  router.push('/dashboard')
+  router.push('/dashboard').then(() => {
+    commit('auth/loaded')
+  })
 })
 </script>

@@ -103,9 +103,10 @@ const submit = handleSubmit(async () => {
   form
     .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
     .then(({ data }) => {
-      commit('auth/loaded')
-      commit('notify', { message: data.status, color: 'primary' })
-      router.push('/login')
+      router.push('/login').then(() => {
+        commit('auth/loaded')
+        commit('notify', { message: data.status, color: 'primary' })
+      })
     })
     .catch((error) => {
       commit('auth/loaded')
