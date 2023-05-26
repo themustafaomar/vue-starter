@@ -100,9 +100,9 @@
 </template>
 
 <script setup>
-import { Form } from 'vform'
+import { onMounted } from 'vue'
+import { useForm } from '@/composables/useForm'
 import { useStore } from 'vuex'
-import { reactive, onMounted } from 'vue'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
 
@@ -111,20 +111,16 @@ const user = useUser()
 const loader = useLoader()
 
 // The profile info form
-const form = reactive(
-  new Form({
-    name: '',
-    email: '',
-  })
-)
+const form = useForm({
+  name: '',
+  email: '',
+})
 
 // The password form
-const passwordForm = reactive(
-  new Form({
-    password: '',
-    password_confirmation: '',
-  })
-)
+const passwordForm = useForm({
+  password: '',
+  password_confirmation: '',
+})
 
 onMounted(() => {
   form.update(user)

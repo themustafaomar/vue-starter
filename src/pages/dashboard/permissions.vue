@@ -71,20 +71,18 @@
 </template>
 
 <script setup>
-import { Form } from 'vform'
-import { ref, onMounted, reactive } from 'vue'
-import axios from '@/plugins/axios'
+import { ref, onMounted } from 'vue'
+import { useForm } from '@/composables/useForm'
 import { useLoader } from '@/composables/useLoader'
+import axios from '@/plugins/axios'
 import AppDialog from '@/components/app/Dialog.vue'
 
 const loader = useLoader()
 const dialog = ref(null)
 const permissions = ref([])
-const form = reactive(
-  new Form({
-    name: 'A Permission Name',
-  })
-)
+const form = useForm({
+  name: 'A Permission Name',
+})
 
 onMounted(async () => {
   const { data } = await axios.get('/permissions')

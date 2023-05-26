@@ -162,22 +162,20 @@
 </template>
 
 <script setup>
-import { Form } from 'vform'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { ref, reactive, onMounted } from 'vue'
+import { useForm } from '@/composables/useForm'
 import { useLoader } from '@/composables/useLoader'
 import AppDialog from '@/components/app/Dialog.vue'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
 const { commit } = useStore()
 const dialog = ref(null)
-const form = reactive(
-  new Form({
-    name: '',
-    email: '',
-    account_type: '',
-  })
-)
+const form = useForm({
+  name: '',
+  email: '',
+  account_type: '',
+})
 
 const loader = useLoader()
 

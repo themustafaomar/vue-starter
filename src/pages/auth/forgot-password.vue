@@ -63,9 +63,9 @@
 </template>
 
 <script setup>
-import { Form } from 'vform'
-import { ref, reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
 import { forgotPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
@@ -75,11 +75,9 @@ const showMessage = ref(false)
 const { getters, commit } = useStore()
 const { handleSubmit, isValid } = useValidator(forgotPasswordValidation)
 const isLoading = computed(() => getters['auth/isLoading'])
-const form = new reactive(
-  new Form({
-    email: 'themustafaomar@gmail.com',
-  })
-)
+const form = useForm({
+  email: 'themustafaomar@gmail.com',
+})
 
 // Functions
 

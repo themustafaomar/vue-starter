@@ -37,18 +37,15 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import { Form } from 'vform'
+import { useForm } from '@/composables/useForm'
 import { validation } from '@/validations/common'
 import { useValidator } from '@/composables/useValidator'
 
 const { handleSubmit, isValid } = useValidator(validation)
-const form = reactive(
-  new Form({
-    first_name: '',
-    last_name: '',
-  })
-)
+const form = useForm({
+  first_name: '',
+  last_name: '',
+})
 
 const submit = handleSubmit(() => {
   form.post('/hi').then(() => {

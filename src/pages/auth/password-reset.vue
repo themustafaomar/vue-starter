@@ -72,9 +72,9 @@
 </template>
 
 <script setup>
-import { Form } from 'vform'
-import { reactive, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useForm } from '@/composables/useForm'
 import { useRoute, useRouter } from 'vue-router'
 import { useValidator } from '@/composables/useValidator'
 import { resetPasswordValidation } from '@/validations/auth'
@@ -85,16 +85,13 @@ const route = useRoute()
 const router = useRouter()
 const { getters, commit } = useStore()
 const { handleSubmit, isValid } = useValidator(resetPasswordValidation)
-
-const form = reactive(
-  new Form({
-    email: route.query.email,
-    token: route.params.token,
-    password: '',
-    password_confirmation: '',
-  })
-)
 const isLoading = computed(() => getters['auth/isLoading'])
+const form = useForm({
+  email: route.query.email,
+  token: route.params.token,
+  password: '',
+  password_confirmation: '',
+})
 
 // Functions
 
