@@ -55,8 +55,14 @@
 
       <template #actions="{ close }">
         <v-btn @click="close" variant="flat" color="red">Cancel</v-btn>
-        <v-btn @click="create" :disabled="form.busy" variant="flat" color="primary">
-          <app-btn-loader :state="form.busy">Add permission</app-btn-loader>
+        <v-btn
+          @click="create"
+          :disabled="form.busy"
+          :loading="form.busy"
+          variant="flat"
+          color="primary"
+        >
+          Add permission
         </v-btn>
       </template>
     </app-dialog>

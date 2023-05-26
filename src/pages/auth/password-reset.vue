@@ -52,13 +52,14 @@
 
         <v-btn
           :disabled="isLoading || !isValid"
+          :loading="isLoading"
           type="submit"
           color="primary"
           block
           elevation="0"
           class="py-5"
         >
-          <app-btn-loader :state="form.busy" text="Reset Password" />
+          Reset Password
         </v-btn>
 
         <p class="text-center text-grey mt-5">

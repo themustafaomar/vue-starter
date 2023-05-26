@@ -44,12 +44,13 @@
         <v-btn
           type="submit"
           :disabled="isLoading || !isValid"
+          :loading="isLoading"
           color="primary"
           block
           elevation="0"
           class="py-5"
         >
-          <app-btn-loader :state="isLoading" text="Send verification code" />
+          Send verification code
         </v-btn>
 
         <p class="text-center text-grey mt-5">

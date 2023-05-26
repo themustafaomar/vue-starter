@@ -23,8 +23,14 @@
         </v-col>
       </v-row>
 
-      <v-btn type="submit" :disabled="!isValid" color="blue-grey-darken-4" elevation="0">
-        <app-btn-loader :state="form.busy" text="Save" />
+      <v-btn
+        type="submit"
+        :disabled="!isValid"
+        :loading="form.busy"
+        color="blue-grey-darken-4"
+        elevation="0"
+      >
+        Save
       </v-btn>
     </v-form>
   </v-sheet>

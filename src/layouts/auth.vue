@@ -43,7 +43,7 @@ const isDark = useIsDark()
     left: 0
     width: 100%
     height: 100%
-    background-color: rgba(var(--v-theme-surface), 0.875)
+    background-image: linear-gradient(-45deg, rgba(var(--v-theme-surface), 0.85) 70%, transparent)
     z-index: -1
 
 .theme-toggler

@@ -6,10 +6,10 @@ import App from './App.vue'
 import pinia from './stores/pinia'
 import { useAppStore } from './stores/app'
 
-// Create a new Vue app
+// Create a new vue instance
 const app = createApp({
-  beforeCreate: () => useAppStore().init(),
   render: () => h(App),
+  beforeCreate: () => useAppStore().init(),
 })
 
 // Register plugins
@@ -19,7 +19,7 @@ plugins(app)
 router.watch(app)
 
 // Use Vue plugins
+app.use(pinia)
 app.use(store)
 app.use(router)
-app.use(pinia)
 app.mount('#app')

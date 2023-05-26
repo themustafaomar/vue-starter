@@ -59,12 +59,13 @@
         <v-btn
           type="submit"
           :disabled="isLoading || !isValid"
+          :loading="isLoading"
           elevation="0"
           color="primary"
           block
           class="mt-5 py-5"
         >
-          <app-btn-loader :state="isLoading" text="Sign in" />
+          Sign up
         </v-btn>
 
         <p class="text-center text-grey mt-5">

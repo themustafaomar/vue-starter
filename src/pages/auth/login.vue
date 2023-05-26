@@ -37,12 +37,13 @@
         <v-btn
           type="submit"
           :disabled="isLoading || !isValid"
+          :loading="isLoading"
           color="primary"
           block
           elevation="0"
           class="py-5"
         >
-          <app-btn-loader :state="isLoading" text="Sign in" />
+          Sign in
         </v-btn>
 
         <div class="text-grey text-center mt-5">OR</div>
