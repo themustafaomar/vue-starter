@@ -20,13 +20,13 @@
           v-else
           @click="handle($event, item)"
           :to="item.to"
-          :disabled="item.hasLoader && isLoading"
+          :disabled="item.hasLoader && authStore.isLoading"
           link
         >
           <v-list-item-title class="d-flex align-center">
             {{ item.title }}
             <v-progress-circular
-              v-if="item.hasLoader && isLoading"
+              v-if="item.hasLoader && authStore.isLoading"
               color="dark"
               bg-color="transparent"
               indeterminate
@@ -42,11 +42,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
-const { dispatch, getters } = useStore()
-const isLoading = computed(() => getters['auth/isLoading'])
+const authStore = useAuthStore()
 const handle = (event, item) => {
   if (item.fn) {
     event.preventDefault()
@@ -60,6 +59,11 @@ const links = ref([
   { title: 'Posts & Activity', to: '/' },
   { title: 'Language', to: '/' },
   { type: 'divider', to: '/' },
-  { title: 'Logout', hasLoader: true, fn: () => dispatch('auth/logout'), to: '/' },
+  {
+    title: 'Logout',
+    hasLoader: true,
+    fn: () => authStore.logout(),
+    to: '/',
+  },
 ])
 </script>

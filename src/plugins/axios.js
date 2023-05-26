@@ -1,6 +1,7 @@
 import axios from 'axios'
-import store from '../store'
 import router from '../router'
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 // Axios instance
 const instance = axios.create({
@@ -14,11 +15,13 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     const statusCode = error.response?.status
+    const { notify } = useAppStore()
+    const { logout } = useAuthStore()
 
     // Sometimes we don't have an error response
     // most likely this is happening with CORS errors and network errors.
     if (typeof statusCode === 'undefined') {
-      store.commit('notify', {
+      notify({
         message: `${error.message} - [${error.code}]`,
         color: 'red',
       })
@@ -27,9 +30,9 @@ instance.interceptors.response.use(
     // Unauthorized user
     // https://laravel.com/docs/10.x/sanctum#logging-in
     if (statusCode === 401 || statusCode === 419) {
-      store.commit('auth/logout')
+      logout()
       router.push('/login').then(() => {
-        store.commit('notify', {
+        notify({
           message: error.response.data.message,
           color: 'red',
         })
@@ -38,7 +41,7 @@ instance.interceptors.response.use(
 
     // Show an error with the m the common error
     if (statusCode === 422) {
-      store.commit('notify', {
+      notify({
         message: error.response.data.message,
         color: 'red',
       })
@@ -46,7 +49,7 @@ instance.interceptors.response.use(
 
     // Page not found, too many attempts (requests) and server errors
     if (statusCode === 404 || statusCode === 429 || statusCode >= 500) {
-      store.commit('notify', {
+      notify({
         // prettier-ignore
         message: error.response?.data.message || error.response.statusText || error.message || error.code,
         color: 'red',

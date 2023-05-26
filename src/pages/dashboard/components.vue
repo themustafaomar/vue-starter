@@ -5,6 +5,23 @@
   />
 
   <v-row class="mb-5 mt-2">
+    <v-col cols="12">
+      <v-sheet class="pa-5" rounded="lg">
+        <v-row>
+          <v-col cols="6">
+            <app-uploader label="Upload your profile picture" />
+          </v-col>
+          <v-col cols="6">
+            <app-uploader
+              label="Upload your profile picture (update example)"
+              is-updating
+              preview-url="/logo-shape.avif"
+            />
+          </v-col>
+        </v-row>
+      </v-sheet>
+    </v-col>
+
     <!-- toasts (snackbars) -->
     <v-col cols="4">
       <v-sheet class="pa-5" rounded="lg">

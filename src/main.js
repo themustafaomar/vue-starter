@@ -3,10 +3,12 @@ import { plugins } from './plugins'
 import store from './store'
 import router from './router'
 import App from './App.vue'
+import pinia from './stores/pinia'
+import { useAppStore } from './stores/app'
 
 // Create a new Vue app
 const app = createApp({
-  beforeCreate: () => store.commit('init'),
+  beforeCreate: () => useAppStore().init(),
   render: () => h(App),
 })
 
@@ -17,4 +19,7 @@ plugins(app)
 router.watch(app)
 
 // Use Vue plugins
-app.use(store).use(router).mount('#app')
+app.use(store)
+app.use(router)
+app.use(pinia)
+app.mount('#app')

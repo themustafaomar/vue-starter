@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :attach="true" contained location="top" v-model="dialog" width="600px">
+  <v-dialog v-model="dialog" width="600px">
     <v-card rounded="lg" class="pa-2">
       <v-card-title v-if="!$slots.title">
         <h3 class="font-weight-regular text-h6">{{ title }}</h3>

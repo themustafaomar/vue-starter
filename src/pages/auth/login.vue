@@ -70,32 +70,28 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
-import { Form } from 'vform'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
 import { loginValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
-const { dispatch, commit, getters } = useStore()
+const appStore = useAppStore()
+const authStore = useAuthStore()
+const { isLoading } = storeToRefs(authStore)
 const { handleSubmit, isValid } = useValidator(loginValidation)
-const isLoading = computed(() => getters['auth/isLoading'])
-const form = reactive(
-  new Form({
-    email: 'themustafaomar@gmail.com',
-    password: 'password',
-  })
-)
+const form = useForm({
+  email: 'themustafaomar@gmail.com',
+  password: 'passwords',
+})
 
 // Functions
 
-const submit = handleSubmit(() => {
-  dispatch('auth/login', form).then(() => {
-    commit('notify', {
-      message: 'Logged in successfully!',
-      color: 'primary',
-    })
-  })
+const submit = handleSubmit(async () => {
+  await authStore.signin(form)
+  appStore.notify('Logged in successfully!')
 })
 </script>

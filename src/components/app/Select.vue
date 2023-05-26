@@ -52,7 +52,7 @@ const getClientOrBackEndErrors = computed(() => {
 // data not passed to `vee-validate` hence, `meta.valid` will be always `false`, we don't want
 // this to happen. so, what we're doing here is force update the value of `vee-validate`
 onMounted(() => {
-  let _value = props.form[props.name]
+  const _value = props.form[props.name]
 
   if (_value === '' || _value === null) {
     return

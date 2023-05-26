@@ -1,5 +1,7 @@
+import { useAuthStore } from '@/stores/auth'
+
 export default ({ store, router, next, guest, permissions }) => {
-  const isLoggedIn = store.getters['auth/isLoggedIn']
+  const authStore = useAuthStore()
 
   // Example of implementing permissions
   if (permissions.exist() && !permissions.can(permissions.get())) {
@@ -9,13 +11,13 @@ export default ({ store, router, next, guest, permissions }) => {
 
   // This is a guest route, and the user is authorized
   // let's redirect him/her to the dashboard home page.
-  if (guest && isLoggedIn) {
+  if (guest && authStore.isLoggedIn) {
     return router.push(store.state.app.auth.homeURL)
   }
 
   // This is an authenticated route but the user
   // is not logged in so redirect to the login page.
-  if (!guest && !isLoggedIn) {
+  if (!guest && !authStore.isLoggedIn) {
     return router.push({ name: 'login' })
   }
 

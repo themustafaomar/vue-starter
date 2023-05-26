@@ -38,8 +38,9 @@
           :disabled="form.busy"
           elevation="0"
           color="primary"
+          :loading="form.busy"
         >
-          <app-btn-loader :state="form.busy" text="Save changes" />
+          Save changes
         </v-btn>
       </v-col>
     </v-row>
@@ -88,8 +89,9 @@
           :disabled="passwordForm.busy"
           elevation="0"
           color="primary"
+          :loading="passwordForm.busy"
         >
-          <app-btn-loader :state="passwordForm.busy" text="Update password" />
+          Update password
         </v-btn>
       </v-col>
     </v-row>

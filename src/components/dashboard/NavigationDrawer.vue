@@ -16,7 +16,7 @@
           v-if="link.visible !== false"
           :value="link.name"
           :to="link.to"
-          active-color="primary"
+          color="primary"
           active-class="list-item-active"
           exact
           class="mb-1"

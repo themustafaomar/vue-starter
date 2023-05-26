@@ -7,15 +7,15 @@
   >
     {{ options.message }}
     <template #actions>
-      <v-btn color="white" variant="text" @click="state.app.snackbar.show = false">Close</v-btn>
+      <v-btn color="white" variant="text" @click="appStore.snackbar.show = false">Close</v-btn>
     </template>
   </v-snackbar>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { useAppStore } from '@/stores/app'
 
-const { state } = useStore()
-const options = computed(() => state.app.snackbar)
+const appStore = useAppStore()
+const options = computed(() => appStore.snackbar)
 </script>

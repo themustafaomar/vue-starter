@@ -1,25 +1,23 @@
 <template>
-  <v-app>
-    <!-- snackbar -->
-    <app-snackbar />
-    <!-- end snackbar -->
+  <!-- snackbar -->
+  <app-snackbar />
+  <!-- end snackbar -->
 
-    <!-- theme toggler -->
-    <div class="theme-toggler">
-      <app-theme-toggle />
-    </div>
-    <!-- end theme toggler -->
+  <!-- theme toggler -->
+  <div class="theme-toggler">
+    <app-theme-toggle />
+  </div>
+  <!-- end theme toggler -->
 
-    <!-- wrapper -->
-    <v-sheet
-      color="background"
-      class="h-100 d-flex align-center"
-      :class="{ 'auth-dark-wrapper': isDark }"
-    >
-      <slot></slot>
-    </v-sheet>
-    <!-- end wrapper -->
-  </v-app>
+  <!-- wrapper -->
+  <v-sheet
+    color="background"
+    class="h-100 d-flex align-center"
+    :class="{ 'auth-dark-wrapper': isDark }"
+  >
+    <slot></slot>
+  </v-sheet>
+  <!-- end wrapper -->
 </template>
 
 <script setup>

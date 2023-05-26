@@ -1,29 +1,27 @@
 <template>
-  <v-app>
-    <v-layout>
-      <!-- snackbar -->
-      <app-snackbar />
-      <!-- end snackbar -->
+  <v-layout>
+    <!-- snackbar -->
+    <app-snackbar />
+    <!-- end snackbar -->
 
-      <!-- sidebar -->
-      <app-dashboard-navigation-drawer v-model="isNavDrawerActive" :rail="rail" />
-      <!-- end sidebar -->
+    <!-- sidebar -->
+    <app-dashboard-navigation-drawer v-model="isNavDrawerActive" :rail="rail" />
+    <!-- end sidebar -->
 
-      <!-- navbar -->
-      <app-dashboard-bar @rail:switch="handleNavigationDrawer" />
-      <!-- end navbar -->
+    <!-- navbar -->
+    <app-dashboard-bar @rail:switch="handleNavigationDrawer" />
+    <!-- end navbar -->
 
-      <!-- content -->
-      <v-main>
-        <app-dashboard-loader v-show="isLoading" />
-        <app-dashboard-error v-if="state.app.error.show" />
-        <div v-else v-show="!isLoading" class="pa-5">
-          <router-view />
-        </div>
-      </v-main>
-      <!-- end content -->
-    </v-layout>
-  </v-app>
+    <!-- content -->
+    <v-main>
+      <app-dashboard-loader v-show="isLoading" />
+      <app-dashboard-error v-if="state.app.error.show" />
+      <div v-else v-show="!isLoading" class="pa-5">
+        <router-view />
+      </div>
+    </v-main>
+    <!-- end content -->
+  </v-layout>
 </template>
 
 <script setup>
