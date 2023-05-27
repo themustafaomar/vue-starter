@@ -14,7 +14,6 @@
       </v-badge>
     </template>
 
-    <!-- <pre>{{ notification.data.title }}</pre> -->
     <component :is="getComponent" :notification="notification" />
 
     <template #append>
@@ -24,13 +23,16 @@
 
       <v-menu v-model="isActive" activator="parent">
         <v-list elevation="2" rounded="lg">
-          <v-list-item @click.stop="markAsRead(notification.id)" :disabled="!!notification.read_at">
+          <v-list-item
+            @click.stop="markAsRead(notification.id), _forceCloseMenu()"
+            :disabled="!!notification.read_at"
+          >
             <v-list-item-title>
               <v-icon size="20">mdi-read</v-icon>
               Mark as read
             </v-list-item-title>
           </v-list-item>
-          <v-list-item @click.stop="remove(notification.id)">
+          <v-list-item @click.stop="remove(notification.id), _forceCloseMenu()">
             <v-list-item-title>
               <v-icon size="20">mdi-trash-can-outline</v-icon>
               Remove this notification
@@ -44,28 +46,18 @@
 
 <script setup>
 import { ref, computed, defineAsyncComponent } from 'vue'
-import { useStore } from 'vuex'
+import { useNotificationsStore } from '@/stores/notifications'
 
-const store = useStore()
-const isActive = ref(false)
 const { notification } = defineProps({ notification: Object })
+const isActive = ref(false)
 const getComponent = computed(() =>
   defineAsyncComponent(() => import(`./templates/${notification.data.template}.vue`))
 )
+const { markAsRead, remove } = useNotificationsStore()
 
-function markAsRead(id) {
-  store.dispatch('notifications/markAsRead', id)
+// Functions
 
-  _forceCloseMenu()
-}
-
-function remove(id) {
-  store.dispatch('notifications/remove', id)
-
-  _forceCloseMenu()
-}
-
-function _forceCloseMenu() {
+const _forceCloseMenu = () => {
   isActive.value = false
 }
 </script>

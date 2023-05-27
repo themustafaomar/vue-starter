@@ -48,26 +48,25 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
 import { useI18n } from 'vue-i18n'
+import { useNotificationsStore } from '@/stores/notifications'
+import { useUser } from '@/composables/useUser'
 import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
 import AppDashboardBarNotificationsLoader from './Loader.vue'
 import AppDashboardBarNotificationsItem from './Item.vue'
 
-const { t } = useI18n()
-const { mobile } = useDisplay()
 const menu = ref(false)
-const { getters, commit } = useStore()
-const notifications = computed(() => getters['notifications/get'])
-const unreadNumber = computed(() => getters['notifications/unreadNumber'])
-const isLoading = computed(() => getters['notifications/loading'])
-const hasUnread = computed(() => getters['notifications/hasUnread'])
-const user = computed(() => getters['auth/user'])
 const width = computed(() => (mobile.value ? 420 : 380))
+const user = useUser()
+const notificationsStore = useNotificationsStore()
+const { notifications, unreadNumber, isLoading, hasUnread } = storeToRefs(notificationsStore)
+const { mobile } = useDisplay()
+const { t } = useI18n()
 
 onMounted(() => {
-  Echo.private(`notifications.${user.value.id}`).notification(({ notification }) => {
+  Echo.private(`notifications.${user.id}`).notification(({ notification }) => {
     // Sometimes duplication happens, as a developer
     // we want to track this, and if the problem consists
     // we will find a way to handle that.
@@ -75,7 +74,7 @@ onMounted(() => {
       return
     }
 
-    commit('notifications/push', notification)
+    notifications.value.push(notification)
   })
 })
 </script>

@@ -31,13 +31,13 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
 import { ref, onBeforeMount } from 'vue'
 import { isValidFile } from '@/utils'
+import { useAppStore } from '@/stores/app'
 
 const url = ref(null)
 const inputUploader = ref(null)
-const { commit } = useStore()
+const { notify } = useAppStore()
 const emit = defineEmits(['cancelled'])
 const props = defineProps({
   label: String,
@@ -57,37 +57,30 @@ onBeforeMount(() => {
 
 // Functions
 
-function _browse() {
+const _browse = () => {
   inputUploader.value.click()
 }
 
-function _setFile(event) {
+const _setFile = (event) => {
   const file = event.target.files[0]
 
-  if (
-    !isValidFile(file, (message) =>
-      commit('notify', {
-        message,
-        color: 'red',
-      })
-    )
-  ) {
+  if (!isValidFile(file, (message) => notify({ message, color: 'red' }))) {
     return
   }
 
-  _createBase64URL(file)
+  _createBase64Url(file)
 
   emit('cancelled', file)
 }
 
-function _createBase64URL(file) {
+const _createBase64Url = (file) => {
   const reader = new FileReader()
 
   reader.onloadend = () => (url.value = reader.result)
   reader.readAsDataURL(file)
 }
 
-function flush() {
+const flush = () => {
   url.value = null
 
   // We need to set this with `null` because if we cancelled

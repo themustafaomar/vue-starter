@@ -54,22 +54,20 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       this.loading()
-
-      await axios.post(`${SERVER_URL}/logout`)
-
-      // Logout by clearning authentication data
-      this._isLoggedIn = false
-      this.user = {}
-      this.permissions = {}
-
-      window.Laravel = {
-        jsPermissions: 0,
-      }
-
-      storage.remove('user', 'permissions')
-      router.push('/login').then(() => {
-        this.loaded()
+      axios.post(`${SERVER_URL}/logout`).then(() => {
+        this.flush()
+        router.push('/login').then(() => {
+          this.loaded()
+        })
       })
+    },
+    flush(fn) {
+      this.$reset()
+      window.Laravel = { jsPermissions: 0 }
+      storage.remove('user', 'permissions')
+      if (typeof fn === 'function') {
+        fn()
+      }
     },
     loading() {
       this.isLoading = true
