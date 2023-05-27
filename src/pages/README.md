@@ -12,10 +12,11 @@ In order for the team developers to know what is going on quickly in a page we h
 
 ```js
 // 1. Vue imports must come first, this includes `vue`, `vue-router` and `pinia` and anything releated to the Vue community.
-// 2. Our Pinia stores
-// 3. Composables
-// 4. Validations
-// 5. Components must come at the end
+// 2. Our Pinia stores if any
+// 3. Plugins if any
+// 4. Composables if any
+// 5. Validations if any
+// 6. Components must come at the end
 
 // Example
 import { computed, onMounted } from 'vue'
