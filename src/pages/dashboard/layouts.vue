@@ -25,12 +25,12 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useLoader } from '@/composables/useLoader'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
-const { state } = useStore()
+const loader = useLoader()
 
 onMounted(() => {
-  setTimeout(() => (state.app.isLoading = false), 1000)
+  setTimeout(() => loader.markAsLoaded(), 1000)
 })
 </script>

@@ -1,10 +1,10 @@
-import { useStore } from 'vuex'
+import { useAppStore } from '@/stores/app'
 
 export const useLoader = () => {
-  const { commit } = useStore()
+  const { loading, loaded } = useAppStore()
 
   return {
-    markAsLoaded: () => commit('loaded'),
-    markAsLoading: () => commit('loading'),
+    markAsLoaded: () => loaded(),
+    markAsLoading: () => loading(),
   }
 }

@@ -9,13 +9,13 @@
     <!-- end sidebar -->
 
     <!-- navbar -->
-    <app-dashboard-bar @rail:switch="handleNavigationDrawer" />
+    <app-dashboard-bar @rail:switch="navigationDrawer" />
     <!-- end navbar -->
 
     <!-- content -->
     <v-main>
       <app-dashboard-loader v-show="isLoading" />
-      <app-dashboard-error v-if="state.app.error.show" />
+      <app-dashboard-error v-if="appStore.error.show" />
       <div v-else v-show="!isLoading" class="pa-5">
         <router-view />
       </div>
@@ -25,29 +25,31 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
-import { useDisplay } from 'vuetify'
 import { ref, computed, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import { useAppStore } from '@/stores/app'
+import { useNotificationsStore } from '@/stores/notifications'
 import AppSnackbar from '@/components/app/Snackbar.vue'
-import AppDashboardLoader from '@/components/dashboard/Loader.vue'
-import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
+import AppDashboardLoader from '@/components/dashboard/Loader.vue'
 import AppDashboardError from '@/components/dashboard/Error.vue'
+import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)
+const appStore = useAppStore()
+const notificationsStore = useNotificationsStore()
+const isLoading = computed(() => notificationsStore.isLoading)
 const { lgAndUp, mdAndDown } = useDisplay()
-const { state, dispatch } = useStore()
-const isLoading = computed(() => state.app.isLoading)
 
 // Hooks
 onMounted(() => {
-  dispatch('notifications/get')
-  handleNavigationDrawer(true)
+  notificationsStore.fetch()
+  navigationDrawer(true)
 })
 
 // Methods
-function handleNavigationDrawer(isMounted) {
+function navigationDrawer(isMounted) {
   // Check if we're in large screens and up
   // if so, if this function called from the mounted hook
   // we're going to force disable the rail mode.

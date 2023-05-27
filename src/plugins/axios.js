@@ -16,7 +16,7 @@ instance.interceptors.response.use(
   (error) => {
     const statusCode = error.response?.status
     const { notify } = useAppStore()
-    const { logout } = useAuthStore()
+    const { flush } = useAuthStore()
 
     // Sometimes we don't have an error response
     // most likely this is happening with CORS errors and network errors.
@@ -30,12 +30,8 @@ instance.interceptors.response.use(
     // Unauthorized user
     // https://laravel.com/docs/10.x/sanctum#logging-in
     if (statusCode === 401 || statusCode === 419) {
-      logout()
-      router.push('/login').then(() => {
-        notify({
-          message: error.response.data.message,
-          color: 'red',
-        })
+      flush(() => {
+        router.push('/login')
       })
     }
 

@@ -8,20 +8,19 @@
 
 <script setup>
 import { nextTick, watch, onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
 import { useTheme, useLocale } from 'vuetify'
+import { useAppStore } from './stores/app'
 
-const { state } = useStore()
+const appStore = useAppStore()
 const { current } = useLocale()
 const theme = useTheme()
-const { global } = useTheme()
 
 onBeforeMount(() => {
-  theme.global.name.value = state.app.mode
-  current.value = state.app.locale.current
+  theme.global.name.value = appStore.mode
+  current.value = appStore.locale.current
 })
 
-watch(global.name, () => themeTransition())
+watch(theme.global.name, () => themeTransition())
 
 // Source: Vuetify docs
 function themeTransition() {

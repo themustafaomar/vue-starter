@@ -1,5 +1,5 @@
 export const theme = {
-  // defaultTheme: 'dark',
+  defaultTheme: 'dark',
   themes: {
     light: {
       colors: {

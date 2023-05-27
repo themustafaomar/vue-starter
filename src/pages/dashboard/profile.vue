@@ -102,13 +102,13 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useForm } from '@/composables/useForm'
-import { useStore } from 'vuex'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
+import { useAppStore } from '@/stores/app'
 
-const { commit } = useStore()
 const user = useUser()
 const loader = useLoader()
+const { notify } = useAppStore()
 
 // The profile info form
 const form = useForm({
@@ -132,12 +132,12 @@ onMounted(() => {
 async function updateProfile() {
   await form.post('/profile')
 
-  commit('notify', 'Your profile has been successfully updated!')
+  notify('Your profile has been successfully updated!')
 }
 
 async function updatePoassword() {
   await passwordForm.post('/profile/update-password')
 
-  commit('notify', 'Your password has been successfully reset!')
+  notify('Your password has been successfully reset!')
 }
 </script>

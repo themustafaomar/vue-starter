@@ -1,7 +1,13 @@
 <template>
   <AuthLayout>
     <v-sheet width="360" rounded class="position-relative mx-auto pa-8 border rounded-lg">
-      <v-progress-linear :active="isLoading" color="primary" indeterminate absolute bottom />
+      <v-progress-linear
+        :active="authStore.isLoading"
+        color="primary"
+        indeterminate
+        absolute
+        bottom
+      />
 
       <app-auth-heading
         title="Sign in"
@@ -36,8 +42,8 @@
 
         <v-btn
           type="submit"
-          :disabled="isLoading || !isValid"
-          :loading="isLoading"
+          :disabled="authStore.isLoading || !isValid"
+          :loading="authStore.isLoading"
           color="primary"
           block
           elevation="0"
@@ -50,7 +56,7 @@
 
         <v-btn
           @click.prevent="$router.push({ name: 'register' })"
-          :disabled="isLoading"
+          :disabled="authStore.isLoading"
           :style="{ 'background-color': '#1e293b' }"
           class="text-white font-weight-normal py-5 mt-5"
           elevation="0"
@@ -71,22 +77,20 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/stores/app'
-import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 import { loginValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const appStore = useAppStore()
 const authStore = useAuthStore()
-const { isLoading } = storeToRefs(authStore)
 const { handleSubmit, isValid } = useValidator(loginValidation)
 const form = useForm({
   email: 'themustafaomar@gmail.com',
-  password: 'passwords',
+  password: 'password',
 })
 
 // Functions

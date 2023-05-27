@@ -1,6 +1,5 @@
 import { createApp, h } from 'vue'
 import { plugins } from './plugins'
-import store from './store'
 import router from './router'
 import App from './App.vue'
 import pinia from './stores/pinia'
@@ -20,6 +19,5 @@ router.watch(app)
 
 // Use Vue plugins
 app.use(pinia)
-app.use(store)
 app.use(router)
 app.mount('#app')

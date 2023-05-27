@@ -72,10 +72,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { useForm } from '@/composables/useForm'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
 import { resetPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
@@ -83,9 +84,10 @@ import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { getters, commit } = useStore()
+const { notify } = useAppStore()
+const authStore = useAuthStore()
 const { handleSubmit, isValid } = useValidator(resetPasswordValidation)
-const isLoading = computed(() => getters['auth/isLoading'])
+const isLoading = computed(() => authStore.isLoading)
 const form = useForm({
   email: route.query.email,
   token: route.params.token,
@@ -93,22 +95,29 @@ const form = useForm({
   password_confirmation: '',
 })
 
+// Lifecycle hooks
+
+onMounted(() => {
+  if (!route.params.token || !route.query.email) {
+    router.push('/404')
+  }
+})
+
 // Functions
 
 const submit = handleSubmit(async () => {
-  commit('auth/loading')
-
+  authStore.loading()
   form
     .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
     .then(({ data }) => {
       router.push('/login').then(() => {
-        commit('auth/loaded')
-        commit('notify', { message: data.status, color: 'primary' })
+        authStore.loaded()
+        notify({ message: data.status, color: 'primary' })
       })
     })
     .catch((error) => {
-      commit('auth/loaded')
-      commit('notify', {
+      authStore.loaded()
+      notify({
         message: error.response.data.message,
         color: 'red',
       })

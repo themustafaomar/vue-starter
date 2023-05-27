@@ -64,7 +64,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
 import { forgotPasswordValidation } from '@/validations/auth'
@@ -72,9 +72,9 @@ import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const showMessage = ref(false)
-const { getters, commit } = useStore()
+const authStore = useAuthStore()
 const { handleSubmit, isValid } = useValidator(forgotPasswordValidation)
-const isLoading = computed(() => getters['auth/isLoading'])
+const isLoading = computed(() => authStore.isLoading)
 const form = useForm({
   email: 'themustafaomar@gmail.com',
 })
@@ -82,12 +82,12 @@ const form = useForm({
 // Functions
 
 const submit = handleSubmit(async () => {
-  commit('auth/loading')
+  loading()
   try {
     await form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
     showSuccessMessage()
   } catch (error) {
-    commit('auth/loaded')
+    loaded()
   }
 })
 

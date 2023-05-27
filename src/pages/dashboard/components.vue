@@ -163,21 +163,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useLoader } from '@/composables/useLoader'
 import AppDialog from '@/components/app/Dialog.vue'
 import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
-const { commit } = useStore()
 const dialog = ref(null)
+const { notify, error } = useAppStore()
+const loader = useLoader()
 const form = useForm({
   name: '',
   email: '',
   account_type: '',
 })
-
-const loader = useLoader()
 
 onMounted(() => {
   setTimeout(() => loader.markAsLoaded(), 1000)
@@ -185,19 +184,19 @@ onMounted(() => {
 
 // Functions
 
-function showToast() {
-  commit('notify', 'This is a message for primary toast!')
+const showToast = () => {
+  notify('This is a message for primary toast!')
 }
 
-function showErrorToast() {
-  commit('notify', {
+const showErrorToast = () => {
+  notify({
     message: 'This is a message for error toast.',
     color: 'red',
   })
 }
 
-function makeError() {
-  commit('error', {
+const makeError = () => {
+  error({
     message: 'Page Not Found',
     type: 404,
   })

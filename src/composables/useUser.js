@@ -1,7 +1,5 @@
-import { useStore } from 'vuex'
+import { useAuthStore } from '@/stores/auth'
 
 export function useUser() {
-  const store = useStore()
-
-  return store.getters['auth/user']
+  return useAuthStore().user
 }

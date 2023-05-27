@@ -52,16 +52,16 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useLoader } from '@/composables/useLoader'
 
-const { commit } = useStore()
 const boxes = ref([
   { icon: 'account-lock-outline' },
   { icon: 'heart-multiple-outline' },
   { icon: 'code-braces' },
 ])
+const loader = useLoader()
 
 onMounted(() => {
-  setTimeout(() => commit('loaded'), 1000)
+  setTimeout(() => loader.markAsLoaded(), 1000)
 })
 </script>
