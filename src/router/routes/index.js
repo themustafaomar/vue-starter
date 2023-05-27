@@ -1,5 +1,5 @@
-import { auth } from './routes/auth'
-import { dashboard } from './routes/dashboard'
+import { auth } from './auth'
+import { dashboard } from './dashboard'
 
 export default [
   {

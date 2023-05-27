@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { progress } from '@/plugins/progress'
-import store from '@/store'
 import middlewares from '@/middleware'
 import routes from './routes'
 
@@ -20,7 +19,6 @@ function watch(app) {
 
   router.beforeEach((to, from, next) => {
     progress.start()
-    store.commit('loading')
 
     const name = to.name
     const middlewaresToRun = []
@@ -83,7 +81,7 @@ function runMiddleware(name, router, next, from, to, permissions) {
     throw new Error(`Unknown [${middleware}] middleware, did you register this middleware?`)
   }
 
-  const params = { store, router, from, to, next, guest: type === 'guest', permissions }
+  const params = { router, from, to, next, guest: type === 'guest', permissions }
 
   middlewares[middleware](params)
 }
