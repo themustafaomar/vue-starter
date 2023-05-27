@@ -101,10 +101,11 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
-import { useAppStore } from '@/stores/app'
+import storage from '@/plugins/storage'
 
 const user = useUser()
 const loader = useLoader()
@@ -131,6 +132,10 @@ onMounted(() => {
 
 async function updateProfile() {
   await form.post('/profile')
+
+  const currentUser = JSON.parse(storage.get('user'))
+
+  storage.set('user', JSON.stringify(Object.assign(currentUser, form.data())))
 
   notify('Your profile has been successfully updated!')
 }
