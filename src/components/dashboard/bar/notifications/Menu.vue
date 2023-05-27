@@ -12,7 +12,7 @@
     <template #activator="{ props }">
       <app-tooltip-btn path="notifications.title" v-bind="props">
         <template #icon>
-          <v-badge v-if="hasUnread" color="red" location="top end" :content="unreadNumber">
+          <v-badge v-if="unreadNumber" color="red" location="top end" :content="unreadNumber">
             <v-icon icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
           </v-badge>
           <v-icon v-else icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
@@ -61,7 +61,7 @@ const menu = ref(false)
 const width = computed(() => (mobile.value ? 420 : 380))
 const user = useUser()
 const notificationsStore = useNotificationsStore()
-const { notifications, unreadNumber, isLoading, hasUnread } = storeToRefs(notificationsStore)
+const { notifications, unreadNumber, isLoading } = storeToRefs(notificationsStore)
 const { mobile } = useDisplay()
 const { t } = useI18n()
 

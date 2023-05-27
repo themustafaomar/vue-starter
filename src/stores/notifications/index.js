@@ -1,5 +1,5 @@
-import axios from '@/plugins/axios'
 import { defineStore } from 'pinia'
+import axios from '@/plugins/axios'
 
 export const useNotificationsStore = defineStore('notifications', {
   state: () => ({
@@ -9,10 +9,7 @@ export const useNotificationsStore = defineStore('notifications', {
     loaded: false,
   }),
   getters: {
-    get: (state) => state.notifications,
-    hasUnread: (state) => state.notifications.filter(({ read_at }) => read_at === null).length,
-    // prettier-ignore
-    unreadNumber: (state) => state.notifications.filter((notification) => notification.read_at === null).length,
+    unreadNumber: (state) => state.notifications.filter(({ read_at }) => read_at === null).length,
   },
   actions: {
     async fetch() {
@@ -20,9 +17,11 @@ export const useNotificationsStore = defineStore('notifications', {
 
       const notifications = await axios.get('/notifications')
 
-      this.notifications = notifications.data.data
-      this.isLoading = false
-      this.loaded = true
+      this.$patch({
+        notifications: notifications.data.data,
+        isLoading: false,
+        loaded: true,
+      })
     },
     async markAsRead(id) {
       await axios.post(`/notifications/${id}/markas-read`)

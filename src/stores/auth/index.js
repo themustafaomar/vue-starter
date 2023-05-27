@@ -41,11 +41,15 @@ export const useAuthStore = defineStore('auth', {
       })
     },
     login({ user, permissions }) {
-      this._isLoggedIn = true
-      this.user = user
-      this.permissions = permissions
+      window.Laravel = {
+        jsPermissions: permissions || 0,
+      }
 
-      window.Laravel = { jsPermissions: permissions || 0 }
+      this.$patch({
+        _isLoggedIn: true,
+        user: user,
+        permissions: permissions,
+      })
 
       storage.set({
         user: JSON.stringify(user),

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { progress } from '@/plugins/progress'
 import middlewares from '@/middleware'
 import routes from './routes'
+import { useAppStore } from '@/stores/app'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,9 +17,11 @@ router.watch = (app) => watch(app)
 // Run middlewares before each route
 function watch(app) {
   const { can, is } = app.config.globalProperties
+  const appStore = useAppStore()
 
   router.beforeEach((to, from, next) => {
     progress.start()
+    appStore.loading()
 
     const name = to.name
     const middlewaresToRun = []

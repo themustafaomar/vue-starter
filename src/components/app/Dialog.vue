@@ -13,7 +13,7 @@
         <slot></slot>
       </div>
 
-      <v-card-actions class="mt-2">
+      <v-card-actions>
         <template v-if="!$slots.actions">
           <v-btn color="red" @click="dialog = false">Close</v-btn>
         </template>

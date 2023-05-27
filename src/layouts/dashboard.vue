@@ -34,12 +34,13 @@ import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawe
 import AppDashboardLoader from '@/components/dashboard/Loader.vue'
 import AppDashboardError from '@/components/dashboard/Error.vue'
 import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
+import { storeToRefs } from 'pinia'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)
 const appStore = useAppStore()
 const notificationsStore = useNotificationsStore()
-const isLoading = computed(() => notificationsStore.isLoading)
+const { isLoading } = storeToRefs(useAppStore())
 const { lgAndUp, mdAndDown } = useDisplay()
 
 // Hooks

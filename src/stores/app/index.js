@@ -37,13 +37,13 @@ export const useAppStore = defineStore('app', {
         locale,
         permissions,
       } = storage.get('user', 'permissions', 'mode', 'locale')
-      const { login } = useAuthStore()
+      const { login, logout } = useAuthStore()
 
       try {
         user = JSON.parse(user)
         permissions = JSON.parse(permissions)
       } catch (err) {
-        this.dispatch('auth/logout')
+        logout()
         return
       }
 

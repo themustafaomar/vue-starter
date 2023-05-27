@@ -14,10 +14,11 @@ const app = createApp({
 // Register plugins
 plugins(app)
 
+// Use Vue plugins
+app.use(pinia).use(router)
+
 // Run before each method of the router
 router.watch(app)
 
-// Use Vue plugins
-app.use(pinia)
-app.use(router)
+// Mount!
 app.mount('#app')

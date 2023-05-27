@@ -2,7 +2,7 @@
   <!-- global component: YES -->
   <v-text-field
     @blur="handleBlur"
-    @update:model-value=";(value = $event), form.errors.set(name)"
+    @update:model-value="setValue($event), form.errors.set(name)"
     density="comfortable"
     persistent-placeholder
     :error-messages="getClientOrBackEndErrors"
@@ -22,9 +22,9 @@ import { useField } from 'vee-validate'
 // prettier-ignore
 // Source: https://vee-validate.logaretm.com/v4/examples/ui-libraries#vuetify
 const {
-  value,
   handleBlur,
-  errors
+  errors,
+  setValue,
 } = useField(toRef(props, 'name'), undefined)
 
 const props = defineProps({
@@ -69,6 +69,6 @@ onMounted(() => {
     return
   }
 
-  value.value = _value
+  setValue(_value)
 })
 </script>

@@ -7,7 +7,7 @@
           Permissions section where you can manage the user's permissions.
         </p>
       </div>
-      <v-btn @click="activateDialog" color="primary" elevation="0">
+      <v-btn @click="dialog.show()" color="primary" elevation="0">
         New permission
         <v-icon class="ms-1">mdi-lock-outline</v-icon>
       </v-btn>
@@ -48,7 +48,6 @@
           name="name"
           label="Permission Name"
           placeholder="Enter the permission name"
-          hide-details
           required
         ></app-text-field>
       </v-card-text>
@@ -57,10 +56,11 @@
         <v-btn @click="close" variant="flat" color="red">Cancel</v-btn>
         <v-btn
           @click="create"
-          :disabled="form.busy"
+          :disabled="form.busy || !isValid"
           :loading="form.busy"
           variant="flat"
           color="primary"
+          class="ms-3"
         >
           Add permission
         </v-btn>
@@ -72,35 +72,32 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import axios from '@/plugins/axios'
 import { useForm } from '@/composables/useForm'
 import { useLoader } from '@/composables/useLoader'
-import axios from '@/plugins/axios'
+import { useValidator } from '@/composables/useValidator'
+import { createPermissionValidation } from '@/validations/permissions'
 import AppDialog from '@/components/app/Dialog.vue'
 
-const loader = useLoader()
 const dialog = ref(null)
 const permissions = ref([])
+const loader = useLoader()
+const { handleSubmit, isValid } = useValidator(createPermissionValidation)
 const form = useForm({
-  name: 'A Permission Name',
+  name: '',
 })
 
 onMounted(async () => {
-  const { data } = await axios.get('/permissions')
-
-  permissions.value = data
+  permissions.value = (await axios.get('/permissions')).data
 
   loader.markAsLoaded()
 })
 
 // Functions
 
-function activateDialog() {
-  dialog.value.show()
-}
-
-function create() {
+const create = handleSubmit(() => {
   const { data } = form.post('/permissions')
 
   // ..
-}
+})
 </script>
