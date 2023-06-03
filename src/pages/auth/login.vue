@@ -19,7 +19,6 @@
           v-model="form.email"
           :form="form"
           name="email"
-          label="Email"
           placeholder="Your Username"
           hint="Username or email you used to login with"
           persistent-hint
@@ -32,7 +31,6 @@
           type="password"
           :form="form"
           name="password"
-          label="Password"
           placeholder="Your Password"
           hint="If you forgot your password you can reset it"
           persistent-hint

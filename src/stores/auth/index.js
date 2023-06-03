@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('auth', {
             const { data } = await form.post(`${SERVER_URL}/login`)
 
             // We've just get the user from the response
-            this.login({ user: data.data, permissions: data.permissions })
+            this.login({ user: data.data.user, permissions: data.data.permissions })
 
             resolve()
 

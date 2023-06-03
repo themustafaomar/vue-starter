@@ -7,7 +7,7 @@
           Roles section where you can manage the user's roles.
         </p>
       </div>
-      <v-btn @click="dialog.show()" color="primary" elevation="0">
+      <v-btn @click="open" color="primary" elevation="0">
         New role
         <v-icon class="ms-1">mdi-lock-outline</v-icon>
       </v-btn>
@@ -38,54 +38,19 @@
         </tr>
       </tbody>
     </v-table>
-
-    <!-- dialog -->
-    <app-dialog ref="dialog" title="Add new role">
-      <v-card-text>
-        <app-text-field
-          v-model="form.name"
-          :form="form"
-          name="name"
-          label="Role Name"
-          placeholder="Enter the role name"
-          hide-details
-          required
-        ></app-text-field>
-      </v-card-text>
-
-      <template #actions="{ close }">
-        <v-btn @click="close" variant="flat" color="red">Cancel</v-btn>
-        <v-btn
-          @click="create"
-          :disabled="form.busy"
-          :loading="form.busy"
-          variant="flat"
-          color="primary"
-        >
-          Add role
-        </v-btn>
-      </template>
-    </app-dialog>
-    <!-- end dialog -->
   </v-sheet>
+  <app-dashboard-roles-create ref="createDialog" />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from '@/plugins/axios'
-import { useValidator } from '@/composables/useValidator'
 import { useLoader } from '@/composables/useLoader'
-import { useForm } from '@/composables/useForm'
-import { createRoleValidation } from '@/validations/roles'
-import AppDialog from '@/components/app/Dialog.vue'
+import AppDashboardRolesCreate from '@/components/dashboard/roles/Create.vue'
 
-const dialog = ref(null)
 const roles = ref([])
+const createDialog = ref(null)
 const loader = useLoader()
-const { handleSubmit } = useValidator(createRoleValidation)
-const form = useForm({
-  name: '',
-})
 
 onMounted(async () => {
   roles.value = (await axios.get('/roles')).data
@@ -93,5 +58,7 @@ onMounted(async () => {
   loader.markAsLoaded()
 })
 
-const create = handleSubmit(() => {})
+// Functions
+
+const open = () => createDialog.value.open()
 </script>
