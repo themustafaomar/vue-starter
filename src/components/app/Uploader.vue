@@ -1,5 +1,11 @@
 <template>
-  <p class="mb-1">{{ label }}</p>
+  <p class="mb-2">
+    <span v-if="required" class="text-red font-weight-bold position-relative" style="top: 2px">
+      *
+    </span>
+    {{ label }}
+  </p>
+
   <div class="uploader d-flex align-center justify-space-between rounded-lg pa-2">
     <v-avatar>
       <v-icon size="30">mdi-cloud-upload-outline</v-icon>
@@ -17,35 +23,73 @@
     </div>
 
     <p class="mb-0">
-      <template v-if="!description">
+      <template v-if="description">{{ description }}</template>
+      <slot v-else-if="$slots.content" name="content"></slot>
+      <template v-else>
         Upload a picture to illustrate your challenge.
         <br />
         SVG, PNG JPG (rec. 500x500px)
       </template>
-      <template v-else>{{ description }}</template>
     </p>
 
-    <input @change="_setFile" ref="inputUploader" type="file" accept="image/*" class="d-none" />
+    <input
+      @abort="handle"
+      @change="_init"
+      v-bind="$attrs"
+      type="file"
+      ref="inputUploader"
+      accept="image/*"
+      class="d-none"
+      :multiple="multiple"
+    />
     <v-btn @click="_browse" color="primary" elevation="0" rounded="pill">Browse</v-btn>
+  </div>
+
+  <div v-if="multiple && urls.length" class="d-flex border rounded-lg pa-3 mt-3">
+    <div v-for="(url, index) in urls" :key="index" class="uploader-preview position-relative me-3">
+      <img v-if="url" :src="url" class="border rounded" />
+      <div
+        @click="flush(index)"
+        v-if="url && !isUpdating"
+        class="uploader-cancel position-absolute d-flex align-center justify-center bg-red rounded-pill"
+      >
+        <v-icon size="11" color="white">mdi-close</v-icon>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, toRef, onBeforeMount } from 'vue'
 import { isValidFile } from '@/utils'
 import { useAppStore } from '@/stores/app'
 
-const url = ref(null)
-const inputUploader = ref(null)
-const { notify } = useAppStore()
-const emit = defineEmits(['cancelled'])
 const props = defineProps({
   label: String,
   description: String,
   isUpdating: Boolean,
-  required: { type: Boolean, default: false },
-  previewUrl: { type: String, default: null },
+  required: {
+    type: Boolean,
+    default: false,
+  },
+  previewUrl: {
+    type: String,
+    default: null,
+  },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
 })
+const multiple = toRef(props.multiple)
+const url = ref(null)
+const urls = ref([])
+const files = ref(null)
+const inputUploader = ref(null)
+const { notify } = useAppStore()
+const emit = defineEmits(['cancelled', 'update:model-value'])
+
+// Lifecycle hooks
 
 onBeforeMount(() => {
   if (!props.isUpdating) {
@@ -61,34 +105,64 @@ const _browse = () => {
   inputUploader.value.click()
 }
 
-const _setFile = (event) => {
-  const file = event.target.files[0]
+const _init = (event) => {
+  const fileList = Array.from(event.target.files)
 
-  if (!isValidFile(file, (message) => notify({ message, color: 'red' }))) {
+  if (multiple.value) {
+    urls.value = []
+    files.value = fileList
+    fileList.forEach((file) => {
+      _render(file)
+    })
+    emit('update:model-value', fileList)
+    _flushInputUploader()
     return
   }
 
-  _createBase64Url(file)
-
-  emit('cancelled', file)
+  const file = fileList[0]
+  if (!isValidFile(file, (message) => notify({ message, color: 'red' }))) {
+    return
+  }
+  _render(file)
+  emit('update:model-value', file)
+  _flushInputUploader()
+  return
 }
 
-const _createBase64Url = (file) => {
+const _render = (file) => {
   const reader = new FileReader()
-
-  reader.onloadend = () => (url.value = reader.result)
+  reader.onloadend = () => {
+    multiple.value ? urls.value.push(reader.result) : (url.value = reader.result)
+  }
   reader.readAsDataURL(file)
 }
 
-const flush = () => {
-  url.value = null
-
-  // We need to set this with `null` because if we cancelled
-  // and then tried to upload the same image as the previous one
-  // it will not work because it carries the same value.
-  inputUploader.value = null
+const flush = (index) => {
+  if (multiple.value) {
+    if (typeof index !== 'undefined') {
+      urls.value.splice(index, 1)
+      files.value.splice(index, 1)
+      emit('update:model-value', files)
+    } else {
+      // We may call `flush` from the parent component using a ref without specifying
+      // an index, meaning we're goning to remove all files, this condition
+      // will be executed, so we'll clean up using the following statment
+      urls.value = []
+      emit('update:model-value', [])
+    }
+  } else {
+    url.value = null
+    emit('update:model-value', null)
+  }
 
   emit('cancelled')
+}
+
+const _flushInputUploader = () => {
+  // We need to set this with '' because if we cancelled
+  // and then tried to upload the same file as the previous one
+  // it will not work because it carries the same value.
+  inputUploader.value.value = ''
 }
 </script>
 

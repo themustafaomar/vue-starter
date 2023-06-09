@@ -9,7 +9,15 @@
       <v-sheet class="pa-5" rounded="lg">
         <v-row>
           <v-col cols="6">
-            <app-uploader label="Upload your profile picture" />
+            <app-uploader
+              v-model="form.file"
+              required
+              label="Upload your profile picture"
+              accept="image/*"
+            />
+            <div v-if="form.file" class="mt-3">
+              {{ `${form.file.name} - ${Math.round(form.file.size / 1024)}KB` }}
+            </div>
           </v-col>
           <v-col cols="6">
             <app-uploader
@@ -17,6 +25,29 @@
               is-updating
               preview-url="/logo-shape.avif"
             />
+          </v-col>
+          <v-col cols="6">
+            <app-uploader
+              v-model="form.files"
+              required
+              label="Upload your profile pictures (multiple example)"
+              accept="image/*"
+              multiple
+            ></app-uploader>
+            <pre class="mt-3">{{
+              Array.from(form.files || []).map(
+                (file) => `${file.name} - ${Math.round(file.size / 1024)}KB`
+              )
+            }}</pre>
+          </v-col>
+          <v-col cols="6">
+            <app-uploader
+              v-model="form.files"
+              required
+              label="Upload your profile pictures (multiple example)"
+              accept="image/*"
+              multiple
+            ></app-uploader>
           </v-col>
         </v-row>
       </v-sheet>
@@ -176,6 +207,8 @@ const form = useForm({
   name: '',
   email: '',
   account_type: '',
+  file: '',
+  files: [],
 })
 
 onMounted(() => {
