@@ -8,9 +8,10 @@
         class="pe-4"
         offset-y="4"
         offset-x="4"
-        icon="mdi-account-circle"
+        bordered
+        icon="mdi-bell"
       >
-        <v-avatar size="large" image="/avatar.jpg" height="80" />
+        <v-avatar size="large" image="/avatar.jpg" />
       </v-badge>
     </template>
 
