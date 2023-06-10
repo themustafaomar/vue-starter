@@ -30,12 +30,14 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useValidator } from '@/composables/useValidator'
 import { createRoleValidation } from '@/validations/roles'
 import AppDialog from '@/components/app/Dialog.vue'
 
 const dialog = ref(null)
+const { notify } = useAppStore()
 const { handleSubmit, isValid } = useValidator(createRoleValidation)
 const form = useForm({
   name: '',
@@ -44,7 +46,16 @@ const form = useForm({
 // Functions
 
 const create = handleSubmit(() => {
-  // ..
+  form
+    .post('/roles')
+    .then(() => {
+      notify('A new role has been successfully created!')
+      form.reset()
+      dialog.value.hide()
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 
 defineExpose({
