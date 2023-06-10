@@ -21,16 +21,19 @@
 
 ## Features
 
-- Commonly reusable components while using less code
-- Dark mode & light mode etc..
-- Multiple layouts etc..
-- Multilangual
-- Vuetify style customization using Sass variables
-- Backend validation handling with zero configuration
-- Complete authentication system & rules
-- Complete notifications system
-- Powerful middleware functionlaity
-- Standard ESLint and Prettier config for consistent development
+- Using modern technologies in web-industry such as Vue, Vuetify, Pinia Vite and Composition API.
+- Access Control List (ACL) for client-side and server-side.
+- Validation handling for client-side & server-side with zero-configuration.
+- Uploading files has never been easier.
+- A set of powerful abstracted components crafted only for VuetifyStarter.
+- Support for light and dark themes and more.
+- Multiple layouts.
+- Multilingual-ready.
+- Complete authentication system.
+- Complete real-time notifications system.
+- Flexible middleware functionlaity for client-side.
+- Standard ESLint and Prettier config for consistent development.
+- And more are in the way.
 - Diffrent enviroment variables using `.env` and `.env.production`
 
 ## Recommended IDE Setup
