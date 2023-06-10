@@ -1,7 +1,6 @@
 <template>
   <!-- global component: YES -->
   <v-text-field
-    @blur="handleBlur"
     @update:model-value="setValue($event), form.errors.set(name)"
     density="comfortable"
     persistent-placeholder
@@ -16,17 +15,11 @@
 </template>
 
 <script setup>
-import { toRef, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useField } from 'vee-validate'
 
-// prettier-ignore
 // Source: https://vee-validate.logaretm.com/v4/examples/ui-libraries#vuetify
-const {
-  handleBlur,
-  errors,
-  setValue,
-} = useField(toRef(props, 'name'), undefined)
-
+const { errors, setValue } = useField(() => props.name)
 const props = defineProps({
   name: { type: String, required: true },
   form: { type: [Object, Boolean], default: false },
