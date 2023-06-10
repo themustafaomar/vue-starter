@@ -26,17 +26,13 @@ export const dashboard = [
         name: 'dashboard_roles',
         path: 'roles',
         component: () => import('@/pages/dashboard/roles.vue'),
-        meta: {
-          permissions: 'manage permissions & manage roles',
-        },
+        meta: { role: 'admin' },
       },
       {
         name: 'dashboard_permissions',
         path: 'permissions',
         component: () => import('@/pages/dashboard/permissions.vue'),
-        meta: {
-          permissions: ['manage permissions', 'manage roles'],
-        },
+        meta: { permissions: ['view permissions'] },
       },
       {
         name: 'dashboard_profile',

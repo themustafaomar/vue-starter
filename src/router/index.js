@@ -9,7 +9,7 @@ const router = createRouter({
   routes,
 })
 
-// Well, let's talk about that, we need the Vue instance but we can't access it
+// Well, let's talk about that, we need the Vue instance but we can't access it,
 // there is no an easy way for doing this so, we will create a watch
 // method and call it from main.js, so we can pass the app instance.
 router.watch = (app) => watch(app)
@@ -23,11 +23,11 @@ function watch(app) {
     progress.start()
     appStore.loading()
 
-    const name = to.name
+    const { name, matched, meta } = to
     const middlewaresToRun = []
 
     // Check if we've a parent, we'll assume this is a layout
-    const parent = to.matched[0]
+    const parent = matched[0]
     if (hasLayout(to) && parent.name) {
       document.body.classList.add(`${parent.name}__layout`)
     }
@@ -40,7 +40,7 @@ function watch(app) {
     }
 
     // Get current route middlewares if presented
-    const currentMware = to.meta.middleware
+    const currentMware = meta.middleware
     if (currentMware) {
       if (Array.isArray(currentMware)) {
         middlewaresToRun.push(...currentMware)
@@ -54,9 +54,16 @@ function watch(app) {
       return next()
     }
 
+    // Handle the role and permissions if any
+    if (hasntRole(is, meta)) {
+      router.push('/dashboard')
+    } else if (hasntPermissions(can, meta)) {
+      router.push('/dashboard')
+    }
+
     // Run an array of middlewares in order
     for (let middlewareName of middlewaresToRun) {
-      runMiddleware(middlewareName, router, next, from, to, normalizePermissions(to, can, is))
+      runMiddleware(middlewareName, next, from, to)
     }
   })
 }
@@ -77,35 +84,46 @@ function createTitle(name) {
 
 // Let's run the middleware and give the
 // middleware a bunch of parameters to play around with.
-function runMiddleware(name, router, next, from, to, permissions) {
+function runMiddleware(name, next, from, to, permissions) {
   const [middleware, type] = name.split(':')
 
   if (!Array.prototype.hasOwnProperty.call(middlewares, middleware)) {
     throw new Error(`Unknown [${middleware}] middleware, did you register this middleware?`)
   }
 
-  const params = { router, from, to, next, guest: type === 'guest', permissions }
-
-  middlewares[middleware](params)
+  middlewares[middleware]({
+    router,
+    from,
+    to,
+    next,
+    guest: type === 'guest',
+    permissions,
+  })
 }
 
-// Give the middleware a clean permission parameter to play around with.
-function normalizePermissions(to, can, is) {
-  const permissions = to.meta.permissions
+// Check if the current user doesn't have a role
+function hasntRole(is, { role }) {
+  return !role || is(role) ? false : true
+}
 
-  function get() {
-    if (Array.isArray(permissions)) {
-      return permissions.join('&')
-    }
+// Check if the current user doesn't have permissions
+function hasntPermissions(can, { permissions }) {
+  permissions = normalizePermissions(permissions)
 
-    if (typeof permissions === 'string') {
-      return permissions
-    }
+  return !permissions || can(permissions) ? false : true
+}
 
-    return ''
+// Normalize permissions parameter
+function normalizePermissions(permissions) {
+  if (Array.isArray(permissions)) {
+    return permissions.join('&')
   }
 
-  return { exist: () => !!permissions?.length, get, can, is }
+  if (typeof permissions === 'string') {
+    return permissions
+  }
+
+  return ''
 }
 
 export default router
