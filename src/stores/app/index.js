@@ -19,11 +19,6 @@ export const useAppStore = defineStore('app', {
       color: 'primary',
       location: 'bottom center',
     },
-    error: {
-      show: false,
-      message: '',
-      type: '',
-    },
   }),
   actions: {
     // Here we will populate the store with the initial data
@@ -62,9 +57,6 @@ export const useAppStore = defineStore('app', {
         ...(typeof options === 'string' ? { message: options, color: 'primary' } : options),
         show: true,
       }
-    },
-    error(options) {
-      this.error = { ...this.error, ...options, show: true }
     },
     setLocale(locale) {
       this.locale.current = locale || this.locale.default

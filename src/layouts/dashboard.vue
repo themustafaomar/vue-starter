@@ -15,8 +15,7 @@
     <!-- content -->
     <v-main>
       <app-dashboard-loader v-show="isLoading" />
-      <app-dashboard-error v-if="appStore.error.show" />
-      <div v-else v-show="!isLoading" class="pa-5">
+      <div v-show="!isLoading" class="pa-5">
         <router-view />
       </div>
     </v-main>
@@ -25,20 +24,18 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useAppStore } from '@/stores/app'
 import { useNotificationsStore } from '@/stores/notifications'
 import AppSnackbar from '@/components/app/Snackbar.vue'
 import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
 import AppDashboardLoader from '@/components/dashboard/Loader.vue'
-import AppDashboardError from '@/components/dashboard/Error.vue'
 import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 import { storeToRefs } from 'pinia'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)
-const appStore = useAppStore()
 const notificationsStore = useNotificationsStore()
 const { isLoading } = storeToRefs(useAppStore())
 const { lgAndUp, mdAndDown } = useDisplay()
