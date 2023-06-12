@@ -5,7 +5,7 @@
         <h2 class="font-weight-medium text-h5">Dashboard</h2>
         <p class="text-medium-emphasis mb-3">Welcome to dashboard, it's nice to see you again!</p>
       </div>
-      <v-btn v-if="can('take actions')" color="primary" elevation="0">Take action</v-btn>
+      <v-btn v-if="is('admin')" color="primary" elevation="0">Take action</v-btn>
     </div>
 
     <v-divider />
@@ -27,8 +27,8 @@
     </v-row>
   </v-sheet>
 
-  <v-sheet v-if="can('manage subsection')" rounded="lg" class="pa-5 mt-5">
-    <h2 class="font-weight-medium text-h5">Subsection</h2>
+  <v-sheet v-if="is('admin')" rounded="lg" class="pa-5 mt-5">
+    <h2 class="font-weight-medium text-h5">Admin section</h2>
     <p class="text-medium-emphasis mb-3">
       Hi! this is a subsection, I created this description just for demonstration purposes
     </p>

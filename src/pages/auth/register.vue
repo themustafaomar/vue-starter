@@ -92,7 +92,7 @@ import AppAuthHeading from '@/components/auth/Heading.vue'
 const router = useRouter()
 const authStore = useAuthStore()
 const { isLoading } = storeToRefs(authStore)
-const { loading, loaded, login } = useAuthStore()
+const { loading, loaded, login } = authStore
 const { handleSubmit, isValid } = useValidator(registerValidation)
 const form = useForm({
   name: '',
