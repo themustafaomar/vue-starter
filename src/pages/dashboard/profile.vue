@@ -9,6 +9,14 @@
 
     <!-- profile info form -->
     <v-row class="mt-5">
+      <v-col cols="4" class="mx-auto text-center mb-5">
+        <app-dashboard-profile-avatar @save="saveAvatar" :user="user" />
+        <h4 class="mt-1">Profile Picture</h4>
+        <p class="text-grey">Change your profile picture.</p>
+      </v-col>
+
+      <v-col cols="12" class="py-0"></v-col>
+
       <v-col cols="12" sm="12" lg="6" class="pb-0">
         <app-text-field
           v-model="form.name"
@@ -105,7 +113,9 @@ import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
+import axios from '@/plugins/axios'
 import storage from '@/plugins/storage'
+import AppDashboardProfileAvatar from '@/components/dashboard/profile/Avatar.vue'
 
 const user = useUser()
 const loader = useLoader()
@@ -121,6 +131,12 @@ const form = useForm({
 const passwordForm = useForm({
   password: '',
   password_confirmation: '',
+})
+
+// Profile picture form
+const profilePicture = useForm({
+  avatar: null,
+  coords: '',
 })
 
 onMounted(() => {
@@ -144,5 +160,22 @@ async function updatePoassword() {
   await passwordForm.post('/profile/update-password')
 
   notify('Your password has been successfully reset!')
+}
+
+async function saveAvatar({ avatar, coords, url }) {
+  const { width, height, x, y } = coords
+  profilePicture.avatar = avatar
+  profilePicture.coords = `${width},${height},${x},${y}`
+
+  const { data } = await profilePicture.post('/profile/avatar')
+
+  notify('Your profile picture has been successfully changed!')
+
+  user.avatar = url
+
+  const currentUser = JSON.parse(storage.get('user'))
+
+  currentUser.avatar = data.avatar
+  storage.set('user', JSON.stringify(currentUser))
 }
 </script>
