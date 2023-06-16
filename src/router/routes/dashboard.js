@@ -23,6 +23,11 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/layouts.vue'),
       },
       {
+        name: 'users',
+        path: 'users',
+        component: () => import('@/pages/dashboard/users.vue'),
+      },
+      {
         name: 'dashboard_roles',
         path: 'roles',
         component: () => import('@/pages/dashboard/roles.vue'),
