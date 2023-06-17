@@ -1,8 +1,7 @@
 <template>
   <!-- global component: YES -->
   <v-select
-    @blur="handleBlur"
-    @update:model-value="value = $event"
+    @update:model-value="setValue($event)"
     density="comfortable"
     append-inner-icon="mdi-chevron-down"
     :error-messages="getClientOrBackEndErrors"
@@ -15,16 +14,15 @@
 </template>
 
 <script setup>
-import { toRef, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useField } from 'vee-validate'
 
 // prettier-ignore
 // Source: https://vee-validate.logaretm.com/v4/examples/ui-libraries#vuetify
 const {
-  value,
-  handleBlur,
+  setValue,
   errors
-} = useField(toRef(props, 'name'), undefined)
+} = useField(() => props.name)
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -54,10 +52,10 @@ const getClientOrBackEndErrors = computed(() => {
 onMounted(() => {
   const _value = props.form[props.name]
 
-  if (_value === '' || _value === null) {
+  if (_value === '' || _value === null || _value === undefined) {
     return
   }
 
-  value.value = _value
+  setValue(_value)
 })
 </script>

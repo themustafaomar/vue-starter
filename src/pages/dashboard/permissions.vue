@@ -14,7 +14,7 @@
       </v-btn>
     </div>
 
-    <v-data-table :headers="headers" :items="permissions" :items-per-page="5" item-value="name">
+    <v-data-table :headers="headers" :items="permissions" :items-per-page="10" item-value="name">
       <template #item.assigned_to="{ item }">
         <v-chip v-for="role in item.raw.roles" color="primary" variant="tonal" class="mx-1">
           {{ role.name }}
@@ -30,8 +30,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from '@/plugins/axios'
 import { useLoader } from '@/composables/useLoader'
+import axios from '@/plugins/axios'
 
 const dialog = ref(null)
 const permissions = ref([])
@@ -41,11 +41,12 @@ const headers = ref([
   { title: 'Name', key: 'name' },
   { title: 'Guard Name', key: 'guard_name' },
   { title: 'Assigned To', key: 'assigned_to' },
+  { title: 'Created', key: 'created' },
   { title: 'Actions', key: 'actions' },
 ])
 
 onMounted(async () => {
-  permissions.value = (await axios.get('/permissions')).data.data
+  permissions.value = (await axios.get('/permissions?roles=true')).data.data
 
   loader.markAsLoaded()
 })

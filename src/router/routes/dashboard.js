@@ -31,13 +31,17 @@ export const dashboard = [
         name: 'dashboard_roles',
         path: 'roles',
         component: () => import('@/pages/dashboard/roles.vue'),
-        meta: { role: 'admin' },
+        meta: {
+          role: 'super-admin | admin',
+        },
       },
       {
         name: 'dashboard_permissions',
         path: 'permissions',
         component: () => import('@/pages/dashboard/permissions.vue'),
-        meta: { permissions: ['view permissions'] },
+        meta: {
+          role: 'super-admin | admin',
+        },
       },
       {
         name: 'dashboard_profile',

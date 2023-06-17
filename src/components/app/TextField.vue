@@ -1,7 +1,7 @@
 <template>
   <!-- global component: YES -->
   <v-text-field
-    @update:model-value="setValue($event), form.errors.set(name)"
+    @update:model-value="setValue($event), form.errors.has(name) ? form.errors.set(name) : void 0"
     density="comfortable"
     persistent-placeholder
     :error-messages="getClientOrBackEndErrors"

@@ -40,6 +40,7 @@ const headers = ref([
   { title: 'ID', key: 'id' },
   { title: 'Name', key: 'name' },
   { title: 'Guard Name', key: 'guard_name' },
+  { title: 'Created', key: 'created' },
   { title: 'Actions', key: 'actions' },
 ])
 

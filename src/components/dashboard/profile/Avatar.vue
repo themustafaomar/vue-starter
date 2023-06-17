@@ -19,11 +19,11 @@
 
       <v-divider class="my-0" />
 
-      <v-card-body class="my-6">
+      <v-card-text class="my-6">
         <div class="cropper-container">
           <img ref="image" :src="url" class="w-100 mx-auto d-block" />
         </div>
-      </v-card-body>
+      </v-card-text>
 
       <v-divider class="my-0" />
 

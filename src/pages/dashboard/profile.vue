@@ -113,7 +113,6 @@ import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
-import axios from '@/plugins/axios'
 import storage from '@/plugins/storage'
 import AppDashboardProfileAvatar from '@/components/dashboard/profile/Avatar.vue'
 
@@ -141,7 +140,7 @@ const profilePicture = useForm({
 
 onMounted(() => {
   form.update(user)
-  setTimeout(() => loader.markAsLoaded(), 250)
+  loader.markAsLoaded()
 })
 
 // Functions
@@ -164,8 +163,11 @@ async function updatePoassword() {
 
 async function saveAvatar({ avatar, coords, url }) {
   const { width, height, x, y } = coords
-  profilePicture.avatar = avatar
-  profilePicture.coords = `${width},${height},${x},${y}`
+
+  profilePicture.update({
+    avatar: avatar,
+    coords: `${width},${height},${x},${y}`,
+  })
 
   const { data } = await profilePicture.post('/profile/avatar')
 
