@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 
 // Axios instance
 const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_SERVER_URL}/api/`,
+  baseURL: '/api',
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
   withCredentials: true,
 })
