@@ -1,0 +1,11 @@
+{
+  "debug": false,
+  "port": 6001,
+  "appManager.array.apps": [
+    {
+      "id": "1",
+      "key": "cbae043c3b6e2fdd4c12",
+      "secret": "abc"
+    }
+  ]
+}

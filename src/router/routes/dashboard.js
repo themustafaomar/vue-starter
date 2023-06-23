@@ -18,6 +18,11 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/components.vue'),
       },
       {
+        name: 'dashboard_broadcasting',
+        path: 'broadcasting',
+        component: () => import('@/pages/dashboard/broadcasting.vue'),
+      },
+      {
         name: 'dashboard_layouts',
         path: 'layouts',
         component: () => import('@/pages/dashboard/layouts.vue'),
