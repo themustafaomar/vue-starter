@@ -9,7 +9,17 @@
   >
     <template #activator="{ props }">
       <v-btn v-bind="props" icon>
-        <v-avatar image="/avatar.jpg" />
+        <v-img
+          aspect-ratio="1/1"
+          cover
+          :src="authStore.user.avatar"
+          width="40"
+          class="rounded-pill"
+        >
+          <template #placeholder>
+            <v-skeleton-loader type="avatar" width="40" height="40" class="ma-0" />
+          </template>
+        </v-img>
       </v-btn>
     </template>
 
@@ -54,7 +64,7 @@ const handle = (event, item) => {
 }
 
 const links = ref([
-  { title: 'Profile', to: '/' },
+  { title: 'Profile', to: '/dashboard/profile' },
   { title: 'My subscription', to: '/' },
   { title: 'Posts & Activity', to: '/' },
   { title: 'Language', to: '/' },
@@ -67,3 +77,8 @@ const links = ref([
   },
 ])
 </script>
+<style>
+.v-skeleton-loader__avatar {
+  margin: 0;
+}
+</style>

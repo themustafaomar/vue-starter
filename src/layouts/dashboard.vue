@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
 import { useAppStore } from '@/stores/app'
 import { useNotificationsStore } from '@/stores/notifications'
@@ -32,7 +33,6 @@ import AppSnackbar from '@/components/app/Snackbar.vue'
 import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
 import AppDashboardLoader from '@/components/dashboard/Loader.vue'
 import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
-import { storeToRefs } from 'pinia'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)

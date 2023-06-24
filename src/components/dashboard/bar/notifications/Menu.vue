@@ -67,9 +67,8 @@ const { t } = useI18n()
 
 onMounted(() => {
   Echo.private(`notifications.${user.id}`).notification(({ notification }) => {
-    // Sometimes duplication happens, as a developer
-    // we want to track this, and if the problem consists
-    // we will find a way to handle that.
+    // Sometimes duplication happens we want to track this
+    // and if the problem consists we will find a way to handle that.
     if (notifications.value.find((n) => n.id == notification.id)) {
       return
     }
