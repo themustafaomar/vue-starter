@@ -2,8 +2,9 @@ import { defineStore } from 'pinia'
 import storage from '@/plugins/storage'
 import axios from '@/plugins/axios'
 import router from '@/router'
+import { isDev } from '@/utils'
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL
+const baseURL = isDev ? '@/' : import.meta.env.VITE_SERVER_URL
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -21,11 +22,11 @@ export const useAuthStore = defineStore('auth', {
 
       return new Promise((resolve) => {
         axios
-          .get(`${SERVER_URL}/sanctum/csrf-cookie`)
+          .get(`${baseURL}/sanctum/csrf-cookie`)
           .then(async () => {
             this.isLoading = false
 
-            const { data } = await form.post(`${SERVER_URL}/login`)
+            const { data } = await form.post(`${baseURL}/login`)
 
             // We've just get the user from the response
             this.login({ user: data.data.user, permissions: data.data.permissions })
@@ -58,7 +59,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       this.loading()
-      axios.post(`${SERVER_URL}/logout`).then(() => {
+      axios.post(`${baseURL}/logout`).then(() => {
         this.flush()
         router.push('/login').then(() => {
           this.loaded()

@@ -39,6 +39,10 @@ function isValidFile(file, callback) {
   return true
 }
 
+function isDev() {
+  return import.meta.env.DEV === 'development'
+}
+
 const emitter = mitt()
 
-export { emitter, bytesToSize, isValidFile }
+export { emitter, bytesToSize, isValidFile, isDev }
