@@ -5,6 +5,7 @@
     density="comfortable"
     append-inner-icon="mdi-chevron-down"
     :error-messages="getClientOrBackEndErrors"
+    :label="$attrs.label || generateLabel"
   >
     <template #label="{ label }">
       <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
@@ -55,6 +56,16 @@ const getClientOrBackEndErrors = computed(() => {
   return form && form.errors.has(props.name)
     ? form.errors.get(props.name)
     : ''
+})
+
+const generateLabel = computed(() => {
+  const name = props.name
+
+  if (!name) {
+    return
+  }
+
+  return name.replace('_', ' ')
 })
 
 // Handle initial data coming from the `vform` we need to do this because the initial
