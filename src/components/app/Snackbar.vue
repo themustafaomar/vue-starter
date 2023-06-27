@@ -5,9 +5,12 @@
     :timeout="options.timeout"
     :location="options.location"
   >
+    <v-icon v-if="options.color === 'red'" class="me-1">mdi-alert-circle-outline</v-icon>
     {{ options.message }}
     <template #actions>
-      <v-btn color="white" variant="text" @click="appStore.snackbar.show = false">Close</v-btn>
+      <v-btn color="white" variant="text" rounded ripple @click="appStore.snackbar.show = false">
+        <v-icon size="18">mdi-close</v-icon>
+      </v-btn>
     </template>
   </v-snackbar>
 </template>
