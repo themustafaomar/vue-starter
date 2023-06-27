@@ -11,11 +11,20 @@
       <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
       <span class="text-capitalize">{{ label }}</span>
     </template>
+
+    <!-- 
+      We want to use the Vuetify slots from our custom component
+      The below dynamic template and slot sends these slots to the Vuetify.
+      Supported slots: https://vuetifyjs.com/en/components/text-fields/#slots
+    -->
+    <template v-for="slotName in slotsNames" #[slotName]>
+      <slot :name="slotName" :[slotName]="$attrs[slotName]"></slot>
+    </template>
   </v-text-field>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, useSlots, onMounted } from 'vue'
 import { useField } from 'vee-validate'
 
 // Source: https://vee-validate.logaretm.com/v4/examples/ui-libraries#vuetify
@@ -25,8 +34,10 @@ const props = defineProps({
   form: { type: [Object, Boolean], default: false },
   required: { type: Boolean, default: false },
 })
+const slots = useSlots()
+const slotsNames = Object.keys(slots).filter((name) => name !== 'label')
 
-// Well, this function whether getting the client-side
+// This computed property whether getting the client-side
 // validation errors using `vee-validate` or getting the
 // back-end validation errors via `vform`.
 const getClientOrBackEndErrors = computed(() => {
