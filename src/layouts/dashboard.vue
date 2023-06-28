@@ -5,7 +5,7 @@
     <!-- end snackbar -->
 
     <!-- sidebar -->
-    <app-dashboard-navigation-drawer v-model="isNavDrawerActive" :rail="rail" />
+    <app-dashboard-drawer v-model="isNavDrawerActive" :rail="rail" />
     <!-- end sidebar -->
 
     <!-- navbar -->
@@ -15,7 +15,7 @@
     <!-- content -->
     <v-main>
       <app-dashboard-loader v-show="isLoading" />
-      <div v-show="!isLoading" class="pa-5">
+      <div v-show="!isLoading" class="pa-6">
         <router-view />
       </div>
     </v-main>
@@ -30,7 +30,7 @@ import { useDisplay } from 'vuetify'
 import { useAppStore } from '@/stores/app'
 import { useNotificationsStore } from '@/stores/notifications'
 import AppSnackbar from '@/components/app/Snackbar.vue'
-import AppDashboardNavigationDrawer from '@/components/dashboard/NavigationDrawer.vue'
+import AppDashboardDrawer from '@/components/dashboard/drawer/NavigationDrawer.vue'
 import AppDashboardLoader from '@/components/dashboard/Loader.vue'
 import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 
