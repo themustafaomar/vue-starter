@@ -38,10 +38,10 @@
       v-bind="$attrs"
       type="file"
       ref="inputUploader"
-      accept="image/*"
       class="d-none"
       :multiple="multiple"
     />
+
     <v-btn @click="_browse" color="primary" elevation="0" rounded="pill">Browse</v-btn>
   </div>
 
@@ -61,7 +61,6 @@
 
 <script setup>
 import { ref, toRef, onBeforeMount } from 'vue'
-import { isValidFile } from '@/utils'
 import { useAppStore } from '@/stores/app'
 
 const props = defineProps({
@@ -79,6 +78,14 @@ const props = defineProps({
   multiple: {
     type: Boolean,
     default: false,
+  },
+  extensions: {
+    type: String,
+    default: '',
+  },
+  max: {
+    type: [Number, String],
+    default: 3,
   },
 })
 const multiple = toRef(props.multiple)
@@ -107,34 +114,54 @@ const _browse = () => {
 
 const _init = (event) => {
   const fileList = Array.from(event.target.files)
+  if (fileList.length > props.max) {
+    return _error(`Maximum number of allowable file uploads (${props.max}) has been exceeded.`)
+  }
 
   if (multiple.value) {
+    if (_invalid(fileList)) {
+      return _error('Invalid extension supplied')
+    }
     urls.value = []
     files.value = fileList
     fileList.forEach((file) => {
       _render(file)
     })
     emit('update:model-value', fileList)
-    _flushInputUploader()
+    _resetInputUploader()
     return
   }
 
   const file = fileList[0]
-  if (!isValidFile(file, (message) => notify({ message, color: 'red' }))) {
-    return
+  if (_invalid([file])) {
+    return _error('Invalid extension supplied')
   }
   _render(file)
   emit('update:model-value', file)
-  _flushInputUploader()
+  _resetInputUploader()
   return
 }
 
 const _render = (file) => {
+  if (!file.type.match('image/*')) {
+    urls.value.push('/file-placeholder.png')
+    return
+  }
   const reader = new FileReader()
   reader.onloadend = () => {
     multiple.value ? urls.value.push(reader.result) : (url.value = reader.result)
   }
   reader.readAsDataURL(file)
+}
+
+const _error = (message) => {
+  notify({ message, color: 'red' })
+}
+
+const _invalid = (files) => {
+  const extensions = props.extensions.split(',').join('|')
+  const regex = new RegExp('\\.(' + extensions + ')$', 'i')
+  return !files.every((file) => regex.test(file.name))
 }
 
 const flush = (index) => {
@@ -145,8 +172,7 @@ const flush = (index) => {
       emit('update:model-value', files)
     } else {
       // We may call `flush` from the parent component using a ref without specifying
-      // an index, meaning we're goning to remove all files, this condition
-      // will be executed, so we'll clean up using the following statment
+      // an index, meaning we're goning to remove all files.
       urls.value = []
       emit('update:model-value', [])
     }
@@ -158,7 +184,7 @@ const flush = (index) => {
   emit('cancelled')
 }
 
-const _flushInputUploader = () => {
+const _resetInputUploader = () => {
   // We need to set this with '' because if we cancelled
   // and then tried to upload the same file as the previous one
   // it will not work because it carries the same value.
