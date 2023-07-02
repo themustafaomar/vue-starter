@@ -1,13 +1,14 @@
 <template>
   <!-- global component: YES -->
   <Field v-slot="{ errors }" :name="name">
-    <v-text-field
+    <v-autocomplete
       v-bind="$attrs"
-      @update:model-value="form && form.errors.has(name) ? form.errors.set(name) : void 0"
-      density="comfortable"
-      persistent-placeholder
+      @update:model-value="form.errors.has(name) ? form.errors.set(name) : void 0"
       :error-messages="errors.length ? errors : getBackendErrors"
       :label="$attrs.label || name"
+      density="comfortable"
+      append-inner-icon="mdi-chevron-down"
+      persistent-placeholder
     >
       <template #label="{ label }">
         <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
@@ -22,7 +23,7 @@
       <template v-for="slotName in slotsNames" #[slotName]>
         <slot :name="slotName" :[slotName]="$attrs[slotName]"></slot>
       </template>
-    </v-text-field>
+    </v-autocomplete>
   </Field>
 </template>
 
@@ -30,7 +31,6 @@
 import { computed, useSlots } from 'vue'
 import { Field } from 'vee-validate'
 
-// Source: https://vee-validate.logaretm.com/v4/examples/ui-libraries#vuetify
 const props = defineProps({
   name: { type: String, required: true },
   form: { type: [Object, Boolean], default: false },
@@ -49,3 +49,10 @@ const getBackendErrors = computed(() => {
     : ''
 })
 </script>
+
+<style lang="scss">
+// A workaround for append inner icon issue
+.v-autocomplete .v-field__append-inner .mdi-menu-down {
+  display: none !important;
+}
+</style>
