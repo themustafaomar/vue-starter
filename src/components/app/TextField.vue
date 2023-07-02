@@ -7,7 +7,7 @@
       density="comfortable"
       persistent-placeholder
       :error-messages="errors.length ? errors : getBackendErrors"
-      :label="$attrs.label || name"
+      :label="$attrs.label || generateLabel"
     >
       <template #label="{ label }">
         <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
@@ -48,4 +48,7 @@ const getBackendErrors = computed(() => {
     ? form.errors.get(props.name)
     : ''
 })
+
+// Generate a label from a given name
+const generateLabel = computed(() => props.name?.replace(/_/g, ' '))
 </script>

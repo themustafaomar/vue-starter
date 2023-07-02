@@ -3,9 +3,9 @@
   <Field v-slot="{ errors }" :name="name">
     <v-autocomplete
       v-bind="$attrs"
-      @update:model-value="form.errors.has(name) ? form.errors.set(name) : void 0"
+      @update:model-value="form && form.errors.has(name) ? form.errors.set(name) : void 0"
       :error-messages="errors.length ? errors : getBackendErrors"
-      :label="$attrs.label || name"
+      :label="$attrs.label || generateLabel"
       density="comfortable"
       append-inner-icon="mdi-chevron-down"
       persistent-placeholder
@@ -48,6 +48,9 @@ const getBackendErrors = computed(() => {
     ? form.errors.get(props.name)
     : ''
 })
+
+// Generate a label from a given name
+const generateLabel = computed(() => props.name?.replace(/_/g, ' '))
 </script>
 
 <style lang="scss">

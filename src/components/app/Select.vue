@@ -3,12 +3,12 @@
   <Field v-slot="{ errors }" :name="name">
     <v-select
       v-bind="$attrs"
-      @update:model-value="form.errors.has(name) ? form.errors.set(name) : void 0"
+      @update:model-value="form && form.errors.has(name) ? form.errors.set(name) : void 0"
       density="comfortable"
       append-inner-icon="mdi-chevron-down"
       persistent-placeholder
       :error-messages="errors.length ? errors : getBackendErrors"
-      :label="$attrs.label || name"
+      :label="$attrs.label || generateLabel"
     >
       <template #label="{ label }">
         <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
@@ -48,6 +48,9 @@ const getBackendErrors = computed(() => {
     ? form.errors.get(props.name)
     : ''
 })
+
+// Generate a label from a given name
+const generateLabel = computed(() => props.name?.replace(/_/g, ' '))
 </script>
 
 <style lang="scss">
