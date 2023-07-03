@@ -53,6 +53,13 @@ export const useVuetify = (app) => {
       VBtn: {
         rounded: 'md',
       },
+      VDataTable: {
+        showSelect: true,
+        hideDefaultFooter: true,
+      },
+      VPagination: {
+        pageCount: 1,
+      },
     },
   })
 

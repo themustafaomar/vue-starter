@@ -13,7 +13,7 @@
               v-model="form.file"
               required
               label="Upload your profile picture"
-              accept="image/*"
+              extensions="jpg,svg,jpeg,png,bmp,gif,webp"
             />
             <div v-if="form.file" class="mt-3">
               {{ `${form.file.name} - ${Math.round(form.file.size / 1024)}KB` }}
@@ -31,8 +31,9 @@
               v-model="form.files"
               required
               label="Upload your profile pictures (multiple example)"
-              accept="image/*"
               multiple
+              max="10"
+              extensions="jpg,svg,jpeg,png,bmp,gif,webp"
             ></app-uploader>
             <pre class="mt-3">{{
               Array.from(form.files || []).map(

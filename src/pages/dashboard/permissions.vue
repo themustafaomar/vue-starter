@@ -1,28 +1,31 @@
 <template>
-  <v-sheet rounded="lg" class="pa-5">
-    <div class="d-flex align-center justify-space-between mb-4">
-      <div>
-        <h2 class="font-weight-medium text-h5">Permissions</h2>
-        <p class="text-medium-emphasis mb-3" style="max-width: 900px">
-          Permissions are a means of controlling and regulating access to specific system- and
-          device-level functions by software.
-        </p>
-      </div>
-      <v-btn @click="dialog.show()" color="primary" elevation="0">
-        New permission
-        <v-icon class="ms-1">mdi-lock-outline</v-icon>
-      </v-btn>
-    </div>
+  <v-sheet class="rounded-lg shadow-sm py-4" rounded="lg">
+    <app-dashboard-heading-classic title="Permissions">
+      <template #actions>
+        <v-btn color="primary" rounded="pill" elevation="0" @click="composeDialog.open()">
+          <v-icon class="me-1">mdi-lock-outline</v-icon>
+          Add permission
+        </v-btn>
+      </template>
+    </app-dashboard-heading-classic>
 
-    <v-data-table :headers="headers" :items="permissions" :items-per-page="10" item-value="name">
+    <v-data-table :headers="headers" :items="permissions" :items-per-page="15">
+      <template #item.id="{ item }">
+        <div class="py-3">#{{ item.raw.id }}</div>
+      </template>
+
       <template #item.assigned_to="{ item }">
         <v-chip v-for="role in item.raw.roles" color="primary" variant="tonal" class="mx-1">
           {{ role.name }}
         </v-chip>
       </template>
-      <template #item.actions="{ item }">
-        <v-icon size="small" class="me-2">mdi-pencil</v-icon>
-        <v-icon size="small">mdi-delete</v-icon>
+
+      <template #item.actions="">...</template>
+
+      <template #bottom>
+        <div class="text-center pt-2">
+          <v-pagination v-model="page" :length="pageCount" />
+        </div>
       </template>
     </v-data-table>
   </v-sheet>
@@ -32,8 +35,8 @@
 import { ref, onMounted } from 'vue'
 import { useLoader } from '@/composables/useLoader'
 import axios from '@/plugins/axios'
+import AppDashboardHeadingClassic from '@/components/dashboard/HeadingClassic.vue'
 
-const dialog = ref(null)
 const permissions = ref([])
 const loader = useLoader()
 const headers = ref([

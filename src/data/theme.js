@@ -4,8 +4,9 @@ export const theme = {
     light: {
       colors: {
         primary: '#2563eb',
-        background: '#f1f3f7',
+        background: '#f4f5f6',
         error: '#ff3122',
+        green: '#06d6a0',
       },
     },
     dark: {

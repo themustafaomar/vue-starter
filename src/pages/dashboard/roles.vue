@@ -1,6 +1,15 @@
 <template>
-  <v-sheet rounded="lg" class="pa-5">
-    <app-dashboard-heading
+  <v-sheet class="rounded-lg shadow-sm py-4" rounded="lg">
+    <app-dashboard-heading-classic title="Roles">
+      <template #actions>
+        <v-btn color="primary" rounded="pill" elevation="0" @click="composeDialog.open()">
+          <v-icon class="me-1">mdi-lock-outline</v-icon>
+          Add role
+        </v-btn>
+      </template>
+    </app-dashboard-heading-classic>
+
+    <!-- <app-dashboard-heading
       title="Roles"
       description="Roles secti
       on where you can manage the user's roles."
@@ -11,14 +20,30 @@
           <v-icon class="ms-1">mdi-lock-outline</v-icon>
         </v-btn>
       </template>
-    </app-dashboard-heading>
+    </app-dashboard-heading> -->
 
-    <v-data-table :items-per-page="10" :headers="headers" :items="roles" item-value="name">
+    <v-data-table
+      :items-per-page="15"
+      :headers="headers"
+      :items="roles"
+      checkbox-color="primary"
+      :expanded.sync="expanded"
+      hover
+      density="comfortable"
+    >
+      <template #item.id="{ item }">
+        <div class="py-3">#{{ item.raw.id }}</div>
+      </template>
+
       <template #item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="composeDialog.open(item.raw.id)">
-          mdi-pencil
-        </v-icon>
-        <v-icon size="small">mdi-delete</v-icon>
+        <app-dashboard-edit-btn @click="composeDialog.open(item.raw.id)" />
+        <app-dashboard-delete-btn @click.prevent />
+      </template>
+
+      <template #bottom>
+        <div class="text-center pt-2">
+          <v-pagination v-model="page" :length="pageCount" />
+        </div>
       </template>
     </v-data-table>
 
@@ -31,9 +56,12 @@ import { ref, onMounted } from 'vue'
 import axios from '@/plugins/axios'
 import { useLoader } from '@/composables/useLoader'
 import AppDashboardRolesCompose from '@/components/dashboard/roles/Compose.vue'
-import AppDashboardHeading from '@/components/dashboard/Heading.vue'
+import AppDashboardHeadingClassic from '@/components/dashboard/HeadingClassic.vue'
+import AppDashboardEditBtn from '@/components/dashboard/EditBtn.vue'
+import AppDashboardDeleteBtn from '@/components/dashboard/DeleteBtn.vue'
 
 const roles = ref([])
+const expanded = ref([])
 const composeDialog = ref(null)
 const loader = useLoader()
 const headers = ref([
@@ -60,3 +88,17 @@ const roleCreated = () => {
   fetchRoles()
 }
 </script>
+
+<style>
+thead th {
+  background-color: #f8fafc !important;
+  text-transform: uppercase;
+}
+.v-table .v-table__wrapper > table > thead > tr > th {
+  border-color: #eee !important;
+}
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td,
+.v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
+  border-bottom: 1px solid #eee;
+}
+</style>
