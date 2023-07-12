@@ -27,7 +27,12 @@
         description="Let us know your email address and we will email you a password reset that will allow you to choose a new one."
       />
 
-      <v-form @submit.prevent="submit">
+      <Form
+        v-slot="{ meta }"
+        :validation-schema="forgotPasswordValidation"
+        as="form"
+        @submit="submit"
+      >
         <app-text-field
           v-model="form.email"
           :form="form"
@@ -43,7 +48,7 @@
 
         <v-btn
           type="submit"
-          :disabled="isLoading || !isValid"
+          :disabled="isLoading || !meta.valid"
           :loading="isLoading"
           color="primary"
           block
@@ -57,23 +62,22 @@
           Already have an account?
           <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
-      </v-form>
+      </Form>
     </v-sheet>
   </AuthLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { Form } from 'vee-validate'
 import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
 import { forgotPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const showMessage = ref(false)
 const authStore = useAuthStore()
-const { handleSubmit, isValid } = useValidator(forgotPasswordValidation)
 const isLoading = computed(() => authStore.isLoading)
 const form = useForm({
   email: 'themustafaomar@gmail.com',
@@ -81,15 +85,15 @@ const form = useForm({
 
 // Functions
 
-const submit = handleSubmit(async () => {
-  loading()
+const submit = async () => {
+  authStore.loading()
   try {
     await form.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`)
     showSuccessMessage()
   } catch (error) {
-    loaded()
+    authStore.loaded()
   }
-})
+}
 
 function showSuccessMessage() {
   showMessage.value = true

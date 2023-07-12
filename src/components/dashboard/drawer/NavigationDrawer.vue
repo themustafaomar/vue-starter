@@ -1,13 +1,9 @@
 <template>
   <v-navigation-drawer elevation="0" :style="{ position: 'fixed' }" :border="0">
     <template #prepend>
-      <v-list-item
-        lines="two"
-        :prepend-avatar="user.avatar"
-        density="comfortable"
-        title="Jone Smith"
-        subtitle="Logged in"
-      />
+      <v-list-item lines="two" density="default" class="text-center">
+        <v-img src="/logo2.jpg" width="160" class="mx-auto"></v-img>
+      </v-list-item>
     </template>
 
     <v-list density="comfortable" class="mt-2">

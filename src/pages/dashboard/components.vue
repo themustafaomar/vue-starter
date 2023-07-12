@@ -1,19 +1,14 @@
 <template>
-  <app-dashboard-heading
-    title="Components"
-    description="Welcome to the components section, here are some set of common components for your next app."
-  />
-
-  <v-row class="mb-5 mt-2">
-    <v-col cols="12">
-      <v-sheet class="pa-5" rounded="lg">
+  <app-sheet title="Components">
+    <v-row class="">
+      <v-col cols="12">
         <v-row>
           <v-col cols="6">
             <app-uploader
               v-model="form.file"
               required
               label="Upload your profile picture"
-              extensions="jpg,svg,jpeg,png,bmp,gif,webp"
+              extensions="jpg,svg,jpeg,png,bmp,gif,webp,avif"
             />
             <div v-if="form.file" class="mt-3">
               {{ `${form.file.name} - ${Math.round(form.file.size / 1024)}KB` }}
@@ -51,34 +46,32 @@
             ></app-uploader>
           </v-col>
         </v-row>
-      </v-sheet>
-    </v-col>
+      </v-col>
 
-    <!-- toasts (snackbars) -->
-    <v-col cols="4">
-      <v-sheet class="pa-5" rounded="lg">
-        <h3 class="font-weight-regular text-h6 mb-2">
-          This is to test
-          <code>toasts</code>
-        </h3>
-        <p class="text-medium-emphasis">
-          Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
-          veniam vero sapiente, aperiam at!
-        </p>
-        <v-btn color="primary" elevation="0" rounded="pill" class="mt-4" @click="showToast">
-          Show toast
-          <v-icon class="ms-1">mdi-bell-outline</v-icon>
-        </v-btn>
-        <v-btn color="red" elevation="0" rounded="pill" class="ms-3 mt-4" @click="showErrorToast">
-          Show error
-          <v-icon class="ms-1">mdi-bell-outline</v-icon>
-        </v-btn>
-      </v-sheet>
-    </v-col>
+      <!-- toasts (snackbars) -->
+      <v-col cols="4">
+        <v-sheet rounded="lg">
+          <h3 class="font-weight-regular text-h6 mb-2">
+            This is to test
+            <code>toasts</code>
+          </h3>
+          <p class="text-medium-emphasis">
+            Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
+            veniam vero sapiente, aperiam at!
+          </p>
+          <v-btn color="primary" elevation="0" rounded="pill" class="mt-4" @click="showToast">
+            Show toast
+            <v-icon class="ms-1">mdi-bell-outline</v-icon>
+          </v-btn>
+          <v-btn color="red" elevation="0" rounded="pill" class="ms-3 mt-4" @click="showErrorToast">
+            Show error
+            <v-icon class="ms-1">mdi-bell-outline</v-icon>
+          </v-btn>
+        </v-sheet>
+      </v-col>
 
-    <!-- delete dialogs -->
-    <v-col cols="4">
-      <v-sheet class="pa-5" rounded="lg">
+      <!-- delete dialogs -->
+      <v-col cols="4">
         <h3 class="font-weight-regular text-h6 mb-2">
           This is to test
           <code>dialogs</code>
@@ -91,31 +84,10 @@
           Show delete dialog
           <v-icon class="ms-1">mdi-delete-outline</v-icon>
         </v-btn>
-      </v-sheet>
-    </v-col>
+      </v-col>
 
-    <!-- error page simulation -->
-    <v-col cols="4">
-      <v-sheet class="pa-5" rounded="lg">
-        <h3 class="font-weight-regular text-h6 mb-2">
-          This is to test
-          <code>error</code>
-          page
-        </h3>
-        <p class="text-medium-emphasis">
-          Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
-          veniam vero sapiente, aperiam at!
-        </p>
-        <v-btn color="red" elevation="0" rounded="pill" class="mt-4" @click.prevent="makeError">
-          Simulate error
-          <v-icon class="ms-1">mdi-delete-outline</v-icon>
-        </v-btn>
-      </v-sheet>
-    </v-col>
-
-    <!-- text fields -->
-    <v-col cols="4" xl="3">
-      <v-sheet class="pa-5" rounded="lg">
+      <!-- text fields -->
+      <v-col cols="4" xl="3">
         <h3 class="font-weight-regular text-h6 mb-2">
           This is to test
           <code>text fields</code>
@@ -177,20 +149,20 @@
           ></v-progress-circular>
           <template v-else>Send</template>
         </v-btn>
-      </v-sheet>
-    </v-col>
-  </v-row>
+      </v-col>
+    </v-row>
 
-  <app-dialog
-    ref="dialog"
-    title="Are you sure you want to delete this item?"
-    content="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
-  >
-    <template #actions="{ close, payload }">
-      <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
-      <v-btn variant="flat" color="primary" @click="deleteItem(payload)">I understand</v-btn>
-    </template>
-  </app-dialog>
+    <app-dialog
+      ref="dialog"
+      title="Are you sure you want to delete this item?"
+      content="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
+    >
+      <template #actions="{ close, payload }">
+        <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
+        <v-btn variant="flat" color="primary" @click="deleteItem(payload)">I understand</v-btn>
+      </template>
+    </app-dialog>
+  </app-sheet>
 </template>
 
 <script setup>
@@ -226,13 +198,6 @@ const showErrorToast = () => {
   notify({
     message: 'This is a message for error toast.',
     color: 'red',
-  })
-}
-
-const makeError = () => {
-  error({
-    message: 'Page Not Found',
-    type: 404,
   })
 }
 

@@ -1,14 +1,7 @@
 <template>
-  <v-sheet rounded="lg" class="pa-5">
-    <h2 class="font-weight-medium text-h5">Profile Information</h2>
-    <p class="text-medium-emphasis mb-3">
-      Profile section where you can change your account information or change your password.
-    </p>
-
-    <v-divider />
-
-    <!-- profile info form -->
-    <v-row class="mt-5">
+  <!-- profile info form -->
+  <app-sheet title="Profile">
+    <v-row class="mt-2">
       <v-col cols="4" class="mx-auto text-center mb-5">
         <app-dashboard-profile-avatar @save="saveAvatar" :user="user" />
         <h4 class="mt-1">Profile Picture</h4>
@@ -52,19 +45,11 @@
         </v-btn>
       </v-col>
     </v-row>
-  </v-sheet>
+  </app-sheet>
   <!-- end profile info form -->
 
   <!-- password form -->
-  <v-sheet rounded="lg" class="mt-5 pa-5">
-    <h2 class="font-weight-medium text-h5">Update Password</h2>
-    <p class="text-medium-emphasis mb-3">
-      Update password section where you can change your password, for security pick a powerful
-      password.
-    </p>
-
-    <v-divider />
-
+  <app-sheet title="Update Password" class="mt-5">
     <v-row class="mt-5">
       <v-col cols="12" sm="12" lg="6" class="pb-0">
         <app-text-field
@@ -103,7 +88,7 @@
         </v-btn>
       </v-col>
     </v-row>
-  </v-sheet>
+  </app-sheet>
   <!-- end password form -->
 </template>
 

@@ -1,68 +1,45 @@
 <template>
-  <v-sheet class="rounded-lg shadow-sm py-4" rounded="lg">
-    <app-dashboard-heading-classic title="Roles">
-      <template #actions>
-        <v-btn color="primary" rounded="pill" elevation="0" @click="composeDialog.open()">
-          <v-icon class="me-1">mdi-lock-outline</v-icon>
-          Add role
-        </v-btn>
-      </template>
-    </app-dashboard-heading-classic>
+  <app-sheet title="Roles" table class="pb-5">
+    <template #actions>
+      <v-btn color="primary" rounded="pill" elevation="0" @click="composer.add()">
+        Add role
+        <v-icon class="ms-1">mdi-cog-outline</v-icon>
+      </v-btn>
+    </template>
 
-    <!-- <app-dashboard-heading
-      title="Roles"
-      description="Roles secti
-      on where you can manage the user's roles."
-    >
-      <template #action>
-        <v-btn @click="composeDialog.open()" color="primary" elevation="0">
-          New role
-          <v-icon class="ms-1">mdi-lock-outline</v-icon>
-        </v-btn>
-      </template>
-    </app-dashboard-heading> -->
-
-    <v-data-table
-      :items-per-page="15"
-      :headers="headers"
-      :items="roles"
-      checkbox-color="primary"
-      :expanded.sync="expanded"
-      hover
-      density="comfortable"
-    >
-      <template #item.id="{ item }">
-        <div class="py-3">#{{ item.raw.id }}</div>
-      </template>
+    <v-data-table :headers="headers" :items="roles" hover>
+      <template #item.id="{ item }">#{{ item.raw.id }}</template>
 
       <template #item.actions="{ item }">
-        <app-dashboard-edit-btn @click="composeDialog.open(item.raw.id)" />
+        <app-dashboard-edit-btn @click="composer.update(item.raw)" />
         <app-dashboard-delete-btn @click.prevent />
       </template>
 
       <template #bottom>
         <div class="text-center pt-2">
-          <v-pagination v-model="page" :length="pageCount" />
+          <v-pagination v-model="page" />
         </div>
       </template>
     </v-data-table>
+  </app-sheet>
 
-    <app-dashboard-roles-compose @role:created="roleCreated" ref="composeDialog" />
-  </v-sheet>
+  <useComposer ref="composer" title="Role" v-slot="{ props }">
+    <app-dashboard-roles-compose v-bind="props" @created="fetch()" />
+  </useComposer>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from '@/plugins/axios'
 import { useLoader } from '@/composables/useLoader'
+import useComposer from '@/hoc/useComposer.vue'
 import AppDashboardRolesCompose from '@/components/dashboard/roles/Compose.vue'
-import AppDashboardHeadingClassic from '@/components/dashboard/HeadingClassic.vue'
 import AppDashboardEditBtn from '@/components/dashboard/EditBtn.vue'
 import AppDashboardDeleteBtn from '@/components/dashboard/DeleteBtn.vue'
 
+const page = ref(1)
+const composer = ref(null)
 const roles = ref([])
-const expanded = ref([])
-const composeDialog = ref(null)
 const loader = useLoader()
 const headers = ref([
   { title: 'ID', key: 'id' },
@@ -74,23 +51,18 @@ const headers = ref([
 
 // Lifecycle hooks
 
-onMounted(() => fetchRoles())
+onMounted(() => fetch())
 
 // Functions
 
-const fetchRoles = async () => {
+const fetch = async () => {
   roles.value = (await axios.get('/roles')).data.data
   loader.markAsLoaded()
-}
-
-const roleCreated = () => {
-  loader.markAsLoading()
-  fetchRoles()
 }
 </script>
 
 <style>
-thead th {
+/* thead th {
   background-color: #f8fafc !important;
   text-transform: uppercase;
 }
@@ -100,5 +72,5 @@ thead th {
 .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td,
 .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > th {
   border-bottom: 1px solid #eee;
-}
+} */
 </style>

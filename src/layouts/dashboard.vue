@@ -15,7 +15,7 @@
     <!-- content -->
     <v-main>
       <app-dashboard-loader v-show="isLoading" />
-      <div v-show="!isLoading" class="pa-6">
+      <div v-show="!isLoading" class="pa-3 pa-sm-6">
         <router-view />
       </div>
     </v-main>

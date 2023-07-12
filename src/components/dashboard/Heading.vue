@@ -1,17 +1,14 @@
 <template>
-  <v-sheet rounded="lg" class="d-flex align-center justify-space-between pa-5">
-    <slot v-if="$slots.default"></slot>
-    <div v-else>
-      <h2 class="font-weight-medium text-h5">{{ title }}</h2>
-      <p class="text-medium-emphasis">{{ description }}</p>
+  <v-sheet class="shadow-sm pa-5" rounded="lg">
+    <div>
+      <h2 class="font-weight-medium text-h5 d-flex align-center text-grey-darken-3">
+        {{ title }}
+      </h2>
     </div>
-    <slot name="action"></slot>
+    <slot name="actions"></slot>
   </v-sheet>
 </template>
 
 <script setup>
-defineProps({
-  title: String,
-  description: String,
-})
+const props = defineProps({ title: String })
 </script>

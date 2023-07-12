@@ -24,8 +24,6 @@
         <v-btn variant="text">Home</v-btn>
 
         <v-btn variant="text">Blog</v-btn>
-
-        <v-btn variant="text">Other</v-btn>
       </template>
 
       <v-divider class="mx-2 my-auto" style="height: 16px" inset vertical />

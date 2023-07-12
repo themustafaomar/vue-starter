@@ -5,6 +5,7 @@
     :timeout="options.timeout"
     :location="options.location"
   >
+    <v-icon v-if="options.color === 'primary'" class="me-1">mdi-check-circle-outline</v-icon>
     <v-icon v-if="options.color === 'red'" class="me-1">mdi-alert-circle-outline</v-icon>
     {{ options.message }}
     <template #actions>

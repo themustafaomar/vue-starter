@@ -8,7 +8,12 @@
         description="Enter a new password to reset the password on your account, we'll ask for this password whenever you login"
       />
 
-      <v-form @submit.prevent="submit">
+      <Form
+        v-slot="{ meta }"
+        :validation-schema="resetPasswordValidation"
+        as="form"
+        @submit="reset"
+      >
         <app-text-field
           v-model="form.email"
           :form="form"
@@ -51,7 +56,7 @@
         ></app-text-field>
 
         <v-btn
-          :disabled="isLoading || !isValid"
+          :disabled="isLoading || !meta.valid"
           :loading="isLoading"
           type="submit"
           color="primary"
@@ -66,18 +71,18 @@
           Know your password?
           <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
-      </v-form>
+      </Form>
     </v-sheet>
   </AuthLayout>
 </template>
 
 <script setup>
 import { computed, onMounted } from 'vue'
+import { Form } from 'vee-validate'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
 import { resetPasswordValidation } from '@/validations/auth'
 import AuthLayout from '@/layouts/auth.vue'
 import AppAuthHeading from '@/components/auth/Heading.vue'
@@ -86,7 +91,6 @@ const route = useRoute()
 const router = useRouter()
 const { notify } = useAppStore()
 const authStore = useAuthStore()
-const { handleSubmit, isValid } = useValidator(resetPasswordValidation)
 const isLoading = computed(() => authStore.isLoading)
 const form = useForm({
   email: route.query.email,
@@ -105,7 +109,7 @@ onMounted(() => {
 
 // Functions
 
-const submit = handleSubmit(async () => {
+const reset = async () => {
   authStore.loading()
   form
     .post(`${import.meta.env.VITE_SERVER_URL}/reset-password`)
@@ -122,5 +126,5 @@ const submit = handleSubmit(async () => {
         color: 'red',
       })
     })
-})
+}
 </script>

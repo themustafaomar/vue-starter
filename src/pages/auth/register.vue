@@ -6,7 +6,7 @@
         description="Create an account - enjoy exclusive features and much more..."
       />
 
-      <v-form @submit.prevent="submit">
+      <Form v-slot="{ meta }" :validation-schema="registerValidation" as="form" @submit="register">
         <app-text-field
           v-model="form.name"
           :form="form"
@@ -58,7 +58,7 @@
 
         <v-btn
           type="submit"
-          :disabled="isLoading || !isValid"
+          :disabled="isLoading || !meta.valid"
           :loading="isLoading"
           elevation="0"
           color="primary"
@@ -72,18 +72,18 @@
           Already have an account?
           <router-link to="/login" class="text-decoration-none text-primary">sign in</router-link>
         </p>
-      </v-form>
+      </Form>
     </v-sheet>
   </AuthLayout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { Form } from 'vee-validate'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
 import { registerValidation } from '@/validations/auth'
 import axios from '@/plugins/axios'
 import AuthLayout from '@/layouts/auth.vue'
@@ -93,7 +93,6 @@ const router = useRouter()
 const authStore = useAuthStore()
 const { isLoading } = storeToRefs(authStore)
 const { loading, loaded, login } = authStore
-const { handleSubmit, isValid } = useValidator(registerValidation)
 const form = useForm({
   name: '',
   email: '',
@@ -108,7 +107,7 @@ const types = ref([
 
 // Functions
 
-const submit = handleSubmit(async () => {
+const register = async () => {
   loading()
 
   const SERVER_URL = import.meta.env.VITE_SERVER_URL
@@ -125,5 +124,5 @@ const submit = handleSubmit(async () => {
   router.push('/dashboard').then(() => {
     loaded()
   })
-})
+}
 </script>

@@ -1,12 +1,6 @@
 <template>
-  <v-sheet class="rounded-lg shadow-sm py-4" rounded="lg">
-    <app-dashboard-heading-classic title="Users">
-      <template #actions>
-        <v-btn color="primary" rounded="pill" elevation="0" @click="compose.add()">Add user</v-btn>
-      </template>
-    </app-dashboard-heading-classic>
-
-    <v-data-table :headers="headers" :items="users" :expanded="expanded" show-expand>
+  <app-sheet title="Users" table class="pb-5">
+    <v-data-table :headers="headers" :items="users">
       <template #item.id="{ item }">
         <div class="py-3">#{{ item.raw.id }}</div>
       </template>
@@ -16,18 +10,18 @@
         <span class="d-inline-block ms-3">{{ item.raw.name }}</span>
       </template>
 
-      <template #item.actions="{ item }">
-        <app-dashboard-edit-btn v-if="can('update users')" @click="compose.update(item.raw)" />
-        <app-dashboard-delete-btn v-if="can('delete users')" @click.prevent />
-      </template>
-
       <template #item.role="{ item }">
-        <v-chip color="dark">{{ item.raw.role.name }}</v-chip>
+        <v-chip color="primary">{{ item.raw.role.name }}</v-chip>
       </template>
 
       <template #item.status="{ item }">
         <v-icon small size="17" :color="item.raw.status.color">mdi-check-circle</v-icon>
-        {{ item.raw.status.name }}
+        <span class="text-capitalize ms-1">{{ item.raw.status.name }}</span>
+      </template>
+
+      <template #item.actions="{ item }">
+        <app-dashboard-edit-btn v-if="can('update users')" @click="composer.update(item.raw)" />
+        <app-dashboard-delete-btn v-if="can('delete users')" @click.prevent />
       </template>
 
       <template #bottom>
@@ -36,30 +30,26 @@
         </div>
       </template>
     </v-data-table>
+  </app-sheet>
 
-    <app-dashboard-users-compose
-      v-model="compose.isActive.value"
-      :data="compose.data"
-      @created="compose.markAsCreated(() => fetch())"
-    ></app-dashboard-users-compose>
-  </v-sheet>
+  <useComposer ref="composer" title="User" v-slot="{ props }">
+    <app-dashboard-users-compose v-bind="props" @created="fetch()" />
+  </useComposer>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useLoader } from '@/composables/useLoader'
-import { useComposer } from '@/composables/useComposer'
 import axios from '@/plugins/axios'
-import AppDashboardHeadingClassic from '@/components/dashboard/HeadingClassic.vue'
+import useComposer from '@/hoc/useComposer.vue'
 import AppDashboardUsersCompose from '@/components/dashboard/users/Compose.vue'
 import AppDashboardEditBtn from '@/components/dashboard/EditBtn.vue'
 import AppDashboardDeleteBtn from '@/components/dashboard/DeleteBtn.vue'
 
+const composer = ref(null)
 const users = ref([])
-const expanded = ref([])
 const page = ref(1)
 const loader = useLoader()
-const compose = useComposer()
 const headers = ref([
   { title: 'ID', key: 'id' },
   { title: 'Name', key: 'name' },
@@ -70,16 +60,15 @@ const headers = ref([
   { title: 'Actions', key: 'actions' },
 ])
 
-// Hooks
+// Lifecycle Hooks
 
-onMounted(() => {
-  fetch()
-})
+onMounted(() => fetch())
 
 // Functions
 
 const fetch = async () => {
   users.value = (await axios.get('/users')).data.data
+
   loader.markAsLoaded()
 }
 </script>

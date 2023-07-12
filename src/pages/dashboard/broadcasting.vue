@@ -1,19 +1,16 @@
 <template>
-  <app-dashboard-heading
-    title="Broadcasting"
-    description="Welcome to the broadcasting section where you can see some broadcasting example"
-  />
-
-  <v-sheet rounded="lg" class="pa-5 mt-5">
+  <app-sheet title="Broadcasting">
     This is an example of broadcasting using public channels
     <p class="mb-3">Loaded records: {{ users.length }} / Total clicks: {{ counter }}</p>
+
     <v-btn @click="brodacast(), counter++" color="primary" elevation="0">
       Get random user from the database
     </v-btn>
+
     <v-btn @click=";(users = []), (counter = 0)" color="red" elevation="0" class="ms-3">
       Reset
     </v-btn>
-  </v-sheet>
+  </app-sheet>
 
   <div
     ref="broadcastContainer"
@@ -35,7 +32,6 @@
 import { ref, onMounted } from 'vue'
 import { useLoader } from '@/composables/useLoader'
 import axios from '@/plugins/axios'
-import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
 const users = ref([])
 const counter = ref(0)

@@ -18,6 +18,11 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/components.vue'),
       },
       {
+        name: 'dashboard_chat',
+        path: 'chat',
+        component: () => import('@/pages/dashboard/chat.vue'),
+      },
+      {
         name: 'dashboard_broadcasting',
         path: 'broadcasting',
         component: () => import('@/pages/dashboard/broadcasting.vue'),
@@ -52,6 +57,11 @@ export const dashboard = [
         name: 'dashboard_profile',
         path: 'profile',
         component: () => import('@/pages/dashboard/profile.vue'),
+      },
+      {
+        name: 'dashboard_notifications',
+        path: 'notifications',
+        component: () => import('@/pages/dashboard/notifications.vue'),
       },
     ],
   },

@@ -34,5 +34,9 @@ export default ({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
+    optimizeDeps: {
+      exclude: ['vuetify'],
+      entries: ['./src/**/*.vue'],
+    },
   })
 }

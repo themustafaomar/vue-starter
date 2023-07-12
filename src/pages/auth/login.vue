@@ -14,7 +14,7 @@
         description="Login to your account - enjoy exclusive features and much more..."
       />
 
-      <v-form @submit.prevent="submit">
+      <Form v-slot="{ meta }" :validation-schema="loginValidation" as="form" @submit="login">
         <app-text-field
           v-model="form.email"
           :form="form"
@@ -40,7 +40,7 @@
 
         <v-btn
           type="submit"
-          :disabled="authStore.isLoading || !isValid"
+          :disabled="authStore.isLoading || !meta.valid"
           :loading="authStore.isLoading"
           color="primary"
           block
@@ -54,6 +54,7 @@
 
         <v-btn
           @click.prevent="$router.push({ name: 'register' })"
+          type="submit"
           :disabled="authStore.isLoading"
           :style="{ 'background-color': '#1e293b' }"
           class="text-white font-weight-normal py-5 mt-5"
@@ -69,14 +70,14 @@
             reset it
           </router-link>
         </p>
-      </v-form>
+      </Form>
     </v-sheet>
   </AuthLayout>
 </template>
 
 <script setup>
+import { Form } from 'vee-validate'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { loginValidation } from '@/validations/auth'
@@ -85,7 +86,6 @@ import AppAuthHeading from '@/components/auth/Heading.vue'
 
 const appStore = useAppStore()
 const authStore = useAuthStore()
-const { handleSubmit, isValid } = useValidator(loginValidation)
 const form = useForm({
   email: 'themustafaomar@gmail.com',
   password: 'password',
@@ -93,8 +93,8 @@ const form = useForm({
 
 // Functions
 
-const submit = handleSubmit(async () => {
+const login = async () => {
   await authStore.signin(form)
   appStore.notify('Logged in successfully!')
-})
+}
 </script>

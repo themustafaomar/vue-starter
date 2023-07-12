@@ -77,8 +77,3 @@ const links = ref([
   },
 ])
 </script>
-<style>
-.v-skeleton-loader__avatar {
-  margin: 0;
-}
-</style>
