@@ -5,8 +5,7 @@
     :timeout="options.timeout"
     :location="options.location"
   >
-    <v-icon v-if="options.color === 'primary'" class="me-1">mdi-check-circle-outline</v-icon>
-    <v-icon v-if="options.color === 'red'" class="me-1">mdi-alert-circle-outline</v-icon>
+    <v-icon class="me-1">{{ icon }}</v-icon>
     {{ options.message }}
     <template #actions>
       <v-btn color="white" variant="text" rounded ripple @click="appStore.snackbar.show = false">
@@ -22,4 +21,15 @@ import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
 const options = computed(() => appStore.snackbar)
+const icon = computed(() => {
+  let _icon = 'mdi-'
+  if (options.value.color === 'primary') {
+    _icon += 'check-circle-outline'
+  } else if (options.value.color === 'info') {
+    _icon += 'information-slab-circle-outline'
+  } else if (options.value.color === 'red') {
+    _icon += 'alert-circle-outline'
+  }
+  return _icon
+})
 </script>

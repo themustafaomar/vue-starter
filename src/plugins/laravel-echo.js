@@ -10,7 +10,7 @@ window.Echo = new Echo({
   broadcaster: 'pusher',
   key: env.VITE_PUSHER_KEY,
   cluster: env.VITE_PUSHER_CLUSTER,
-  wsHost: location.hostname,
+  wsHost: env.VITE_PUSHER_HOST,
   wsPort: 6001,
   forceTLS: false,
   enctyped: true,
@@ -19,9 +19,9 @@ window.Echo = new Echo({
   // https://laravel.com/docs/10.x/sanctum#authorizing-private-broadcast-channels
   authorizer: (channel) => ({
     authorize: (socketId, callback) => {
-      const prefix = isDev ? '@' : env.VITE_SERVER_URL
+      const prefix = isDev() ? '/@' : env.VITE_SERVER_URL
       axios
-        .post(`/${prefix}/broadcasting/auth`, {
+        .post(`${prefix}/broadcasting/auth`, {
           socket_id: socketId,
           channel_name: channel.name,
         })

@@ -1,64 +1,78 @@
 <template>
-  <app-dialog ref="dialog" title="Add new role">
-    <v-card-text>
-      <!-- Attention: working on fixing the initial error border -->
-      <app-text-field
-        v-model="form.name"
-        :form="form"
-        name="name"
-        label="Role Name"
-        placeholder="Enter the role name"
-        hide-details
-        required
-      ></app-text-field>
-    </v-card-text>
+  <v-dialog width="700">
+    <v-card rounded="lg">
+      <v-card-title>
+        <h3 class="font-weight-regular text-h6">{{ compose.title }}</h3>
+      </v-card-title>
 
-    <template #actions="{ close }">
-      <v-btn @click="close" variant="flat" color="red">Cancel</v-btn>
-      <v-btn
-        @click="create"
-        :disabled="form.busy || !isValid"
-        :loading="form.busy"
-        variant="flat"
-        color="primary"
+      <Form
+        ref="veeForm"
+        @submit="saveOrUpdate"
+        v-slot="{ meta }"
+        :validation-schema="createPermissionValidation"
       >
-        Add role
-      </v-btn>
-    </template>
-  </app-dialog>
+        <v-card-text>
+          <app-text-field
+            v-model="form.name"
+            :form="form"
+            name="name"
+            label="Permission Name"
+            placeholder="Enter the permission name"
+            hide-details
+            required
+          ></app-text-field>
+        </v-card-text>
+
+        <v-card-actions class="pa-4">
+          <v-btn @click="compose.close()" variant="flat" color="red">Discard</v-btn>
+
+          <v-btn
+            type="submit"
+            :disabled="!meta.valid || form.busy"
+            :loading="form.busy"
+            variant="flat"
+            color="primary"
+            class="ms-4"
+          >
+            {{ compose.action }}
+          </v-btn>
+        </v-card-actions>
+      </Form>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { Form } from 'vee-validate'
 import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
-import { createRoleValidation } from '@/validations/roles'
-import AppDialog from '@/components/app/Dialog.vue'
+import { createPermissionValidation } from '@/validations/permissions'
 
-const dialog = ref(null)
+const props = defineProps({ compose: Object })
+
 const { notify } = useAppStore()
-const { handleSubmit, isValid } = useValidator(createRoleValidation)
 const form = useForm({
   name: '',
 })
 
 // Functions
 
-const create = handleSubmit(() => {
+const saveOrUpdate = () => {
   form
     .post('/roles')
     .then(() => {
-      notify('A new role has been successfully created!')
-      form.reset()
-      dialog.value.hide()
+      _reset()
     })
     .catch((error) => {
       console.log(error)
     })
-})
+}
 
-defineExpose({
-  open: () => dialog.value.show(),
-})
+const _reset = () => {
+  props.compose.close()
+  emit('created')
+  notify('A new permission has been successfully created!')
+  form.reset()
+}
 </script>

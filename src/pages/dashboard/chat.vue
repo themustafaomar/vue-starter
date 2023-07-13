@@ -23,12 +23,15 @@
         <v-divider color="grey-darken-1" />
 
         <div @wheel="loadMore" ref="container" class="chat-container px-5 py-6">
-          <div v-if="isLoadingMore" class="text-center">
+          <div class="text-center">
             <v-progress-circular
+              v-if="isLoadingMore"
               indeterminate
+              size="30"
               color="grey-darken-2"
-              width="2.5"
               bg-color="transparent"
+              width="2.5"
+              class="position-absolute"
             />
           </div>
 
@@ -67,6 +70,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useEventListener } from '@vueuse/core'
+import { useAppStore } from '@/stores/app'
 import { useChatStore } from '@/stores/chats'
 import { useLoader } from '@/composables/useLoader'
 import { useUser } from '@/composables/useUser'
@@ -83,6 +87,7 @@ const sound = ref(null)
 const route = useRoute()
 const loader = useLoader()
 const user = useUser()
+const { notify } = useAppStore()
 const chatStore = useChatStore()
 // prettier-ignore
 const {
@@ -123,6 +128,9 @@ onMounted(() => {
     conversation.unreadCount = unreadCount + 1
     conversation.body = message.body
     sound.value.play()
+
+    // @TODO: check if the input is focused
+    // If yes, remove the conversation badge..
 
     // We'll check if no active conversation, if yes we
     // will abort the remaining proccess wich is responsible
@@ -169,12 +177,20 @@ const loadMore = ({ currentTarget }) => {
   if (currentTarget.scrollTop !== 0 || isLoadingMore.value) {
     return
   }
-  // Coming soon..
-  // chatStore.loadMore()
+
+  notify({
+    message:
+      'Loading more in development currently, and this is a fake data for demonstration purposes, stay tunned!',
+    color: 'info',
+  })
+
+  chatStore.loadMore().then(() => {
+    currentTarget.scrollTop = 20
+  })
 }
 
 function watchScroll() {
-  if (!chat.value.length) {
+  if (!chat.value.length || isLoadingMore.value) {
     return
   }
 

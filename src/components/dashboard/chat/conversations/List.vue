@@ -20,7 +20,7 @@
     <template v-if="!isLoadingConversations">
       <h3 class="px-4 mt-4 mb-3">Chats</h3>
 
-      <v-list density="comfortable" @click:select="loadChat" @keyup.esc="_closeChat" lines="">
+      <v-list density="comfortable" @click:select="loadChat" @keyup.esc="_closeChat">
         <template v-for="conversation in conversations">
           <v-list-item color="primary" class="py-3" :value="conversation">
             <template #prepend>

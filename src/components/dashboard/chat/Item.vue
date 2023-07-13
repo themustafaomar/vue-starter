@@ -1,5 +1,8 @@
 <template>
-  <li class="d-flex mb-5" :class="{ 'justify-start': !current, 'flex-end flex-row-reverse': current }">
+  <li
+    class="d-flex mb-5"
+    :class="{ 'justify-start': !current, 'flex-end flex-row-reverse': current }"
+  >
     <v-avatar size="40">
       <v-img cover :src="data.user.avatar"></v-img>
     </v-avatar>

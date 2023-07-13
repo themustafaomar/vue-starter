@@ -11,12 +11,13 @@ Pages must be small letters e.g `blog.vue`, `login.vue` and we add a `-` if the 
 In order for the team developers to know what is going on quickly in a page we have to standardize our imports as follows.
 
 ```js
-// 1. Vue imports must come first, this includes `vue`, `vue-router` and `pinia` and anything releated to the Vue community.
+// 0. Third party libraries
+1. Vue imports, this includes `vue`, `vue-router` and `pinia` and anything releated to the Vue community.
 // 2. Our Pinia stores if any
 // 3. Plugins if any
 // 4. Composables if any
 // 5. Validations if any
-// 6. Components must come at the end
+// 6. Components must come at the end (global components first then local components)
 
 // Example
 import { computed, onMounted } from 'vue'
@@ -24,7 +25,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useForm } from '@/composables/useForm'
-import { useValidator } from '@/composables/useValidator'
+import { useLoader } from '@/composables/useLoader'
 import { loginValidation } from '@/validations/auth'
 import AppComponentExample from '@/components/app/ComponentsExample.vue'
 ```

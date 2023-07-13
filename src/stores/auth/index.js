@@ -4,7 +4,7 @@ import axios from '@/plugins/axios'
 import router from '@/router'
 import { isDev } from '@/utils'
 
-const baseURL = isDev ? '@' : import.meta.env.VITE_SERVER_URL
+const baseURL = isDev() ? '@/' : import.meta.env.VITE_SERVER_URL
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

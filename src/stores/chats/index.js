@@ -93,24 +93,41 @@ export const useChatStore = defineStore('chats', {
     },
     loadMore() {
       this.isLoadingMore = true
-
-      setTimeout(() => {
-        this.chat.unshift({
-          id: 10,
-          avatar: '/avatar.jpg',
-          message: 'A new message loaded',
-          current: true,
-          created: '5:45 AM',
-        })
-        this.chat.unshift({
-          id: 12,
-          avatar: '/avatar.jpg',
-          message: 'Another message has just loaded',
-          current: false,
-          created: '5:45 AM',
-        })
-        this.isLoadingMore = false
-      }, 1000)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.chat.unshift({
+            id: 101,
+            from_id: 2,
+            body: 'A new message loaded',
+            created_at: '5:45 AM',
+            user: {
+              avatar: '/avatar.jpg',
+            },
+          })
+          this.chat.unshift({
+            id: 1211,
+            from_id: 1,
+            body: 'Another message has just loaded',
+            created_at: '5:45 AM',
+            user: {
+              avatar: '/avatar.jpg',
+            },
+          })
+          this.chat.unshift({
+            id: 1211,
+            from_id: 2,
+            body: 'Another message has just loaded',
+            created_at: '5:45 AM',
+            user: {
+              avatar: '/avatar.jpg',
+            },
+          })
+          setTimeout(() => {
+            this.isLoadingMore = false
+          })
+          resolve()
+        }, 1000)
+      })
     },
   },
 })

@@ -63,6 +63,11 @@ export const dashboard = [
         path: 'notifications',
         component: () => import('@/pages/dashboard/notifications.vue'),
       },
+      {
+        name: 'dashboard_settings',
+        path: 'settings',
+        component: () => import('@/pages/dashboard/settings.vue'),
+      },
     ],
   },
 ]

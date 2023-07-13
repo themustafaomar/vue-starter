@@ -1,5 +1,9 @@
 <template>
   <app-sheet title="Users" table class="pb-5">
+    <template #actions>
+      <v-btn @click="composer.add()" color="primary" rounded="pill">Create User</v-btn>
+    </template>
+
     <v-data-table :headers="headers" :items="users">
       <template #item.id="{ item }">
         <div class="py-3">#{{ item.raw.id }}</div>

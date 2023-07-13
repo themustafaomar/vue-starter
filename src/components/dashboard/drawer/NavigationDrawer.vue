@@ -6,7 +6,7 @@
       </v-list-item>
     </template>
 
-    <v-list density="comfortable" class="mt-2">
+    <v-list density="comfortable">
       <template v-for="link in links">
         <!-- Having children, we need to render it via list group -->
         <app-dashboard-drawer-item-group v-if="link.children" :link="link" />

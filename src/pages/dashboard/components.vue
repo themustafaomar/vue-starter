@@ -171,10 +171,9 @@ import { useAppStore } from '@/stores/app'
 import { useForm } from '@/composables/useForm'
 import { useLoader } from '@/composables/useLoader'
 import AppDialog from '@/components/app/Dialog.vue'
-import AppDashboardHeading from '@/components/dashboard/Heading.vue'
 
 const dialog = ref(null)
-const { notify, error } = useAppStore()
+const { notify } = useAppStore()
 const loader = useLoader()
 const form = useForm({
   name: '',
