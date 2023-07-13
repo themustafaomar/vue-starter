@@ -81,6 +81,9 @@ import AppDashboardChatTyping from '@/components/dashboard/chat/Typing.vue'
 import AppDashboardChatToolbar from '@/components/dashboard/chat/Toolbar.vue'
 import AppDashboardChatEmpty from '@/components/dashboard/chat/Empty.vue'
 
+const CHANNEL_CHAT_MESSAGE = `chat.${user.id}`
+const CHANNEL_SEEN = `seen.${user.id}`
+
 const container = ref(null)
 const sender = ref(null)
 const sound = ref(null)
@@ -99,6 +102,8 @@ const {
   conversations,
 } = storeToRefs(chatStore)
 
+// Watchers
+
 watch(isPartnerTyping, watchScroll)
 watch(chat, watchScroll, { deep: true })
 watch(activeConversation, () => (isPartnerTyping.value = false))
@@ -106,7 +111,7 @@ watch(() => [route.query.conversation, chatStore.hasLoadedConversations], loadCo
   immediate: true,
 })
 
-// Hooks
+// Lifecycle Hooks
 
 onMounted(() => {
   loader.markAsLoaded()
@@ -118,7 +123,7 @@ onMounted(() => {
     }
   })
 
-  Echo.private(`chat.${user.id}`).listen('.message-received', (message) => {
+  Echo.private(CHANNEL_CHAT_MESSAGE).listen('.message-received', (message) => {
     // Highlight the conversation with a little badge
     // containing the total unread messages.
     const conversationId = message.from_id
@@ -143,7 +148,7 @@ onMounted(() => {
   })
 
   // Let's mark our unread messages as seen when broadcasting happens
-  Echo.private(`seen.${user.id}`).listen('.conversation-seen', () => {
+  Echo.private(CHANNEL_SEEN).listen('.conversation-seen', () => {
     chat.value
       .filter((message) => message.from_id === user.id)
       .forEach((item) => {
@@ -154,6 +159,11 @@ onMounted(() => {
 
 onUnmounted(() => {
   chatStore.closeChat()
+
+  Echo.leaveChannel(CHANNEL_CHAT_MESSAGE)
+  Echo.leaveChannel(CHANNEL_SEEN)
+
+  console.log('Chat unmounted!')
 })
 
 // Functions
@@ -174,18 +184,18 @@ function loadConversationFromId() {
 }
 
 const loadMore = ({ currentTarget }) => {
-  if (currentTarget.scrollTop !== 0 || isLoadingMore.value) {
+  if (currentTarget.scrollTop > 0 || isLoadingMore.value || chat.value.length < 15) {
     return
   }
 
   notify({
     message:
-      'Loading more in development currently, and this is a fake data for demonstration purposes, stay tunned!',
+      'Loading more is in development currently, and this is a fake data for demonstration purposes, stay tunned!',
     color: 'info',
   })
 
   chatStore.loadMore().then(() => {
-    currentTarget.scrollTop = 20
+    currentTarget.scrollTop = 1
   })
 }
 
