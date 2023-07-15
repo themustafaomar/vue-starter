@@ -1,6 +1,6 @@
 <template>
   <AuthLayout>
-    <v-sheet width="360" rounded class="position-relative mx-auto border rounded-lg pa-8">
+    <v-sheet width="360" rounded class="position-relative mx-auto rounded-lg pa-8">
       <app-auth-heading
         title="Sign up"
         description="Create an account - enjoy exclusive features and much more..."

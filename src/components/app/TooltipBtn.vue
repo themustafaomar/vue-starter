@@ -26,8 +26,8 @@ defineProps({
   path: String,
   variant: {
     type: String,
-    default: 'text'
-  }
+    default: 'text',
+  },
 })
 
 const { t } = useI18n()
@@ -35,7 +35,7 @@ const { t } = useI18n()
 
 <script>
 export default {
-  inheritAttrs: false
+  inheritAttrs: false,
 }
 </script>
 

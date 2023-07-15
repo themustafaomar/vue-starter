@@ -3,9 +3,7 @@
     This is an example of broadcasting using public channels
     <p class="mb-3">Loaded records: {{ users.length }} / Total clicks: {{ counter }}</p>
 
-    <v-btn @click="brodacast(), counter++" color="primary" elevation="0">
-      Get random user from the database
-    </v-btn>
+    <v-btn @click="brodacast(), counter++" color="primary" elevation="0">Get random user</v-btn>
 
     <v-btn @click=";(users = []), (counter = 0)" color="red" elevation="0" class="ms-3">
       Reset
@@ -19,7 +17,7 @@
   >
     <template v-if="users.length">
       <TransitionGroup name="list" tag="div">
-        <v-sheet v-for="(user, index) in users" :key="index" rounded="lg" class="border pa-3 my-5">
+        <v-sheet v-for="(user, index) in users" :key="index" rounded="lg" class="shadow pa-3 my-5">
           #{{ index + ' ' + user.name }} - {{ user.email }}
         </v-sheet>
       </TransitionGroup>

@@ -3,7 +3,8 @@ export const theme = {
   themes: {
     light: {
       colors: {
-        primary: '#2563eb',
+        // primary: '#2563eb',
+        primary: '#0094ff',
         background: '#f9fafb',
         // background: '#eee',
         error: '#ff3122',

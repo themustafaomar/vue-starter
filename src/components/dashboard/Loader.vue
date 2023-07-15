@@ -11,3 +11,10 @@
     <v-skeleton-loader type="list-item-avatar-three-line" max-width="75%" />
   </v-sheet>
 </template>
+
+<style>
+.v-skeleton-loader__avatar + .v-skeleton-loader__sentences > .v-skeleton-loader__text,
+.v-skeleton-loader__avatar + .v-skeleton-loader__paragraph > .v-skeleton-loader__text {
+  margin-inline-start: 15px;
+}
+</style>

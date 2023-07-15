@@ -15,7 +15,7 @@
           <v-badge v-if="unreadNumber" color="red" location="top end" :content="unreadNumber">
             <v-icon icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
           </v-badge>
-          <v-icon v-else icon="mdi-bell-ring-outline" color="medium-emphasis" class="mx-1" />
+          <v-icon v-else icon="mdi-bell-outline" color="medium-emphasis" class="mx-1" />
         </template>
       </app-tooltip-btn>
     </template>

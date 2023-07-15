@@ -1,6 +1,6 @@
 <template>
   <app-sheet title="Components">
-    <v-row class="">
+    <v-row>
       <v-col cols="12">
         <v-row>
           <v-col cols="6">
@@ -30,7 +30,7 @@
               max="10"
               extensions="jpg,svg,jpeg,png,bmp,gif,webp"
             ></app-uploader>
-            <pre class="mt-3">{{
+            <pre v-if="Array.from(form.files).length" class="mt-3">{{
               Array.from(form.files || []).map(
                 (file) => `${file.name} - ${Math.round(file.size / 1024)}KB`
               )
@@ -47,7 +47,15 @@
           </v-col>
         </v-row>
       </v-col>
+    </v-row>
+  </app-sheet>
 
+  <app-sheet class="mt-6">
+    <template #header>
+      <h3 class="font-weight-medium">Other Components</h3>
+    </template>
+
+    <v-row>
       <!-- toasts (snackbars) -->
       <v-col cols="4">
         <v-sheet rounded="lg">
@@ -57,7 +65,6 @@
           </h3>
           <p class="text-medium-emphasis">
             Lorem ipsum elit, placeat officiis nam ullam deleniti accusantium alias tempore velit
-            veniam vero sapiente, aperiam at!
           </p>
           <v-btn color="primary" elevation="0" rounded="pill" class="mt-4" @click="showToast">
             Show toast
@@ -85,84 +92,19 @@
           <v-icon class="ms-1">mdi-delete-outline</v-icon>
         </v-btn>
       </v-col>
-
-      <!-- text fields -->
-      <v-col cols="4" xl="3">
-        <h3 class="font-weight-regular text-h6 mb-2">
-          This is to test
-          <code>text fields</code>
-        </h3>
-        <p class="text-medium-emphasis mb-6">This is an example of using the custom text fields.</p>
-
-        <app-text-field
-          v-model="form.name"
-          :form="form"
-          name="name"
-          label="Name"
-          placeholder="Your Name"
-          persistent-placeholder
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.email"
-          :form="form"
-          name="email"
-          label="Email"
-          placeholder="Your Email"
-          persistent-placeholder
-          class="mb-4"
-        ></app-text-field>
-
-        <app-text-field
-          v-model="form.password"
-          :form="form"
-          name="password"
-          type="password"
-          label="Password"
-          placeholder="Your Password"
-          persistent-placeholder
-          required
-          class="mb-4"
-        ></app-text-field>
-
-        <app-select
-          v-model="form.account_type"
-          :form="form"
-          name="account_type"
-          label="Account Type"
-          :items="['Individual', 'Company', 'For My Child']"
-          persistent-hint
-          hint="Choose the account type"
-          class="mb-5"
-        ></app-select>
-
-        <v-btn size="large" block color="primary" elevation="0" @click="sendRequest">
-          <v-progress-circular
-            v-if="form.busy"
-            color="white"
-            bg-color="transparent"
-            indeterminate
-            size="27"
-            width="2"
-          ></v-progress-circular>
-          <template v-else>Send</template>
-        </v-btn>
-      </v-col>
     </v-row>
-
-    <app-dialog
-      ref="dialog"
-      title="Are you sure you want to delete this item?"
-      content="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
-    >
-      <template #actions="{ close, payload }">
-        <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
-        <v-btn variant="flat" color="primary" @click="deleteItem(payload)">I understand</v-btn>
-      </template>
-    </app-dialog>
   </app-sheet>
+
+  <app-dialog
+    ref="dialog"
+    title="Are you sure you want to delete this item?"
+    content="Are you sure you want to delete this item? this item will be deleted immediately. you cannot undo this action."
+  >
+    <template #actions="{ close, payload }">
+      <v-btn variant="flat" color="red" @click="close">Cancel</v-btn>
+      <v-btn variant="flat" color="primary" @click="deleteItem(payload)">I understand</v-btn>
+    </template>
+  </app-dialog>
 </template>
 
 <script setup>
@@ -203,9 +145,5 @@ const showErrorToast = () => {
 function deleteItem(id) {
   console.log(id)
   dialog.value.hide()
-}
-
-function sendRequest() {
-  form.post('/test').then(() => {})
 }
 </script>

@@ -6,7 +6,7 @@
     {{ label }}
   </p>
 
-  <div class="uploader d-flex align-center justify-space-between rounded-lg pa-2">
+  <div class="uploader d-flex align-center justify-space-between rounded-lg pa-3">
     <v-avatar>
       <v-icon size="30">mdi-cloud-upload-outline</v-icon>
     </v-avatar>
@@ -42,7 +42,10 @@
       :multiple="multiple"
     />
 
-    <v-btn @click="_browse" color="primary" elevation="0" rounded="pill">Browse</v-btn>
+    <v-btn @click="_browse" color="primary" elevation="0" rounded="pill">
+      Browse
+      <v-icon class="ms-1">mdi-tray-arrow-up</v-icon>
+    </v-btn>
   </div>
 
   <div v-if="multiple && urls.length" class="d-flex border rounded-lg pa-3 mt-3">
@@ -62,6 +65,7 @@
 <script setup>
 import { ref, toRef, onBeforeMount } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { bytesToSize } from '@/utils'
 
 const props = defineProps({
   label: String,
@@ -87,6 +91,10 @@ const props = defineProps({
     type: [Number, String],
     default: 3,
   },
+  maxSize: {
+    type: [Number, String],
+    default: 1024,
+  },
 })
 const multiple = toRef(props.multiple)
 const url = ref(null)
@@ -95,6 +103,10 @@ const files = ref(null)
 const inputUploader = ref(null)
 const { notify } = useAppStore()
 const emit = defineEmits(['cancelled', 'update:model-value'])
+
+// @TODO: add max file size
+// const maxSize = 1048576 * 1 // 1MB
+// `The file is ${bytesToSize(file.size)} exceeding the maximum file size of ${bytesToSize(maxSize)}.`
 
 // Lifecycle hooks
 
@@ -135,6 +147,12 @@ const _init = (event) => {
   const file = fileList[0]
   if (_invalid([file])) {
     return _error('Invalid extension supplied')
+  } else if (_invalidSize(file)) {
+    return _error(
+      `The file is ${bytesToSize(file.size)} exceeding the maximum file size of ${bytesToSize(
+        props.maxSize
+      )}`
+    )
   }
   _render(file)
   emit('update:model-value', file)
@@ -162,6 +180,11 @@ const _invalid = (files) => {
   const extensions = props.extensions.split(',').join('|')
   const regex = new RegExp('\\.(' + extensions + ')$', 'i')
   return !files.every((file) => regex.test(file.name))
+}
+
+const _invalidSize = (file) => {
+  if (file.size > props.maxSize * 1024) {
+  }
 }
 
 const flush = (index) => {
@@ -194,7 +217,7 @@ const _resetInputUploader = () => {
 
 <style lang="scss">
 .uploader {
-  border: 2px dashed rgba(var(--v-border-color), 0.15);
+  border: 2px dashed #e3e5e7;
 }
 
 .uploader-preview {

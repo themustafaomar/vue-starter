@@ -1,6 +1,6 @@
 <template>
   <AuthLayout>
-    <v-sheet width="360" rounded class="position-relative mx-auto pa-8 border rounded-lg">
+    <v-sheet width="360" rounded class="position-relative mx-auto pa-8 rounded-lg">
       <v-progress-linear
         :active="authStore.isLoading"
         color="primary"

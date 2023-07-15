@@ -22,6 +22,7 @@
 ## Features
 
 - Using modern technologies in web-industry such as Vue, Vuetify, Pinia Vite and Composition API.
+- Powerful and feature-rich real-time chat system.
 - Access Control List (ACL) for client-side and server-side.
 - Validation handling for client-side & server-side with zero-configuration.
 - Uploading files has never been easier.
