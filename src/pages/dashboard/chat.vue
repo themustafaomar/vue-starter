@@ -12,7 +12,7 @@
     <v-main style="height: calc(100vh - 64px - (24px * 2))">
       <v-sheet
         v-if="chatStore.activeConversation"
-        class="position-relative h-100 ms-5"
+        class="position-relative h-100 ms-0 ms-lg-5"
         rounded="lg"
       >
         <app-dashboard-chat-toolbar
@@ -46,15 +46,18 @@
           </div>
 
           <ul v-else>
-            <app-dashboard-chat-item v-for="data in chat" :data="data" />
-            <app-dashboard-chat-typing v-if="chat.length && isPartnerTyping" />
+            <app-dashboard-chat-messages-message v-for="data in chat" :data="data" />
+            <app-dashboard-chat-typing
+              v-if="chat.length && isPartnerTyping"
+              :partner="activeConversation"
+            />
           </ul>
         </div>
 
         <div
           ref="sender"
-          class="d-flex align-center position-absolute w-100 pb-5"
-          style="bottom: 0; left: 0"
+          class="d-flex align-center position-absolute w-100 pa-5"
+          style="bottom: 0; left: 0; height: 84px"
         >
           <app-dashboard-chat-sender />
         </div>
@@ -70,19 +73,15 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useEventListener } from '@vueuse/core'
-import { useAppStore } from '@/stores/app'
 import { useChatStore } from '@/stores/chats'
 import { useLoader } from '@/composables/useLoader'
 import { useUser } from '@/composables/useUser'
-import AppDashboardChatItem from '@/components/dashboard/chat/Item.vue'
-import AppDashboardChatSender from '@/components/dashboard/chat/Sender.vue'
+import AppDashboardChatMessagesMessage from '@/components/dashboard/chat/messages/Message.vue'
+import AppDashboardChatSender from '@/components/dashboard/chat/sender/Sender.vue'
 import AppDashboardChatConversationsList from '@/components/dashboard/chat/conversations/List.vue'
 import AppDashboardChatTyping from '@/components/dashboard/chat/Typing.vue'
 import AppDashboardChatToolbar from '@/components/dashboard/chat/Toolbar.vue'
 import AppDashboardChatEmpty from '@/components/dashboard/chat/Empty.vue'
-
-const CHANNEL_CHAT_MESSAGE = `chat.${user.id}`
-const CHANNEL_SEEN = `seen.${user.id}`
 
 const container = ref(null)
 const sender = ref(null)
@@ -90,7 +89,6 @@ const sound = ref(null)
 const route = useRoute()
 const loader = useLoader()
 const user = useUser()
-const { notify } = useAppStore()
 const chatStore = useChatStore()
 // prettier-ignore
 const {
@@ -102,12 +100,15 @@ const {
   conversations,
 } = storeToRefs(chatStore)
 
+const CHANNEL_CHAT_MESSAGE = `chat.${user.id}`
+const CHANNEL_SEEN = `seen.${user.id}`
+
 // Watchers
 
-watch(isPartnerTyping, watchScroll)
-watch(chat, watchScroll, { deep: true })
+watch(isPartnerTyping, _watchScroll)
+watch(chat, _watchScroll, { deep: true })
 watch(activeConversation, () => (isPartnerTyping.value = false))
-watch(() => [route.query.conversation, chatStore.hasLoadedConversations], loadConversationFromId, {
+watch(() => [route.query.conversation, chatStore.hasLoadedConversations], _loadConversationFromId, {
   immediate: true,
 })
 
@@ -115,13 +116,6 @@ watch(() => [route.query.conversation, chatStore.hasLoadedConversations], loadCo
 
 onMounted(() => {
   loader.markAsLoaded()
-
-  // Close the conversation when the user clicks Escape button.
-  useEventListener(document, 'keydown', (e) => {
-    if (e.key === 'Esc') {
-      chatStore.closeChat()
-    }
-  })
 
   Echo.private(CHANNEL_CHAT_MESSAGE).listen('.message-received', (message) => {
     // Highlight the conversation with a little badge
@@ -159,16 +153,18 @@ onMounted(() => {
 
 onUnmounted(() => {
   chatStore.closeChat()
-
   Echo.leaveChannel(CHANNEL_CHAT_MESSAGE)
   Echo.leaveChannel(CHANNEL_SEEN)
+})
 
-  console.log('Chat unmounted!')
+// Close the conversation when the user clicks Escape button.
+useEventListener(document, 'keydown', (e) => {
+  if (e.key === 'Escape') chatStore.closeChat()
 })
 
 // Functions
 
-function loadConversationFromId() {
+function _loadConversationFromId() {
   const conversationId = route.query.conversation
   if (!conversationId) {
     return
@@ -183,24 +179,33 @@ function loadConversationFromId() {
   }
 }
 
-const loadMore = ({ currentTarget }) => {
-  if (currentTarget.scrollTop > 0 || isLoadingMore.value || chat.value.length < 15) {
+const loadMore = (event) => {
+  const currentTarget = event.currentTarget
+  const scrollTop = currentTarget.scrollTop
+  const scrollHeight = currentTarget.scrollHeight
+  const vScroll = Math.round(scrollHeight / 4)
+
+  // Abort loading more in these cases..
+  if (
+    event.wheelDelta < 0 ||
+    scrollTop >= vScroll ||
+    isLoadingMore.value ||
+    chat.value.length < 15
+  ) {
     return
   }
 
-  notify({
-    message:
-      'Loading more is in development currently, and this is a fake data for demonstration purposes, stay tunned!',
-    color: 'info',
-  })
-
-  chatStore.loadMore().then(() => {
-    currentTarget.scrollTop = 1
-  })
+  chatStore
+    .loadMore()
+    .then(() => {
+      const newScrollHeight = currentTarget.scrollHeight
+      currentTarget.scrollTop = newScrollHeight - scrollHeight
+    })
+    .catch()
 }
 
-function watchScroll() {
-  if (!chat.value.length || isLoadingMore.value) {
+function _watchScroll() {
+  if (isLoadingMore.value || !chat.value.length) {
     return
   }
 
@@ -213,7 +218,8 @@ function watchScroll() {
 
 <style lang="scss">
 .chat-container {
-  height: calc(100% - 76px - 72px - 20px);
+  // Equation: (Full height of parent - Chat toolbar height - Sender input)
+  height: calc(100% - 64px - 84px);
   overflow-y: auto;
   z-index: 1;
   &:after {

@@ -8,9 +8,9 @@
         class="d-flex py-3"
       >
         <h4 class="font-weight-medium mb-0">{{ user.name }}</h4>
-        <div class="d-flex align-center">
+        <div class="d-flex align-center text-medium-emphasis text-body-2">
           <v-badge location="end center" color="green" dot inline class="ms-n1" />
-          {{ (permissions?.roles[0] || '').replace('-', ' ') }}
+          {{ (permissions?.roles?.[0] || '').replace('-', ' ') }}
         </div>
       </v-list-item>
     </template>
@@ -18,10 +18,16 @@
     <v-divider color="grey-darken-1" />
 
     <template v-if="!isLoadingConversations">
-      <h3 class="px-4 mt-4 mb-3">Chats</h3>
+      <h3 class="font-weight-medium px-4 my-4">Chats</h3>
 
-      <v-list density="comfortable" @click:select="loadChat" @keyup.esc="_closeChat">
-        <template v-for="conversation in conversations">
+      <v-list
+        density="comfortable"
+        @click:select="loadChat"
+        @keyup.esc="closeChat"
+        mandatory
+        class="py-0"
+      >
+        <template v-for="conversation in getConversations">
           <v-list-item color="primary" class="py-3" :value="conversation">
             <template #prepend>
               <v-avatar>
@@ -31,11 +37,23 @@
 
             <h4 class="font-weight-medium">{{ conversation.name }}</h4>
 
-            <small class="text-grey-darken-1">{{ conversation.body }}</small>
+            <small class="text-grey-darken-1">
+              {{ conversation.from_id === user.id ? 'You:' : '' }}
+
+              <!-- prettier-ignore -->
+              <template v-if="conversation.type === 'text'">
+                {{ conversation.body?.length >= 25 ? conversation.body?.slice(0, 25) + '...' : conversation.body }}
+              </template>
+
+              <template v-if="conversation.type === 'record'">
+                <v-icon color="grey-darken-2">mdi-microphone-outline</v-icon>
+                Voice Message
+              </template>
+            </small>
 
             <template #append>
               <div class="d-flex justify-start flex-column">
-                <small class="text-grey-darken-1 me-1">
+                <small class="text-grey-darken-1 mt-n3">
                   {{ dayjs(conversation.max_created_at).format('MMMM d') }}
                 </small>
                 <v-badge
@@ -44,7 +62,7 @@
                   size="small"
                   :content="conversation.unreadCount"
                   color="red"
-                  class="mt-1 ms-n1"
+                  class="mt-2 ms-n1"
                 ></v-badge>
               </div>
             </template>
@@ -73,7 +91,7 @@ import { useChatStore } from '@/stores/chats'
 const authStore = useAuthStore()
 const chatStore = useChatStore()
 const { user, permissions } = storeToRefs(authStore)
-const { conversations, isLoadingConversations } = storeToRefs(chatStore)
+const { getConversations, isLoadingConversations } = storeToRefs(chatStore)
 const { fetchConversations, fetchChat, closeChat } = chatStore
 
 onMounted(() => {
@@ -82,9 +100,5 @@ onMounted(() => {
 
 const loadChat = (conversation) => {
   fetchChat(conversation)
-}
-
-const _closeChat = (id) => {
-  closeChat()
 }
 </script>

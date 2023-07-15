@@ -2,7 +2,7 @@
   <v-toolbar
     density="comfortable"
     color="surface"
-    class="position-relative py-2"
+    class="position-relative py-1"
     style="z-index: 1"
   >
     <v-skeleton-loader

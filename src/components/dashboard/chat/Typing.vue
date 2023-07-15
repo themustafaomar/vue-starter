@@ -5,7 +5,7 @@
       Your browser does not support the audio tag.
     </audio>
     <v-avatar>
-      <v-img :src="'/avatar.jpg'"></v-img>
+      <v-img cover :src="partner.avatar"></v-img>
     </v-avatar>
     <div>
       <div class="bg-grey-lighten-3 rounded-lg ms-4 py-2 px-3">
@@ -21,6 +21,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+
+defineProps({
+  partner: Object,
+})
 
 const typingSound = ref(null)
 

@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
-import axios from '@/plugins/axios'
 import dayjs from 'dayjs'
+import { defineStore } from 'pinia'
 import { useUser } from '@/composables/useUser'
+import axios from '@/plugins/axios'
 
 export const useChatStore = defineStore('chats', {
   state: () => ({
@@ -13,8 +13,18 @@ export const useChatStore = defineStore('chats', {
     activeConversation: null,
     conversations: [],
     chat: [],
+    chatMeta: {},
   }),
-  getters: {},
+  getters: {
+    getConversations: (state) => {
+      const user = useUser()
+      return state.conversations.map((conversation) => {
+        // Append unread count badge if the partner's last message is not yet seen
+        if (!conversation.is_seen && conversation.from_id != user.id) conversation.unreadCount = 1
+        return conversation
+      })
+    },
+  },
   actions: {
     async fetchConversations() {
       this.isLoadingConversations = true
@@ -30,29 +40,52 @@ export const useChatStore = defineStore('chats', {
     async fetchChat({ id }) {
       this.isLoadingChat = true
 
-      const chat = await axios.get(`/chat/${id.id}`)
+      const { data } = await axios.get(`/chat/${id.id}`)
 
       this.$patch({
-        chat: chat.data.data,
-        isLoadingChat: false,
+        chat: data.data,
+        chatMeta: data.meta,
+        // Notice that `id` is not an actuall id
+        // it's a whole object of a conversation object
+        // this is due to a stupid event fired from Vuetify
         activeConversation: id,
+        isLoadingChat: false,
       })
+
+      // Let's mark our recently loaded chat as seen
+      // as soon as it's successfully loaded, makes sense isn't it?
+      this.markConversationAsSeen()
     },
     async send(message) {
+      // Creating a fake unique id for recently created message
       const uid = Math.random(10000) * 10000
 
       this.chat.push({
         id: uid,
         ...message,
+        created_at: dayjs(new Date()).format('h:mm:A'),
         isRecentlySended: true,
-        created_at: dayjs(new Date().toLocaleString()).format('h:mm:A'),
       })
 
-      const chatMessage = this.chat.find((m) => m.id === uid)
+      const chatMessage = this.chat.find(({ id }) => id === uid)
+      const form = new FormData()
+
+      form.append('id', this.activeConversation.id)
+      form.append('type', message.type)
+
+      if (message.type === 'text') {
+        form.append('body', message.body)
+      } else if (message.type === 'record') {
+        form.append('record', message.blob, 'record.wav')
+      }
 
       try {
-        await axios.post('/chat', { id: this.activeConversation.id, body: message.body })
+        await axios.post('/chat', form, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
         chatMessage.isRecentlySended = false
+        this.activeConversation.body = message.body
+        this.activeConversation.from_id = message.from_id
       } catch (error) {
         chatMessage.hasFailed = true
       }
@@ -93,41 +126,27 @@ export const useChatStore = defineStore('chats', {
     },
     loadMore() {
       this.isLoadingMore = true
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.chat.unshift({
-            id: 101,
-            from_id: 2,
-            body: 'A new message loaded',
-            created_at: '5:45 AM',
-            user: {
-              avatar: '/avatar.jpg',
-            },
+
+      const { current_page, last_page } = this.chatMeta
+      const currentPage = current_page + 1
+
+      if (currentPage > last_page) {
+        this.isLoadingMore = false
+        return Promise.reject()
+      }
+
+      return axios
+        .get(`/chat/${this.activeConversation.id}?page=${current_page + 1}`)
+        .then(({ data }) => {
+          data.data.forEach((message) => {
+            this.chat.unshift(message)
           })
-          this.chat.unshift({
-            id: 1211,
-            from_id: 1,
-            body: 'Another message has just loaded',
-            created_at: '5:45 AM',
-            user: {
-              avatar: '/avatar.jpg',
-            },
-          })
-          this.chat.unshift({
-            id: 1211,
-            from_id: 2,
-            body: 'Another message has just loaded',
-            created_at: '5:45 AM',
-            user: {
-              avatar: '/avatar.jpg',
-            },
-          })
-          setTimeout(() => {
-            this.isLoadingMore = false
-          })
-          resolve()
-        }, 1000)
-      })
+
+          // A workaround to trick the scroll watcher not to scroll down
+          setTimeout(() => (this.isLoadingMore = false), 50)
+
+          this.chatMeta = data.meta
+        })
     },
   },
 })
