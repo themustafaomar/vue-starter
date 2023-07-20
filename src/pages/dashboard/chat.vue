@@ -76,6 +76,7 @@ import { useEventListener } from '@vueuse/core'
 import { useChatStore } from '@/stores/chats'
 import { useLoader } from '@/composables/useLoader'
 import { useUser } from '@/composables/useUser'
+import axios from '@/plugins/axios'
 import AppDashboardChatMessagesMessage from '@/components/dashboard/chat/messages/Message.vue'
 import AppDashboardChatSender from '@/components/dashboard/chat/sender/Sender.vue'
 import AppDashboardChatConversationsList from '@/components/dashboard/chat/conversations/List.vue'
@@ -101,7 +102,7 @@ const {
 } = storeToRefs(chatStore)
 
 const CHANNEL_CHAT_MESSAGE = `chat.${user.id}`
-const CHANNEL_SEEN = `seen.${user.id}`
+const CHANNEL_SEEN = `chat-seen.${user.id}`
 
 // Watchers
 
@@ -117,7 +118,7 @@ watch(() => [route.query.conversation, chatStore.hasLoadedConversations], _loadC
 onMounted(() => {
   loader.markAsLoaded()
 
-  Echo.private(CHANNEL_CHAT_MESSAGE).listen('.message-received', (message) => {
+  Echo.private(CHANNEL_CHAT_MESSAGE).listen('.chat-message-received', (message) => {
     // Highlight the conversation with a little badge
     // containing the total unread messages.
     const conversationId = message.from_id
@@ -166,23 +167,27 @@ useEventListener(document, 'keydown', (e) => {
 
 function _loadConversationFromId() {
   const conversationId = route.query.conversation
-  if (!conversationId) {
+  if (!conversationId || !conversations.value.length) {
     return
   }
 
-  const conversation = conversations.value.find((c) => c.id == conversationId)
+  const conversation = conversations.value.find(({ id }) => id == conversationId)
   if (conversation) {
     chatStore.activeConversation = conversation
     chatStore.fetchChat({
       id: conversation,
+    })
+  } else {
+    axios.get(`/chat/conversations/new/${conversationId}`).then(({ data }) => {
+      conversations.value.unshift(data.data)
+      activeConversation.value = data.data
     })
   }
 }
 
 const loadMore = (event) => {
   const currentTarget = event.currentTarget
-  const scrollTop = currentTarget.scrollTop
-  const scrollHeight = currentTarget.scrollHeight
+  const { scrollTop, scrollHeight } = currentTarget
   const vScroll = Math.round(scrollHeight / 4)
 
   // Abort loading more in these cases..

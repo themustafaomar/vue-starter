@@ -31,21 +31,6 @@
       </v-btn>
     </template>
 
-    <!-- <template #append-inner>
-      <v-fade-transition leave-absolute>
-        <v-progress-circular
-          v-if="loading"
-          color="info"
-          indeterminate
-          size="24"
-        ></v-progress-circular>
-
-        <v-btn @click="send" variant="plain" icon color="transparent" :disabled="!message">
-          <v-icon color="primary" icon>mdi-send</v-icon>
-        </v-btn>
-      </v-fade-transition>
-    </template> -->
-
     <template #append>
       <v-btn @click="enableRecording" icon size="40" elevation="0">
         <v-icon icon="mdi-microphone" size="28" color="grey-darken-2"></v-icon>
@@ -93,7 +78,7 @@ const { ensurePermissions } = useDevicesList({
 // Lifecycle Hooks
 
 onMounted(() => {
-  Echo.private('hello').listenForWhisper('typing', ({ typing }) => {
+  Echo.private(`chat-typing`).listenForWhisper('typing', ({ typing }) => {
     chatStore.isPartnerTyping = typing
   })
 })
@@ -114,12 +99,12 @@ const enableTyping = (e) => {
   state.oldValue = value
   clearTimeout(state.timeout)
 
-  Echo.private('hello').whisper('typing', {
+  Echo.private(`chat-typing`).whisper('typing', {
     typing: true,
   })
 
   state.timeout = setTimeout(() => {
-    Echo.private('hello').whisper('typing', {
+    Echo.private(`chat-typing`).whisper('typing', {
       typing: false,
     })
   }, 800)

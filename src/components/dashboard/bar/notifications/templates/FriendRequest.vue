@@ -32,8 +32,8 @@
 </template>
 
 <script setup>
-import { useAppStore } from '@/stores/app'
 import { ref } from 'vue'
+import { useAppStore } from '@/stores/app'
 
 defineProps({ notification: Object })
 
