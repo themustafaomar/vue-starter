@@ -22,10 +22,11 @@
 
     <!-- The message body -->
     <div :class="{ 'text-end': current, 'opacity-75': data.hasFailed }">
-      <!-- <v-btn icon variant="flat" density="compact" class="me-2">
+      <!-- <v-btn icon variant="flat" density="compact" class="d-none me-2">
         <v-icon size="20" color="grey-darken-1">mdi-emoticon-happy-outline</v-icon>
       </v-btn> -->
 
+      <!-- Text message -->
       <div
         v-if="data.type === 'text'"
         class="bg-grey-lighten-3 d-inline-block rounded-pill py-2 px-5"
@@ -34,6 +35,7 @@
         {{ data.body }}
       </div>
 
+      <!-- Voice message -->
       <div v-else>
         <div class="d-inline-block rounded-pill" :class="{ 'ms-4': !current, 'me-4': current }">
           <app-dashboard-chat-messages-audio-player :source="data.source" />
@@ -41,7 +43,7 @@
       </div>
 
       <!-- In case of failure to send a message -->
-      <small v-if="data.hasFailed" class="text-red">Failed to send message</small>
+      <small v-if="data.hasFailed" class="d-block text-red me-4">Failed to send message</small>
 
       <!-- The message footer -->
       <small

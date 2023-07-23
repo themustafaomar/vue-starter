@@ -50,7 +50,7 @@
 
   <!-- password form -->
   <app-sheet title="Update Password" class="mt-5">
-    <v-row class="mt-5">
+    <v-row class="mt-2">
       <v-col cols="12" sm="12" lg="6" class="pb-0">
         <app-text-field
           v-model="passwordForm.password"

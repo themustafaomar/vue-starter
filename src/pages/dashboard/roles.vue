@@ -7,7 +7,7 @@
       </v-btn>
     </template>
 
-    <v-data-table :headers="headers" :items="roles" hover>
+    <v-data-table :headers="headers" :items="roles">
       <template #item.id="{ item }">#{{ item.raw.id }}</template>
 
       <template #item.actions="{ item }">
@@ -42,7 +42,6 @@ const composer = ref(null)
 const roles = ref([])
 const loader = useLoader()
 const headers = ref([
-  { title: 'ID', key: 'id' },
   { title: 'Name', key: 'name' },
   { title: 'Guard Name', key: 'guard_name' },
   { title: 'Created', key: 'created' },

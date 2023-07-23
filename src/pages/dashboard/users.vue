@@ -1,71 +1,59 @@
 <template>
-  <app-sheet title="Users" table class="pb-5">
+  <app-sheet title="Users" table borderless class="pb-5">
     <template #actions>
-      <v-btn @click="composer.add()" color="primary" rounded="pill">Create User</v-btn>
+      <v-btn @click="composer.add()" color="primary" rounded="pill" class="shadow-md">
+        Create User
+      </v-btn>
     </template>
 
-    <v-sheet>
-      <v-row no-gutters>
-        <v-col cols="8">
-          <v-text-field
-            placeholder="Search term"
-            rounded="0"
-            clearable
-            hide-details
-            variant="solo"
-            elevation="0"
-            class="search-field"
-          >
-            <template #prepend-inner>
-              <v-icon>mdi-magnify</v-icon>
-            </template>
-          </v-text-field>
-        </v-col>
-        <v-col cols="4" class="d-none">
-          <v-btn
-            height="50"
-            color="white"
-            rounded="0"
-            text="View all"
-            elevation="0"
-            class="text-grey-darken-2"
-          />
-          <v-btn
-            height="50"
-            color="white"
-            rounded="0"
-            text="Admins"
-            elevation="0"
-            class="text-grey-darken-2"
-          />
-          <v-btn
-            height="50"
-            color="white"
-            rounded="0"
-            text="Normal users"
-            elevation="0"
-            class="text-grey-darken-2"
-          />
-        </v-col>
-        <!-- <v-col cols="4">
-          <v-text-field
-            placeholder="Search term"
-            rounded="0"
-            clearable
-            hide-details
-            variant="solo"
-            elevation="0"
-            class="search-field"
-          >
-            <template #prepend-inner>
-              <v-icon>mdi-magnify</v-icon>
-            </template>
-          </v-text-field>
-        </v-col> -->
-      </v-row>
-    </v-sheet>
+    <template #toolbar>
+      <div>
+        <v-btn id="menu-activator" elevation="0" class="shadow-sm me-2">
+          {{
+            selectedAction.length
+              ? actions.find((action) => action.value === selectedAction[0]).title
+              : 'Bulk Action'
+          }}
+          <v-icon icon="mdi-chevron-down" class="ms-1"></v-icon>
+        </v-btn>
 
-    <v-data-table :headers="headers" :items="users" class="border-t">
+        <v-menu activator="#menu-activator">
+          <v-list
+            v-model:selected="selectedAction"
+            :items="actions"
+            rounded="lg"
+            class="shadow-xl"
+          ></v-list>
+        </v-menu>
+
+        <v-btn
+          text="Apply"
+          elevation="0"
+          color="primary"
+          class="shadow-sm me-2"
+          :disabled="!selectedUsers.length || !selectedAction.length"
+          :loading="isLoading"
+          @click="apply"
+        />
+      </div>
+
+      <v-text-field
+        placeholder="Search term"
+        rounded="md"
+        clearable
+        hide-details
+        variant="solo"
+        elevation="0"
+        class="search-field shadow-sm"
+        style="max-width: 400px"
+      >
+        <template #prepend-inner>
+          <v-icon>mdi-magnify</v-icon>
+        </template>
+      </v-text-field>
+    </template>
+
+    <v-data-table v-model="selectedUsers" :headers="headers" :items="users" :loading="isLoading">
       <template #item.id="{ item }">
         <div class="py-3">#{{ item.raw.id }}</div>
       </template>
@@ -96,7 +84,7 @@
           </svg>
         </v-icon>
         <app-dashboard-edit-btn v-if="can('update users')" @click="composer.update(item.raw)" />
-        <app-dashboard-delete-btn v-if="can('delete users')" @click.prevent />
+        <app-dashboard-delete-btn v-if="can('delete users')" @click="" />
       </template>
 
       <template #bottom>
@@ -124,9 +112,16 @@ import AppDashboardDeleteBtn from '@/components/dashboard/DeleteBtn.vue'
 const composer = ref(null)
 const users = ref([])
 const page = ref(1)
-const loader = useLoader()
+const isLoading = ref(false)
+const actions = ref([
+  { title: 'Bulk Action', value: null, props: { disabled: true } },
+  { title: 'Send Email', value: 'sendmail' },
+  { title: 'Suspend', value: 'suspend' },
+  { title: 'Delete', value: 'delete' },
+])
+const selectedAction = ref([])
+const selectedUsers = ref([])
 const headers = ref([
-  // { title: 'ID', key: 'id' },
   { title: 'Name', key: 'name' },
   { title: 'Email', key: 'email' },
   { title: 'Role', key: 'role' },
@@ -134,6 +129,7 @@ const headers = ref([
   { title: 'Created', key: 'created' },
   { title: 'Actions', key: 'actions' },
 ])
+const loader = useLoader()
 
 // Lifecycle Hooks
 
@@ -146,12 +142,29 @@ const fetch = async () => {
 
   loader.markAsLoaded()
 }
+
+const apply = () => {
+  isLoading.value = true
+  setTimeout(() => {
+    isLoading.value = false
+    selectedAction.value = []
+    selectedUsers.value = []
+  }, 1500)
+}
 </script>
 
-<style>
+<style lang="scss">
 .search-field {
   .v-field.v-field--appended {
     box-shadow: none;
+  }
+  .v-field__input {
+    min-height: 36px !important;
+    height: 36px;
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
   }
 }
 </style>

@@ -22,6 +22,7 @@
   </app-sheet>
 
   <useComposer ref="composer" title="Permission" v-slot="{ props }">
+    <!-- @deprecated -->
     <app-dashboard-permissions-create v-bind="props" @created="fetch()" />
   </useComposer>
 </template>

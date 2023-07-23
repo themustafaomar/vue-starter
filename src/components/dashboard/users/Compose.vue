@@ -1,8 +1,8 @@
 <template>
   <v-dialog width="700">
     <v-card rounded="lg">
-      <v-card-title>
-        <h3 class="font-weight-regular text-h6">{{ compose.title }}</h3>
+      <v-card-title class="px-6 py-3 border-b">
+        <h4 class="font-weight-medium">{{ compose.title }}</h4>
       </v-card-title>
 
       <v-skeleton-loader
@@ -19,7 +19,7 @@
         v-slot="{ meta }"
         :validation-schema="composeUserValidation"
       >
-        <v-card-text>
+        <v-card-text class="mt-4 px-5">
           <app-text-field
             v-model="form.name"
             :form="form"
@@ -85,14 +85,14 @@
           />
         </v-card-text>
 
-        <v-card-actions class="pa-4">
-          <v-btn @click="compose.close()" variant="flat" color="red">Discard</v-btn>
+        <v-card-actions class="border-t px-4 py-3 mt-3">
+          <v-btn @click="compose.close()" variant="plain" color="red">Discard</v-btn>
 
           <v-btn
             type="submit"
             :disabled="!meta.valid || form.busy"
             :loading="form.busy"
-            variant="flat"
+            variant="plain"
             color="primary"
             class="ms-4"
           >

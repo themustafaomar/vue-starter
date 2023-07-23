@@ -12,8 +12,15 @@
           <v-badge location="end center" color="green" dot inline class="ms-n1" />
           {{ (permissions?.roles?.[0] || '').replace('-', ' ') }}
         </div>
+        <template #append>
+          <v-btn @click="$refs.settings.open()" variant="flat" icon>
+            <v-icon>mdi-cog-outline</v-icon>
+          </v-btn>
+        </template>
       </v-list-item>
     </template>
+
+    <app-dashboard-chat-settings ref="settings" />
 
     <v-divider color="grey-darken-1" />
 
@@ -42,7 +49,7 @@
 
               <!-- prettier-ignore -->
               <template v-if="conversation.type === 'text'">
-                {{ conversation.body?.length >= 25 ? conversation.body?.slice(0, 25) + '...' : conversation.body }}
+              {{ conversation.body?.length >= 25? conversation.body?.slice(0, 20) + '...': conversation.body }}
               </template>
 
               <template v-if="conversation.type === 'record'">
@@ -87,6 +94,7 @@ import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useChatStore } from '@/stores/chats'
+import AppDashboardChatSettings from '@/components/dashboard/chat/Settings.vue'
 
 const authStore = useAuthStore()
 const chatStore = useChatStore()

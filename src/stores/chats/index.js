@@ -57,17 +57,13 @@ export const useChatStore = defineStore('chats', {
       this.markConversationAsSeen()
     },
     async send(message) {
-      // Creating a fake unique id for recently created message
-      const uid = Math.random(10000) * 10000
-
-      this.chat.push({
-        id: uid,
+      const length = this.chat.push({
         ...message,
         created_at: dayjs(new Date()).format('h:mm:A'),
         isRecentlySended: true,
       })
 
-      const chatMessage = this.chat.find(({ id }) => id === uid)
+      const chatMessage = this.chat[length - 1]
       const form = new FormData()
 
       form.append('id', this.activeConversation.id)
@@ -84,8 +80,9 @@ export const useChatStore = defineStore('chats', {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         chatMessage.isRecentlySended = false
+        this.activeConversation.type = message.type
         this.activeConversation.body = message.body
-        this.activeConversation.from_id = message.from_id
+        this.activeConversation.id = message.from_id
       } catch (error) {
         chatMessage.hasFailed = true
       }
@@ -108,6 +105,7 @@ export const useChatStore = defineStore('chats', {
     markConversationAsSeen() {
       const unreadMessages = this._getPartnerUnreadMessages()
 
+      // No need to send a seen http request as long as no unread messages
       if (!unreadMessages.length) {
         return
       }

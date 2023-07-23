@@ -4,6 +4,7 @@ import router from './router'
 import App from './App.vue'
 import pinia from './stores/pinia'
 import { useAppStore } from './stores/app'
+import './assets/sass/main.scss'
 
 // Create a new vue instance
 const app = createApp({
