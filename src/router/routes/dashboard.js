@@ -33,6 +33,11 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/layouts.vue'),
       },
       {
+        name: 'dashboard_email_templates',
+        path: 'email-templates',
+        component: () => import('@/pages/dashboard/email-templates.vue'),
+      },
+      {
         name: 'users',
         path: 'users',
         component: () => import('@/pages/dashboard/users.vue'),
