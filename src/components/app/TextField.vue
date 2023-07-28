@@ -37,7 +37,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
 })
 const slots = useSlots()
-const slotsNames = Object.keys(slots).filter((name) => name !== 'label')
+const  slotsNames = Object.keys(slots).filter((name) => name !== 'label')
 
 // Get backend errors via vform
 const getBackendErrors = computed(() => {

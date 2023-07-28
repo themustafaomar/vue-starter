@@ -1,6 +1,11 @@
 import { useAppStore } from '@/stores/app'
 
-export const useLoader = () => {
+type LoaderMethods = {
+  markAsLoaded: Function
+  markAsLoading: Function
+}
+
+export const useLoader = (): LoaderMethods => {
   const { loading, loaded } = useAppStore()
 
   return {
