@@ -25,7 +25,7 @@
       <v-menu v-model="isActive" activator="parent">
         <v-list elevation="2" rounded="lg">
           <v-list-item
-            @click.stop="markAsRead(notification.id), _forceCloseMenu()"
+            @click.stop="markAsRead(notification.id), forceCloseMenu()"
             :disabled="!!notification.read_at"
           >
             <v-list-item-title>
@@ -33,7 +33,7 @@
               Mark as read
             </v-list-item-title>
           </v-list-item>
-          <v-list-item @click.stop="remove(notification.id), _forceCloseMenu()">
+          <v-list-item @click.stop="remove(notification.id), forceCloseMenu()">
             <v-list-item-title>
               <v-icon size="20">mdi-trash-can-outline</v-icon>
               Remove this notification
@@ -58,7 +58,7 @@ const { markAsRead, remove } = useNotificationsStore()
 
 // Functions
 
-const _forceCloseMenu = () => {
+const forceCloseMenu = () => {
   isActive.value = false
 }
 </script>

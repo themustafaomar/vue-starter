@@ -179,7 +179,7 @@ function _loadConversationFromId() {
     })
   } else {
     axios.get(`/chat/conversations/new/${conversationId}`).then(({ data }) => {
-      conversations.value.unshift(data.data)
+      // conversations.value.unshift(data.data)
       activeConversation.value = data.data
     })
   }

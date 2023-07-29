@@ -15,6 +15,14 @@
   // Adding custom new utilities to the API
   $utilities:
     (
+      'text-wrap': (
+        property: text-wrap,
+        class: text,
+        values: (
+          wrap: wrap,
+          nowrap: nowrap,
+        ),
+      ),
       'background-size': (
         property: background-size,
         class: bg,

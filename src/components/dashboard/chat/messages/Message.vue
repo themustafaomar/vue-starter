@@ -8,7 +8,7 @@
     </v-avatar>
 
     <v-badge
-      v-if="data.type === 'record'"
+      v-if="data.type === 'voice'"
       color="transparent"
       offset-y="8"
       offset-x="9"

@@ -40,7 +40,7 @@
 
   <app-dashboard-chat-sender-recorder
     @abort="isRecording = false"
-    @recorded=";(isRecording = false), send('record', $event)"
+    @recorded=";(isRecording = false), send('voice', $event)"
     :is-recording="isRecording"
     v-else
   />
@@ -131,7 +131,7 @@ const send = (type, data) => {
   let additionals = {}
   if (type === 'text') {
     additionals.body = message.value
-  } else if (type === 'record') {
+  } else if (type === 'voice') {
     additionals = data
   }
 
