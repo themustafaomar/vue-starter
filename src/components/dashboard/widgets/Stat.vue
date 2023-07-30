@@ -13,7 +13,7 @@ defineProps({
   },
 })
 
-const testData1 = computed(() => ({
+const chartData = computed(() => ({
   labels: months({ count: 12 }),
   datasets: [
     {
@@ -28,7 +28,7 @@ const testData1 = computed(() => ({
   ],
 }))
 const { lineChartProps: lineChartProps1 } = useLineChart({
-  chartData: testData1,
+  chartData,
   options: {
     // This type of charts holds a lot of data, so for performance reasons, It would be wise if we disable animations
     // https://www.chartjs.org/docs/latest/general/performance.html#disable-animations
@@ -72,12 +72,12 @@ const { lineChartProps: lineChartProps1 } = useLineChart({
 </script>
 
 <template>
-  <v-sheet rounded="lg" class="">
+  <v-sheet rounded="lg" class="pa-5">
     <v-row no-gutters class="d-flex align-center">
       <v-col cols="7">
         <h3 class="font-weight-medium mb-1">{{ title }}</h3>
 
-        <h2 class="my-2">{{ value }}</h2>
+        <h2 class="font-weight-medium my-2">{{ value }}</h2>
 
         <div class="d-flex align-center">
           <p class="text-body-2" :class="positive ? 'text-success' : 'text-red'">

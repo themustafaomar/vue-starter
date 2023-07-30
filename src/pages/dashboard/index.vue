@@ -1,47 +1,47 @@
 <template>
   <app-sheet title="Dashboard" class="mb-0">
     <v-row no-gutters>
-      <v-col cols="3">
+      <v-col cols="12" sm="6" lg="3">
         <app-dashboard-widgets-stat
           title="Today Orders"
           value="1,900"
           percentage="25.47%"
-          class="pe-5"
+          class="pe-5 ps-0 py-0"
           :positive="false"
         />
       </v-col>
 
       <v-divider vertical />
 
-      <v-col cols="3">
+      <v-col cols="12" sm="6" lg="3">
         <app-dashboard-widgets-stat
           title="Today Orders"
           value="2,500"
           percentage="5.64%"
-          class="px-5"
+          class="px-5 py-0"
         />
       </v-col>
 
       <v-divider vertical />
 
-      <v-col cols="3">
+      <v-col cols="12" sm="6" lg="3">
         <app-dashboard-widgets-stat
           title="Today Orders"
           value="564"
           percentage="14.47%"
-          class="px-5"
+          class="px-5 py-0"
           :positive="false"
         />
       </v-col>
 
       <v-divider vertical />
 
-      <v-col cols="3">
+      <v-col cols="12" sm="6" lg="3">
         <app-dashboard-widgets-stat
           title="Today Orders"
           value="1,000"
           percentage="9.14%"
-          class="ps-5"
+          class="ps-5 pe-0 py-0"
         />
       </v-col>
     </v-row>
@@ -155,8 +155,12 @@
           <app-dashboard-widgets-website-performance />
         </v-col>
 
+        <v-col cols="6">
+          <app-dashboard-widgets-pie />
+        </v-col>
+
         <!-- Fourth widget -->
-        <v-col cols="12" lg="6">
+        <!-- <v-col cols="12" lg="6">
           <v-sheet rounded="lg" class="position-relative shadow-sm pa-5">
             <div class="d-flex align-center justify-space-between">
               <div>
@@ -192,7 +196,7 @@
 
             <p class="text-grey-darken-1 mt-5">Currently Actived Investment</p>
           </v-sheet>
-        </v-col>
+        </v-col> -->
       </v-row>
     </v-col>
 
@@ -264,6 +268,7 @@ import AppDashboardWidgetsSalesRevenue from '@/components/dashboard/widgets/Sale
 import AppDashboardWidgetsBarSimple from '@/components/dashboard/widgets/BarSimple.vue'
 import AppDashboardWidgetsWebsitePerformance from '@/components/dashboard/widgets/WebsitePerformance.vue'
 import AppDashboardWidgetsStat from '@/components/dashboard/widgets/Stat.vue'
+import AppDashboardWidgetsPie from '@/components/dashboard/widgets/Pie.vue'
 
 Chart.register(...registerables)
 

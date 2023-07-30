@@ -1,9 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { BarChart, useBarChart } from 'vue-chart-3'
 import { months } from '@/assets/js/charts/utils'
 
-const data = computed(() => ({
+const chartData = computed(() => ({
   labels: months({ count: 12 }),
   datasets: [
     {
@@ -22,7 +22,7 @@ const data = computed(() => ({
   ],
 }))
 const { barChartProps } = useBarChart({
-  chartData: data,
+  chartData,
   options: {
     responsive: true,
     aspectRatio: 3.5,

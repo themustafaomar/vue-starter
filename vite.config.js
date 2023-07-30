@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
+import Components from 'unplugin-vue-components/vite'
 import vue from '@vitejs/plugin-vue'
 
 export default ({ mode }) => {
@@ -22,6 +23,9 @@ export default ({ mode }) => {
     },
     plugins: [
       vue(),
+      Components({
+        directoryAsNamespace: true,
+      }),
       vuetify({
         autoImport: true,
         styles: {

@@ -8,7 +8,7 @@ import { websitePerformanceWidget } from '@/data/charts'
 
 const lineChartRef = ref()
 const { current } = useTheme()
-const data = computed(() => ({
+const chartData = computed(() => ({
   labels: months({ count: 24 }),
   datasets: [
     {
@@ -27,7 +27,7 @@ const data = computed(() => ({
   ],
 }))
 const { lineChartProps } = useLineChart({
-  chartData: data,
+  chartData,
   options: {
     // This type of charts holds a lot of data, so for performance reasons, It would be wise if we disable animations
     // https://www.chartjs.org/docs/latest/general/performance.html#disable-animations

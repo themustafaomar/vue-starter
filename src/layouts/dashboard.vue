@@ -36,13 +36,13 @@ import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)
-const notificationsStore = useNotificationsStore()
+const { fetch } = useNotificationsStore()
 const { isLoading } = storeToRefs(useAppStore())
 const { lgAndUp, mdAndDown } = useDisplay()
 
 // Hooks
 onMounted(() => {
-  notificationsStore.fetch()
+  fetch()
   navigationDrawer(true)
 })
 
