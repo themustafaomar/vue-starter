@@ -27,7 +27,7 @@
   </Field>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed, useSlots } from 'vue'
 import { Field } from 'vee-validate'
 

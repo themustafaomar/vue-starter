@@ -23,11 +23,12 @@ const appStore = useAppStore()
 const options = computed(() => appStore.snackbar)
 const icon = computed(() => {
   let _icon = 'mdi-'
-  if (options.value.color === 'primary') {
+  const color = options.value.color
+  if (color === 'primary') {
     _icon += 'check-circle-outline'
-  } else if (options.value.color === 'info') {
+  } else if (color === 'info') {
     _icon += 'information-slab-circle-outline'
-  } else if (options.value.color === 'red') {
+  } else if (color === 'red') {
     _icon += 'alert-circle-outline'
   }
   return _icon

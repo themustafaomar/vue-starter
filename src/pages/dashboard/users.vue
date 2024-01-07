@@ -124,6 +124,7 @@ const selectedUsers = ref([])
 const headers = ref([
   { title: 'Name', key: 'name' },
   { title: 'Email', key: 'email' },
+  { title: 'Phone Number', key: 'phone_number' },
   { title: 'Role', key: 'role' },
   { title: 'Status', key: 'status' },
   { title: 'Created', key: 'created' },

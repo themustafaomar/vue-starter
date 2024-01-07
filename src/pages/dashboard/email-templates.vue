@@ -10,20 +10,18 @@
       <v-sheet color="#fff" max-width="750" class="mx-auto pa-6 mt-5">
         <h3 class="mb-4">Hello User,</h3>
         <p class="mb-4">
-          Let's face it, sometimes you have a simple message that doesn’t need much design—but still
-          needs flexibility and reliability. Select a basic email template. Write your message. Then
-          send with confidence.
+          I just wanted to reach out and say thank you for your help with the project. Your
+          contributions were integral to its success.
         </p>
         <p class="mb-4">
-          Its clean, minimal and pre-designed email template that is suitable for multiple purposes
-          email template.
+          I also wanted to touch base regarding next steps. please let me know when you're available
+          to meet and discuss our plans moving forward.
         </p>
         <p class="mb-4">
-          Hope you'll enjoy the experience, we're here if you have any questions, drop us a line at
-          info@yourwebsite.com anytime.
+          Thank you again for your hard work. I look forward to working with you on future projects.
         </p>
         <p>―</p>
-        <p>Regards</p>
+        <p>Regards.</p>
         <p>Mustafa Omar</p>
       </v-sheet>
       <p class="mx-auto text-center text-grey-darken-3 mt-5">
@@ -95,22 +93,24 @@
         Creative Vuetify starter for a better development.
       </h4>
       <v-sheet color="#fff" max-width="750" class="mx-auto pa-6 mt-5">
-        <h3 class="mb-4">Confirm Your E-Mail Address</h3>
+        <h3 class="mb-4">Account Confirmation Required</h3>
         <p class="mb-4">Hi Mustafa,</p>
         <p class="mb-4">
-          Welcome! You are receiving this email because you have registered on our site.
+          Thank you for signing up for [Company Name]! To complete your registration and access our
+          services, please confirm your account by clicking the link below:
         </p>
-        <p class="mb-4">Click the link below to active your Starter account.</p>
-        <p class="mb-4">This link will expire in 15 minutes and can only be used once.</p>
+        <p class="mb-4">
+          Once you click the link, you will be directed to a page where you can set up your account
+          and start using our services. Please note that this link will expire within 24 hours for
+          security reasons.
+        </p>
         <v-btn color="primary" text="Verify email"></v-btn>
-        <p class="mt-5">
-          If the button above does not work, paste this link into your web browser:
-        </p>
+        <p class="mt-5">If the button above doesn't work, paste this link into your web browser:</p>
         <a href="#" class="d-inline-block my-2">
           https://themustafaomar.com/endpoint/to/auth?token=dfdsa5fwdfsaf21dsf575fw15rfe4r51wcsa1d2sd74sad54sa5d
         </a>
         <p>―</p>
-        <p>Regards</p>
+        <p>Regards.</p>
         <p>Mustafa Omar</p>
       </v-sheet>
       <p class="mx-auto text-center text-grey-darken-3 mt-5">

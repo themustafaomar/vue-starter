@@ -71,8 +71,8 @@ export const useChatStore = defineStore('chats', {
 
       if (message.type === 'text') {
         form.append('body', message.body)
-      } else if (message.type === 'record') {
-        form.append('record', message.blob, 'record.wav')
+      } else if (message.type === 'voice') {
+        form.append('voice', message.blob, 'voice.wav')
       }
 
       try {

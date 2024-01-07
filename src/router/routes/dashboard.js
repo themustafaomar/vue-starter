@@ -18,6 +18,16 @@ export const dashboard = [
         component: () => import('@/pages/dashboard/components.vue'),
       },
       {
+        name: 'dashboard_charts',
+        path: 'charts',
+        component: () => import('@/pages/dashboard/charts.vue'),
+      },
+      {
+        name: 'dashboard_widgets',
+        path: 'widgets',
+        component: () => import('@/pages/dashboard/widgets.vue'),
+      },
+      {
         name: 'dashboard_chat',
         path: 'chat',
         component: () => import('@/pages/dashboard/chat.vue'),

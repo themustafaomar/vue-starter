@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer elevation="0" :border="0" width="370" rounded="lg">
+  <v-navigation-drawer elevation="0" :border="0" width="350" rounded="lg">
     <template #prepend>
       <v-list-item
         lines="two"
@@ -12,11 +12,11 @@
           <v-badge location="end center" color="green" dot inline class="ms-n1" />
           {{ (permissions?.roles?.[0] || '').replace('-', ' ') }}
         </div>
-        <template #append>
+        <!-- <template #append>
           <v-btn @click="$refs.settings.open()" variant="flat" icon>
             <v-icon>mdi-cog-outline</v-icon>
           </v-btn>
-        </template>
+        </template> -->
       </v-list-item>
     </template>
 
@@ -52,7 +52,7 @@
               {{ conversation.body?.length >= 25? conversation.body?.slice(0, 20) + '...': conversation.body }}
               </template>
 
-              <template v-if="conversation.type === 'record'">
+              <template v-if="conversation.type === 'voice'">
                 <v-icon color="grey-darken-2">mdi-microphone-outline</v-icon>
                 Voice Message
               </template>
