@@ -1,5 +1,5 @@
 {
-  "name": "vuetify-starter",
+  "name": "vue-starter",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -34,7 +34,7 @@
     "vue-chart-3": "^3.1.8",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
-    "vuetify": "^3.1.15",
+    "vuetify": "^3.4.9",
     "webfontloader": "^1.6.28",
     "yup": "^1.1.1"
   },

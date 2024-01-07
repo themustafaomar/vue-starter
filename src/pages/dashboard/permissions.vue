@@ -1,9 +1,5 @@
 <template>
   <app-sheet title="Permissions" table class="pb-5">
-    <template #actions>
-      <v-btn @click="composer.add()" color="primary" rounded="pill">Create Permission</v-btn>
-    </template>
-
     <v-data-table :headers="headers" :items="permissions">
       <template #item.assigned_to="{ item }">
         <v-chip v-for="role in item.raw.roles" color="primary" variant="tonal" class="mx-1">
@@ -32,7 +28,6 @@ import { ref, onMounted } from 'vue'
 import { useLoader } from '@/composables/useLoader'
 import axios from '@/plugins/axios'
 import useComposer from '@/hoc/useComposer.vue'
-import AppDashboardPermissionsCreate from '@/components/dashboard/permissions/Create.vue'
 
 const composer = ref(null)
 const permissions = ref([])

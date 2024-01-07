@@ -1,8 +1,6 @@
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 import { createVuetify } from 'vuetify'
-import { VDataTable } from 'vuetify/labs/VDataTable'
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n'
 import { createI18n, useI18n } from 'vue-i18n'
 import { loadFonts } from './webfontloader'
@@ -31,7 +29,6 @@ export const useVuetify = (app) => {
 
   // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
   const vuetify = createVuetify({
-    components: { VDataTable, VSkeletonLoader },
     theme,
     locale: {
       adapter: createVueI18nAdapter({ i18n, useI18n }),

@@ -2,17 +2,12 @@ import axios from 'axios'
 import router from '../router'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
-import { isDev } from '@/utils'
-
-const env = import.meta.env
 
 // Axios instance
 const instance = axios.create({
-  // We need to send requests to the front-end dev server
-  // so the proxy can forward the requests to the backend host
-  // in production, we'll send requests to the back-end directly.
-  baseURL: `${isDev() ? '' : env.VITE_SERVER_URL}/api`,
+  baseURL: `${import.meta.env.VITE_SERVER_URL}/api`,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
+  withXSRFToken: true,
   withCredentials: true,
 })
 

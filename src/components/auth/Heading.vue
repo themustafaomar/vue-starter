@@ -3,7 +3,7 @@
     <img
       class="mb-3"
       :src="`/${isDark ? 'logo-dark' : 'logo'}.png`"
-      :width="isDark ? 60 : 120"
+      :width="isDark ? 60 : 70"
       alt="Logo"
     />
     <h2 class="mb-2">{{ title }}</h2>

@@ -7,7 +7,7 @@
       :ripple="false"
     />
 
-    <v-toolbar-title text="Wakeb" class="text-uppercase text-medium-emphasis" />
+    <v-toolbar-title text="Brand" class="text-uppercase text-medium-emphasis" />
 
     <v-text-field
       v-if="lgAndUp"

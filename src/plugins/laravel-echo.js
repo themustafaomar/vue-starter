@@ -1,7 +1,6 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 import axios from './axios'
-import { isDev } from '@/utils'
 
 const env = import.meta.env
 
@@ -19,9 +18,8 @@ window.Echo = new Echo({
   // https://laravel.com/docs/10.x/sanctum#authorizing-private-broadcast-channels
   authorizer: (channel) => ({
     authorize: (socketId, callback) => {
-      const prefix = isDev() ? '/@' : env.VITE_SERVER_URL
       axios
-        .post(`${prefix}/broadcasting/auth`, {
+        .post(`${env.VITE_SERVER_URL}/broadcasting/auth`, {
           socket_id: socketId,
           channel_name: channel.name,
         })
