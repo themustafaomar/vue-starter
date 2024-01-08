@@ -38,7 +38,7 @@
     </template>
   </v-text-field>
 
-  <app-dashboard-chat-sender-recorder
+  <chat-sender-recorder
     @abort="isRecording = false"
     @recorded=";(isRecording = false), send('voice', $event)"
     :is-recording="isRecording"
@@ -58,7 +58,7 @@ import { useChatStore } from '@/stores/chats'
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 import EmojiesPicker from './EmojiesPicker.vue'
-import AppDashboardChatSenderRecorder from './Recorder.vue'
+import ChatSenderRecorder from './Recorder.vue'
 
 const message = ref(null)
 const loading = ref(false)

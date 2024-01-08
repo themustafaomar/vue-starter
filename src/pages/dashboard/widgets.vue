@@ -3,27 +3,23 @@
 
   <v-row class="mt-3">
     <v-col cols="6">
-      <app-dashboard-widgets-sales-revenue />
+      <widgets-sales-revenue />
     </v-col>
 
     <v-col cols="3">
-      <app-dashboard-widgets-bar-simple
-        title="Active Subscriptions"
-        value="1.1K"
-        percentage="25.47%"
-      />
+      <widgets-bar-simple title="Active Subscriptions" value="1.1K" percentage="25.47%" />
     </v-col>
 
     <v-col cols="3">
-      <app-dashboard-widgets-stat title="Today Orders" value="1,900" percentage="25.47%" />
+      <widgets-stat title="Today Orders" value="1,900" percentage="25.47%" />
     </v-col>
 
     <v-col cols="3">
-      <app-dashboard-widgets-website-performance />
+      <widgets-website-performance />
     </v-col>
 
     <v-col cols="3">
-      <app-dashboard-widgets-pie />
+      <widgets-pie />
     </v-col>
   </v-row>
 </template>
@@ -32,11 +28,11 @@
 import { onMounted } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import { useLoader } from '@/composables/useLoader'
-import AppDashboardWidgetsWebsitePerformance from '@/components/dashboard/widgets/WebsitePerformance.vue'
-import AppDashboardWidgetsBarSimple from '@/components/dashboard/widgets/BarSimple.vue'
-import AppDashboardWidgetsSalesRevenue from '@/components/dashboard/widgets/SalesRevenue.vue'
-import AppDashboardWidgetsStat from '@/components/dashboard/widgets/Stat.vue'
-import AppDashboardWidgetsPie from '@/components/dashboard/widgets/Pie.vue'
+import WidgetsWebsitePerformance from '@/components/dashboard/widgets/WebsitePerformance.vue'
+import WidgetsBarSimple from '@/components/dashboard/widgets/BarSimple.vue'
+import WidgetsSalesRevenue from '@/components/dashboard/widgets/SalesRevenue.vue'
+import WidgetsStat from '@/components/dashboard/widgets/Stat.vue'
+import WidgetsPie from '@/components/dashboard/widgets/Pie.vue'
 
 Chart.register(...registerables)
 
