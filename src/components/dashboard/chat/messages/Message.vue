@@ -38,7 +38,7 @@
       <!-- Voice message -->
       <div v-else>
         <div class="d-inline-block rounded-pill" :class="{ 'ms-4': !current, 'me-4': current }">
-          <app-dashboard-chat-messages-audio-player :source="data.source" />
+          <chat-messages-audio-player :source="data.source" />
         </div>
       </div>
 
@@ -69,7 +69,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useUser } from '@/composables/useUser'
-import AppDashboardChatMessagesAudioPlayer from './AudioPlayer.vue'
+import ChatMessagesAudioPlayer from './AudioPlayer.vue'
 
 const props = defineProps({ data: Object })
 const user = useUser()

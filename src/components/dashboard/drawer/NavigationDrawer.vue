@@ -9,10 +9,10 @@
     <v-list density="comfortable">
       <template v-for="link in links">
         <!-- Having children, we need to render it via list group -->
-        <app-dashboard-drawer-item-group v-if="link.children" :link="link" />
+        <drawer-item-group v-if="link.children" :link="link" />
 
         <!-- Not having any children -->
-        <app-dashboard-drawer-item
+        <drawer-item
           v-if="!link.children && (link.permissions && !can(link.permissions) ? false : true)"
           :link="link"
         />
@@ -25,8 +25,8 @@
 import { ref } from 'vue'
 import { useLocale } from 'vuetify'
 import { useUser } from '@/composables/useUser'
-import AppDashboardDrawerItem from './Item.vue'
-import AppDashboardDrawerItemGroup from './ItemGroup.vue'
+import DrawerItem from './Item.vue'
+import DrawerItemGroup from './ItemGroup.vue'
 
 const user = useUser()
 const { t } = useLocale()

@@ -11,8 +11,8 @@
       <template #item.id="{ item }">#{{ item.raw.id }}</template>
 
       <template #item.actions="{ item }">
-        <app-dashboard-edit-btn @click="composer.update(item.raw)" />
-        <app-dashboard-delete-btn @click.prevent />
+        <edit-btn @click="composer.update(item.raw)" />
+        <delete-btn @click.prevent />
       </template>
 
       <template #bottom>
@@ -24,7 +24,7 @@
   </app-sheet>
 
   <useComposer ref="composer" title="Role" v-slot="{ props }">
-    <app-dashboard-roles-compose v-bind="props" @created="fetch()" />
+    <roles-compose v-bind="props" @created="fetch()" />
   </useComposer>
 </template>
 
@@ -33,9 +33,9 @@ import { ref, onMounted } from 'vue'
 import axios from '@/plugins/axios'
 import { useLoader } from '@/composables/useLoader'
 import useComposer from '@/hoc/useComposer.vue'
-import AppDashboardRolesCompose from '@/components/dashboard/roles/Compose.vue'
-import AppDashboardEditBtn from '@/components/dashboard/EditBtn.vue'
-import AppDashboardDeleteBtn from '@/components/dashboard/DeleteBtn.vue'
+import RolesCompose from '@/components/dashboard/roles/Compose.vue'
+import EditBtn from '@/components/dashboard/EditBtn.vue'
+import DeleteBtn from '@/components/dashboard/DeleteBtn.vue'
 
 const page = ref(1)
 const composer = ref(null)

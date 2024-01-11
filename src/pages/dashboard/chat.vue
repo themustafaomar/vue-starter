@@ -4,7 +4,7 @@
       <source src="/message.mp3" type="audio/mpeg" />
     </audio>
 
-    <app-dashboard-chat-conversations-list />
+    <chat-conversations-list />
 
     <!--
       Equation: (Screen height - Navbar height - Top & Bottom paddings)
@@ -15,10 +15,7 @@
         class="position-relative h-100 ms-0 ms-lg-5"
         rounded="lg"
       >
-        <app-dashboard-chat-toolbar
-          :conversation="chatStore.activeConversation"
-          :isLoadingChat="isLoadingChat"
-        />
+        <chat-toolbar :conversation="chatStore.activeConversation" :isLoadingChat="isLoadingChat" />
 
         <v-divider color="grey-darken-1" />
 
@@ -46,11 +43,8 @@
           </div>
 
           <ul v-else>
-            <app-dashboard-chat-messages-message v-for="data in chat" :data="data" />
-            <app-dashboard-chat-typing
-              v-if="chat.length && isPartnerTyping"
-              :partner="activeConversation"
-            />
+            <chat-messages-message v-for="data in chat" :data="data" />
+            <chat-typing v-if="chat.length && isPartnerTyping" :partner="activeConversation" />
           </ul>
         </div>
 
@@ -59,11 +53,11 @@
           class="d-flex align-center position-absolute w-100 pa-5"
           style="bottom: 0; left: 0; height: 84px"
         >
-          <app-dashboard-chat-sender />
+          <chat-sender />
         </div>
       </v-sheet>
 
-      <app-dashboard-chat-empty v-else />
+      <chat-empty v-else />
     </v-main>
   </v-layout>
 </template>
@@ -77,12 +71,12 @@ import { useChatStore } from '@/stores/chats'
 import { useLoader } from '@/composables/useLoader'
 import { useUser } from '@/composables/useUser'
 import axios from '@/plugins/axios'
-import AppDashboardChatMessagesMessage from '@/components/dashboard/chat/messages/Message.vue'
-import AppDashboardChatSender from '@/components/dashboard/chat/sender/Sender.vue'
-import AppDashboardChatConversationsList from '@/components/dashboard/chat/conversations/List.vue'
-import AppDashboardChatTyping from '@/components/dashboard/chat/Typing.vue'
-import AppDashboardChatToolbar from '@/components/dashboard/chat/Toolbar.vue'
-import AppDashboardChatEmpty from '@/components/dashboard/chat/Empty.vue'
+import ChatMessagesMessage from '@/components/dashboard/chat/messages/Message.vue'
+import ChatSender from '@/components/dashboard/chat/sender/Sender.vue'
+import ChatConversationsList from '@/components/dashboard/chat/conversations/List.vue'
+import ChatTyping from '@/components/dashboard/chat/Typing.vue'
+import ChatToolbar from '@/components/dashboard/chat/Toolbar.vue'
+import ChatEmpty from '@/components/dashboard/chat/Empty.vue'
 
 const container = ref(null)
 const sender = ref(null)

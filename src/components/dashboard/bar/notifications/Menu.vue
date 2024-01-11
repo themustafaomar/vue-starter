@@ -28,11 +28,11 @@
 
     <v-sheet rounded="lg" class="notifications-menu overflow-hidden">
       <v-responsive max-height="400" min-height="250" style="overflow-y: scroll">
-        <app-dashboard-bar-notifications-loader v-if="isLoading" />
+        <notifications-loader v-if="isLoading" />
 
         <template v-if="notifications.length">
           <v-list v-for="notification in notifications" :key="notification.id" lines="three">
-            <app-dashboard-bar-notifications-item :notification="notification" />
+            <notifications-item :notification="notification" />
           </v-list>
         </template>
 
@@ -54,8 +54,8 @@ import { useI18n } from 'vue-i18n'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useUser } from '@/composables/useUser'
 import AppTooltipBtn from '@/components/app/TooltipBtn.vue'
-import AppDashboardBarNotificationsLoader from './Loader.vue'
-import AppDashboardBarNotificationsItem from './Item.vue'
+import NotificationsLoader from './Loader.vue'
+import NotificationsItem from './Item.vue'
 
 const menu = ref(false)
 const width = computed(() => (mobile.value ? 420 : 380))
