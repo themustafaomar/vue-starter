@@ -5,16 +5,16 @@
     <!-- end snackbar -->
 
     <!-- sidebar -->
-    <app-dashboard-drawer v-model="isNavDrawerActive" :rail="rail" />
+    <drawer v-model="isNavDrawerActive" :rail="rail" />
     <!-- end sidebar -->
 
     <!-- navbar -->
-    <app-dashboard-bar @rail:switch="navigationDrawer" />
+    <bar @rail:switch="navigationDrawer" />
     <!-- end navbar -->
 
     <!-- content -->
     <v-main>
-      <app-dashboard-loader v-show="isLoading" />
+      <loader v-show="isLoading" />
       <div v-show="!isLoading" class="pa-4 pa-lg-6">
         <router-view />
       </div>
@@ -30,9 +30,9 @@ import { useDisplay } from 'vuetify'
 import { useAppStore } from '@/stores/app'
 import { useNotificationsStore } from '@/stores/notifications'
 import AppSnackbar from '@/components/app/Snackbar.vue'
-import AppDashboardDrawer from '@/components/dashboard/drawer/NavigationDrawer.vue'
-import AppDashboardLoader from '@/components/dashboard/Loader.vue'
-import AppDashboardBar from '@/components/dashboard/bar/Bar.vue'
+import Drawer from '@/components/dashboard/drawer/NavigationDrawer.vue'
+import Loader from '@/components/dashboard/Loader.vue'
+import Bar from '@/components/dashboard/bar/Bar.vue'
 
 const rail = ref(false)
 const isNavDrawerActive = ref(true)
