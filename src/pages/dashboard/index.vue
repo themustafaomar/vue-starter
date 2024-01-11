@@ -2,7 +2,7 @@
   <app-sheet title="Dashboard" class="mb-0">
     <v-row no-gutters>
       <v-col cols="12" sm="6" lg="3">
-        <app-dashboard-widgets-stat
+        <widgets-stat
           title="Today Orders"
           value="1,900"
           percentage="25.47%"
@@ -14,18 +14,13 @@
       <v-divider vertical />
 
       <v-col cols="12" sm="6" lg="3">
-        <app-dashboard-widgets-stat
-          title="Today Orders"
-          value="2,500"
-          percentage="5.64%"
-          class="px-5 py-0"
-        />
+        <widgets-stat title="Today Orders" value="2,500" percentage="5.64%" class="px-5 py-0" />
       </v-col>
 
       <v-divider vertical />
 
       <v-col cols="12" sm="6" lg="3">
-        <app-dashboard-widgets-stat
+        <widgets-stat
           title="Today Orders"
           value="564"
           percentage="14.47%"
@@ -37,7 +32,7 @@
       <v-divider vertical />
 
       <v-col cols="12" sm="6" lg="3">
-        <app-dashboard-widgets-stat
+        <widgets-stat
           title="Today Orders"
           value="1,000"
           percentage="9.14%"
@@ -130,33 +125,25 @@
     <v-col cols="16" lg="6">
       <v-row>
         <v-col cols="12">
-          <app-dashboard-widgets-sales-revenue />
+          <widgets-sales-revenue />
         </v-col>
 
         <!-- Second widget -->
         <v-col cols="12" lg="6">
-          <app-dashboard-widgets-bar-simple
-            title="Active Subscriptions"
-            value="1.1K"
-            percentage="25.47%"
-          />
+          <widgets-bar-simple title="Active Subscriptions" value="1.1K" percentage="25.47%" />
         </v-col>
 
         <!-- Third widget -->
         <v-col cols="12" lg="6">
-          <app-dashboard-widgets-bar-simple
-            title="AVG Subscriptions"
-            value="341.2"
-            percentage="10%"
-          />
+          <widgets-bar-simple title="AVG Subscriptions" value="341.2" percentage="10%" />
         </v-col>
 
         <v-col cols="6">
-          <app-dashboard-widgets-website-performance />
+          <widgets-website-performance />
         </v-col>
 
         <v-col cols="6">
-          <app-dashboard-widgets-pie />
+          <widgets-pie />
         </v-col>
 
         <!-- Fourth widget -->
@@ -264,11 +251,11 @@ import { LineChart, useLineChart } from 'vue-chart-3'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
 import { months, numbers, createGradient } from '@/assets/js/charts/utils'
-import AppDashboardWidgetsSalesRevenue from '@/components/dashboard/widgets/SalesRevenue.vue'
-import AppDashboardWidgetsBarSimple from '@/components/dashboard/widgets/BarSimple.vue'
-import AppDashboardWidgetsWebsitePerformance from '@/components/dashboard/widgets/WebsitePerformance.vue'
-import AppDashboardWidgetsStat from '@/components/dashboard/widgets/Stat.vue'
-import AppDashboardWidgetsPie from '@/components/dashboard/widgets/Pie.vue'
+import WidgetsSalesRevenue from '@/components/dashboard/widgets/SalesRevenue.vue'
+import WidgetsBarSimple from '@/components/dashboard/widgets/BarSimple.vue'
+import WidgetsWebsitePerformance from '@/components/dashboard/widgets/WebsitePerformance.vue'
+import WidgetsStat from '@/components/dashboard/widgets/Stat.vue'
+import WidgetsPie from '@/components/dashboard/widgets/Pie.vue'
 
 Chart.register(...registerables)
 

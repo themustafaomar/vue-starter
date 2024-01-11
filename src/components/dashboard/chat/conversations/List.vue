@@ -20,7 +20,7 @@
       </v-list-item>
     </template>
 
-    <app-dashboard-chat-settings ref="settings" />
+    <chat-settings ref="settings" />
 
     <v-divider color="grey-darken-1" />
 
@@ -94,7 +94,7 @@ import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useChatStore } from '@/stores/chats'
-import AppDashboardChatSettings from '@/components/dashboard/chat/Settings.vue'
+import ChatSettings from '@/components/dashboard/chat/Settings.vue'
 
 const authStore = useAuthStore()
 const chatStore = useChatStore()

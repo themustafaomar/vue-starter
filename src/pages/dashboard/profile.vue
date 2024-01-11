@@ -3,7 +3,7 @@
   <app-sheet title="Profile">
     <v-row class="mt-2">
       <v-col cols="4" class="mx-auto text-center mb-5">
-        <app-dashboard-profile-avatar @save="saveAvatar" :user="user" />
+        <profile-avatar @save="saveAvatar" :user="user" />
         <h4 class="mt-1">Profile Picture</h4>
         <p class="text-grey">Change your profile picture.</p>
       </v-col>
@@ -99,7 +99,7 @@ import { useForm } from '@/composables/useForm'
 import { useUser } from '@/composables/useUser'
 import { useLoader } from '@/composables/useLoader'
 import storage from '@/plugins/storage'
-import AppDashboardProfileAvatar from '@/components/dashboard/profile/Avatar.vue'
+import ProfileAvatar from '@/components/dashboard/profile/Avatar.vue'
 
 const user = useUser()
 const loader = useLoader()
