@@ -2,7 +2,7 @@
   <div class="text-center mb-6">
     <img
       class="mb-3"
-      :src="`/${isDark ? 'logo-dark' : 'logo'}.png`"
+      :src="`/${isDark ? 'logo' : 'logo'}.png`"
       :width="isDark ? 60 : 70"
       alt="Logo"
     />
