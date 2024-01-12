@@ -2,7 +2,7 @@
   <app-sheet title="Permissions" table class="pb-5">
     <v-data-table :headers="headers" :items="permissions">
       <template #item.assigned_to="{ item }">
-        <v-chip v-for="role in item.raw.roles" color="primary" variant="tonal" class="mx-1">
+        <v-chip v-for="role in item.roles" color="primary" variant="tonal" class="mx-1">
           {{ role.name }}
         </v-chip>
       </template>

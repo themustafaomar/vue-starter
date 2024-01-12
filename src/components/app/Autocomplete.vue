@@ -2,10 +2,10 @@
   <!-- global component: YES -->
   <Field v-slot="{ errors }" :name="name">
     <v-autocomplete
-      v-bind="$attrs"
+      v-bind="attrs"
       @update:model-value="form && form.errors.has(name) ? form.errors.set(name) : void 0"
       :error-messages="errors.length ? errors : getBackendErrors"
-      :label="$attrs.label || generateLabel"
+      :label="attrs.label || generateLabel"
       density="comfortable"
       append-inner-icon="mdi-chevron-down"
       persistent-placeholder
@@ -21,14 +21,14 @@
         Supported slots: https://vuetifyjs.com/en/components/text-fields/#slots
       -->
       <template v-for="slotName in slotsNames" #[slotName]>
-        <slot :name="slotName" :[slotName]="$attrs[slotName]"></slot>
+        <slot :name="slotName" :[slotName]="attrs[slotName]"></slot>
       </template>
     </v-autocomplete>
   </Field>
 </template>
 
 <script setup>
-import { computed, useSlots } from 'vue'
+import { computed, useSlots, useAttrs } from 'vue'
 import { Field } from 'vee-validate'
 
 const props = defineProps({
@@ -37,6 +37,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
 })
 const slots = useSlots()
+const attrs = useAttrs()
 const slotsNames = Object.keys(slots).filter((name) => name !== 'label')
 
 // Get backend errors via vform

@@ -11,6 +11,11 @@ export default ({ mode }) => {
   }
 
   return defineConfig({
+    server: {
+      proxy: {
+        '/storage': process.env.VITE_SERVER_URL,
+      },
+    },
     plugins: [
       vue(),
       Components({

@@ -1,4 +1,8 @@
 <template>
+  <v-btn @click="open" variant="flat" density="comfortable" class="me-3" icon>
+    <v-icon color="grey-darken-1">mdi-cog-outline</v-icon>
+  </v-btn>
+
   <v-dialog v-model="isActive" width="600">
     <v-card elevation="0" rounded="lg">
       <v-card-title class="px-6 py-3 border-b">

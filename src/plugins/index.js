@@ -1,6 +1,7 @@
 import './axios'
 import './vform'
 import './laravel-echo'
+import './lodash'
 
 // Callable plugins
 import { useVuetify } from './vuetify'

@@ -3,10 +3,8 @@
     <h4 class="font-weight-medium text-uppercase mb-5">Templates - Simple email template</h4>
 
     <v-sheet color="grey-lighten-5" class="pa-10">
-      <v-img class="mx-auto mb-4" src="/logo2.jpg" width="150" alt="Logo" />
-      <h4 class="font-weight-medium text-center">
-        Creative Vuetify starter for a better development.
-      </h4>
+      <v-img class="mx-auto mb-4" src="/logo.png" width="75" alt="Logo" />
+      <h4 class="font-weight-medium text-center">Creative Vue starter for a better development.</h4>
       <v-sheet color="#fff" max-width="750" class="mx-auto pa-6 mt-5">
         <h3 class="mb-4">Hello User,</h3>
         <p class="mb-4">
@@ -25,7 +23,7 @@
         <p>Mustafa Omar</p>
       </v-sheet>
       <p class="mx-auto text-center text-grey-darken-3 mt-5">
-        Copyright © 2020 VuetifyStarter. All rights reserved.
+        Copyright © 2020 vue-starter. All rights reserved.
         <br />
         Template Made By Mustafa Omar.
       </p>
@@ -77,7 +75,7 @@
       </div>
       <p class="mx-auto text-center text-grey-darken-2 mt-5">
         This email was sent to you as a registered member of
-        <a href="#">vuetifystarter.tld</a>
+        <a href="#">vue-starter.tld</a>
         <br />
         To update your emails preferences
         <a href="#">click here</a>
@@ -88,10 +86,8 @@
     <h4 class="font-weight-medium text-uppercase my-5">Templates - Confirmation email template</h4>
 
     <v-sheet color="grey-lighten-5" class="pa-10">
-      <v-img class="mx-auto mb-4" src="/logo2.jpg" width="150" alt="Logo" />
-      <h4 class="font-weight-medium text-center">
-        Creative Vuetify starter for a better development.
-      </h4>
+      <v-img class="mx-auto mb-4" src="/logo.png" width="75" alt="Logo" />
+      <h4 class="font-weight-medium text-center">Creative Vue starter for a better development.</h4>
       <v-sheet color="#fff" max-width="750" class="mx-auto pa-6 mt-5">
         <h3 class="mb-4">Account Confirmation Required</h3>
         <p class="mb-4">Hi Mustafa,</p>
@@ -114,7 +110,7 @@
         <p>Mustafa Omar</p>
       </v-sheet>
       <p class="mx-auto text-center text-grey-darken-3 mt-5">
-        Copyright © 2020 VuetifyStarter. All rights reserved.
+        Copyright © 2020 vue-starter. All rights reserved.
         <br />
         Template Made By Mustafa Omar.
       </p>
@@ -166,7 +162,7 @@
       </div>
       <p class="mx-auto text-center text-grey-darken-2 mt-5">
         This email was sent to you as a registered member of
-        <a href="#">vuetifystarter.tld</a>
+        <a href="#">vue-starter.tld</a>
         <br />
         To update your emails preferences
         <a href="#">click here</a>

@@ -84,7 +84,7 @@ const _record = async () => {
 }
 
 const _getRecord = () => {
-  const blob = new Blob(audioChunks.value, { type: 'audio/wav' })
+  const blob = new Blob(audioChunks.value, { type: 'audio/mp3' })
   return {
     blob,
     source: URL.createObjectURL(blob),

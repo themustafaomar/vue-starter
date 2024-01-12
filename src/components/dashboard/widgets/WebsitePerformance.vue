@@ -29,14 +29,13 @@ const chartData = computed(() => ({
 const { lineChartProps } = useLineChart({
   chartData,
   options: {
-    // This type of charts holds a lot of data, so for performance reasons, It would be wise if we disable animations
+    // This type of charts holds a lot of data, so for
+    // performance reasons, It would be wise if we disable animations
     // https://www.chartjs.org/docs/latest/general/performance.html#disable-animations
     animation: { duration: 0 },
     hover: { animationDuration: 0 },
     responsiveAnimationDuration: 0,
     responsive: false,
-    // maintainAspectRatio: false,
-    // aspectRatio: 3.5,
 
     plugins: {
       legend: {
@@ -135,22 +134,6 @@ const createGradient = (ctx, stops, coords = [0, 50, 0, 300]) => {
         <p class="text-body-2 text-success">
           <v-icon>mdi-arrow-up</v-icon>
           14.14%
-        </p>
-        <p class="text-grey-darken-1 text-body-2">vs last month</p>
-      </v-col>
-    </v-row>
-
-    <v-row no-gutters class="mt-5">
-      <v-col cols="7">
-        <h5 class="text-grey-darken-2 font-weight-medium mb-2">Time On Site (AVG)</h5>
-        <LineChart v-bind="lineChartProps" :height="45" />
-      </v-col>
-
-      <v-col cols="5" class="text-end">
-        <h3>5.00%</h3>
-        <p class="text-body-2 text-red">
-          <v-icon>mdi-arrow-down</v-icon>
-          6.14%
         </p>
         <p class="text-grey-darken-1 text-body-2">vs last month</p>
       </v-col>

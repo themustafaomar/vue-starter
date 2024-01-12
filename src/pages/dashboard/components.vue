@@ -18,7 +18,7 @@
             <app-uploader
               label="Upload your profile picture (update example)"
               is-updating
-              preview-url="/logo-shape.avif"
+              preview-url="/logo.png"
             />
           </v-col>
           <v-col cols="6">
@@ -27,7 +27,7 @@
               required
               label="Upload your profile pictures (multiple example)"
               multiple
-              max="10"
+              :max="10"
               extensions="jpg,svg,jpeg,png,bmp,gif,webp"
             ></app-uploader>
             <pre v-if="Array.from(form.files).length" class="mt-3">{{

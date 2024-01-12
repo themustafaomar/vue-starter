@@ -12,7 +12,7 @@ In order for the team developers to know what is going on quickly in a page we h
 
 ```js
 // 0. Third party libraries
-1. Vue imports, this includes `vue`, `vue-router` and `pinia` and anything releated to the Vue community.
+// 1. Vue imports, this includes `vue`, `vue-router` and `pinia` and anything releated to the Vue community.
 // 2. Our Pinia stores if any
 // 3. Plugins if any
 // 4. Composables if any

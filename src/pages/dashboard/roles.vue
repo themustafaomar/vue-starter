@@ -8,7 +8,7 @@
     </template>
 
     <v-data-table :headers="headers" :items="roles">
-      <template #item.id="{ item }">#{{ item.raw.id }}</template>
+      <template #item.id="{ item }">#{{ item.id }}</template>
 
       <template #item.actions="{ item }">
         <edit-btn @click="composer.update(item.raw)" />

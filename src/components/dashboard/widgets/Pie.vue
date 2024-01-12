@@ -23,7 +23,7 @@ const chartData = computed(() => {
     ],
   }
 })
-const { doughnutChartProps, doughnutChartRef } = useDoughnutChart({
+const { doughnutChartProps } = useDoughnutChart({
   chartData,
   options: {
     responsive: true,
@@ -41,7 +41,6 @@ const { doughnutChartProps, doughnutChartRef } = useDoughnutChart({
             family: 'Inter',
           },
           boxHeight: 12,
-          // boxWidth: 50,
           usePointStyle: true,
         },
       },

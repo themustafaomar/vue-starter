@@ -10,7 +10,7 @@
         class="mx-3"
         elevation="0"
         type="table-heading, list-item-two-line, image, table-tfoot"
-      ></v-skeleton-loader>
+      />
 
       <Form
         v-else
@@ -27,7 +27,7 @@
             placeholder="Enter the name"
             required
             class="mb-2"
-          ></app-text-field>
+          />
 
           <app-text-field
             v-model="form.email"
@@ -36,7 +36,7 @@
             placeholder="Enter the email"
             required
             class="mb-2"
-          ></app-text-field>
+          />
 
           <app-text-field
             v-model="form.password"

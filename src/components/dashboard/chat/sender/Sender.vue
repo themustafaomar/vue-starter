@@ -11,14 +11,14 @@
     @keyup.enter="send('text', message)"
     @keyup="enableTyping"
     @focus="checkSeen"
-    class="chat-sender"
+    class="chat-sender ps-1"
     :loading="loading"
   >
-    <template #prepend-inner>
+    <!-- <template #prepend-inner>
       <v-btn icon elevation="0" density="comfortable" class="mt-n1">
         <v-icon>mdi-attachment</v-icon>
       </v-btn>
-    </template>
+    </template> -->
 
     <template #append-inner>
       <v-btn
@@ -75,10 +75,12 @@ const { ensurePermissions } = useDevicesList({
   constraints: { audio: true },
 })
 
+const CHANNEL_TYPER = 'typer'
+
 // Lifecycle Hooks
 
 onMounted(() => {
-  Echo.private(`chat-typing`).listenForWhisper('typing', ({ typing }) => {
+  Echo.private(CHANNEL_TYPER).listenForWhisper('typing', ({ typing }) => {
     chatStore.isPartnerTyping = typing
   })
 })
@@ -99,12 +101,12 @@ const enableTyping = (e) => {
   state.oldValue = value
   clearTimeout(state.timeout)
 
-  Echo.private(`chat-typing`).whisper('typing', {
+  Echo.private(CHANNEL_TYPER).whisper('typing', {
     typing: true,
   })
 
   state.timeout = setTimeout(() => {
-    Echo.private(`chat-typing`).whisper('typing', {
+    Echo.private(CHANNEL_TYPER).whisper('typing', {
       typing: false,
     })
   }, 800)

@@ -24,10 +24,7 @@ const chartData = computed(() => ({
       ],
       backgroundColor: ['rgba(0, 148, 255, 0.15)', 'rgba(0, 148, 255, 1)'],
       barPercentage: 0.7,
-      // barThickness: 3, // Width
       maxBarThickness: 10,
-      // minBarLength: 2,
-      // borderWidth: 1
     },
   ],
 }))
@@ -44,16 +41,10 @@ const { barChartProps } = useBarChart({
     scales: {
       x: {
         display: false,
-        // grid: {
-        //   display: false,
-        // }
       },
       y: {
         display: false,
         beginAtZero: true,
-        // grid: {
-        //   display: false
-        // }
       },
     },
   },

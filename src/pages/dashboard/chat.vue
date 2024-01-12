@@ -43,7 +43,11 @@
           </div>
 
           <ul v-else>
-            <chat-messages-message v-for="data in chat" :data="data" />
+            <template v-for="data in chat">
+              <chat-messages-text v-if="data.type === 'text'" :data="data" />
+              <chat-messages-voice v-else-if="data.type === 'voice'" :data="data" />
+            </template>
+
             <chat-typing v-if="chat.length && isPartnerTyping" :partner="activeConversation" />
           </ul>
         </div>
@@ -66,17 +70,19 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
+import { each, filter, find } from 'lodash'
 import { useEventListener } from '@vueuse/core'
 import { useChatStore } from '@/stores/chats'
 import { useLoader } from '@/composables/useLoader'
 import { useUser } from '@/composables/useUser'
 import axios from '@/plugins/axios'
-import ChatMessagesMessage from '@/components/dashboard/chat/messages/Message.vue'
 import ChatSender from '@/components/dashboard/chat/sender/Sender.vue'
 import ChatConversationsList from '@/components/dashboard/chat/conversations/List.vue'
 import ChatTyping from '@/components/dashboard/chat/Typing.vue'
 import ChatToolbar from '@/components/dashboard/chat/Toolbar.vue'
 import ChatEmpty from '@/components/dashboard/chat/Empty.vue'
+import ChatMessagesText from '@/components/dashboard/chat/messages/Text.vue'
+import ChatMessagesVoice from '@/components/dashboard/chat/messages/Voice.vue'
 
 const container = ref(null)
 const sender = ref(null)
@@ -111,39 +117,6 @@ watch(() => [route.query.conversation, chatStore.hasLoadedConversations], _loadC
 
 onMounted(() => {
   loader.markAsLoaded()
-
-  Echo.private(CHANNEL_CHAT_MESSAGE).listen('.chat-message-received', (message) => {
-    // Highlight the conversation with a little badge
-    // containing the total unread messages.
-    const conversationId = message.from_id
-    const conversation = conversations.value.find(({ id }) => id == conversationId)
-    const unreadCount = Number.parseInt(parseInt(conversation.unreadCount)) || 0
-
-    conversation.unreadCount = unreadCount + 1
-    conversation.body = message.body
-    sound.value.play()
-
-    // @TODO: check if the input is focused
-    // If yes, remove the conversation badge..
-
-    // We'll check if no active conversation, if yes we
-    // will abort the remaining proccess wich is responsible
-    // for adding the chat message to the chat stack.
-    if (!activeConversation.value) {
-      return
-    }
-
-    chat.value.push(message)
-  })
-
-  // Let's mark our unread messages as seen when broadcasting happens
-  Echo.private(CHANNEL_SEEN).listen('.conversation-seen', () => {
-    chat.value
-      .filter((message) => message.from_id === user.id)
-      .forEach((item) => {
-        item.is_seen = true
-      })
-  })
 })
 
 onUnmounted(() => {
@@ -152,20 +125,52 @@ onUnmounted(() => {
   Echo.leaveChannel(CHANNEL_SEEN)
 })
 
+// Functions
+
+Echo.private(CHANNEL_CHAT_MESSAGE).listen('.chat-message-received', (message) => {
+  // Highlight the conversation with a little badge
+  // containing the total unread messages.
+  const conversationId = message.from_id
+  const conversation = find(conversations.value, { id: conversationId })
+  const unreadCount = Number.parseInt(parseInt(conversation.unread_count)) || 0
+
+  conversation.unread_count = unreadCount + 1
+  conversation.body = message.body
+  conversation.from_id = message.from_id
+  sound.value?.play()
+
+  // @TODO: check if the input is focused
+  // If yes, remove the conversation badge..
+
+  // We'll check if no active conversation, if yes we
+  // will abort the remaining proccess wich is responsible
+  // for adding the chat message to the chat stack.
+  if (!activeConversation.value) {
+    return
+  }
+
+  chat.value.push(message)
+})
+
+// Let's mark our unread messages as seen when broadcasting happens
+Echo.private(CHANNEL_SEEN).listen('.conversation-seen', () => {
+  each(filter(chat.value, { from_id: user.id }), (item) => {
+    item.is_seen = true
+  })
+})
+
 // Close the conversation when the user clicks Escape button.
 useEventListener(document, 'keydown', (e) => {
   if (e.key === 'Escape') chatStore.closeChat()
 })
 
-// Functions
-
 function _loadConversationFromId() {
-  const conversationId = route.query.conversation
+  const conversationId = parseInt(route.query.conversation)
   if (!conversationId || !conversations.value.length) {
     return
   }
 
-  const conversation = conversations.value.find(({ id }) => id == conversationId)
+  const conversation = find(conversations.value, { id: conversationId })
   if (conversation) {
     chatStore.activeConversation = conversation
     chatStore.fetchChat({
@@ -173,8 +178,7 @@ function _loadConversationFromId() {
     })
   } else {
     axios.get(`/chat/conversations/new/${conversationId}`).then(({ data }) => {
-      // conversations.value.unshift(data.data)
-      activeConversation.value = data.data
+      chatStore.createConversationItem(data.data, conversationId)
     })
   }
 }
@@ -182,12 +186,12 @@ function _loadConversationFromId() {
 const loadMore = (event) => {
   const currentTarget = event.currentTarget
   const { scrollTop, scrollHeight } = currentTarget
-  const vScroll = Math.round(scrollHeight / 4)
+  const endScroll = Math.round(scrollHeight / 4)
 
   // Abort loading more in these cases..
   if (
     event.wheelDelta < 0 ||
-    scrollTop >= vScroll ||
+    scrollTop >= endScroll ||
     isLoadingMore.value ||
     chat.value.length < 15
   ) {
@@ -200,7 +204,7 @@ const loadMore = (event) => {
       const newScrollHeight = currentTarget.scrollHeight
       currentTarget.scrollTop = newScrollHeight - scrollHeight
     })
-    .catch()
+    .catch((err) => {})
 }
 
 function _watchScroll() {
@@ -233,7 +237,7 @@ function _watchScroll() {
     background-attachment: fixed;
     background-size: 350px;
     background-repeat: repeat;
-    opacity: 0.085;
+    opacity: 0.125;
   }
   ul {
     position: relative;

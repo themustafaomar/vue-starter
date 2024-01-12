@@ -5,6 +5,7 @@ import axios from '@/plugins/axios'
 
 export const useChatStore = defineStore('chats', {
   state: () => ({
+    unreadCount: false,
     isLoadingConversations: false,
     isLoadingChat: false,
     isLoadingMore: false,
@@ -15,16 +16,6 @@ export const useChatStore = defineStore('chats', {
     chat: [],
     chatMeta: {},
   }),
-  getters: {
-    getConversations: (state) => {
-      const user = useUser()
-      return state.conversations.map((conversation) => {
-        // Append unread count badge if the partner's last message is not yet seen
-        if (!conversation.is_seen && conversation.from_id != user.id) conversation.unreadCount = 1
-        return conversation
-      })
-    },
-  },
   actions: {
     async fetchConversations() {
       this.isLoadingConversations = true
@@ -37,20 +28,22 @@ export const useChatStore = defineStore('chats', {
         hasLoadedConversations: true,
       })
     },
-    async fetchChat({ id }) {
+    async fetchChat({ id: conversation }) {
       this.isLoadingChat = true
 
-      const { data } = await axios.get(`/chat/${id.id}`)
+      const { data } = await axios.get(`/chat/${conversation.id}`)
 
       this.$patch({
         chat: data.data,
         chatMeta: data.meta,
-        // Notice that `id` is not an actuall id
-        // it's a whole object of a conversation object
-        // this is due to a stupid event fired from Vuetify
-        activeConversation: id,
+        activeConversation: conversation,
         isLoadingChat: false,
       })
+
+      const unreadCount = conversation.unread_count
+      if (unreadCount) {
+        this.unreadCount = this.unreadCount - unreadCount
+      }
 
       // Let's mark our recently loaded chat as seen
       // as soon as it's successfully loaded, makes sense isn't it?
@@ -72,7 +65,7 @@ export const useChatStore = defineStore('chats', {
       if (message.type === 'text') {
         form.append('body', message.body)
       } else if (message.type === 'voice') {
-        form.append('voice', message.blob, 'voice.wav')
+        form.append('voice', message.blob, 'voice.mp3')
       }
 
       try {
@@ -82,7 +75,7 @@ export const useChatStore = defineStore('chats', {
         chatMessage.isRecentlySended = false
         this.activeConversation.type = message.type
         this.activeConversation.body = message.body
-        this.activeConversation.id = message.from_id
+        this.activeConversation.from_id = message.from_id
       } catch (error) {
         chatMessage.hasFailed = true
       }
@@ -112,8 +105,8 @@ export const useChatStore = defineStore('chats', {
 
       const conversation = this.activeConversation
 
-      if (conversation && conversation.unreadCount) {
-        conversation.unreadCount = false
+      if (conversation && conversation.unread_count) {
+        conversation.unread_count = false
       }
 
       axios.post(`/chat/conversations/${conversation.id}/seen`).then(() => {
@@ -121,6 +114,18 @@ export const useChatStore = defineStore('chats', {
           message.is_seen = true
         })
       })
+    },
+    createConversationItem(data, conversationId) {
+      const newConversation = {
+        id: conversationId,
+        name: data.name,
+        avatar: data.avatar,
+        from_id: conversationId,
+        body: '...',
+        type: 'text',
+      }
+      this.conversations.unshift(newConversation)
+      this.activeConversation = newConversation
     },
     loadMore() {
       this.isLoadingMore = true
@@ -145,6 +150,9 @@ export const useChatStore = defineStore('chats', {
 
           this.chatMeta = data.meta
         })
+    },
+    setUnreadCount(count) {
+      this.unreadCount = count
     },
   },
 })

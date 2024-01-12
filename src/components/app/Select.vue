@@ -2,13 +2,12 @@
   <!-- global component: YES -->
   <Field v-slot="{ errors }" :name="name">
     <v-select
-      v-bind="$attrs"
+      v-bind="attrs"
       @update:model-value="form && form.errors.has(name) ? form.errors.set(name) : void 0"
-      density="comfortable"
       append-inner-icon="mdi-chevron-down"
       persistent-placeholder
       :error-messages="errors.length ? errors : getBackendErrors"
-      :label="$attrs.label || generateLabel"
+      :label="attrs.label || generateLabel"
     >
       <template #label="{ label }">
         <span v-if="required" class="text-red font-weight-bold text-body-1 mt-1 me-1">*</span>
@@ -21,14 +20,14 @@
         Supported slots: https://vuetifyjs.com/en/components/text-fields/#slots
       -->
       <template v-for="slotName in slotsNames" #[slotName]>
-        <slot :name="slotName" :[slotName]="$attrs[slotName]"></slot>
+        <slot :name="slotName" :[slotName]="attrs[slotName]"></slot>
       </template>
     </v-select>
   </Field>
 </template>
 
 <script setup>
-import { computed, useSlots, onMounted } from 'vue'
+import { computed, useSlots, useAttrs } from 'vue'
 import { Field } from 'vee-validate'
 
 const props = defineProps({
@@ -37,6 +36,7 @@ const props = defineProps({
   required: { type: Boolean, default: false },
 })
 const slots = useSlots()
+const attrs = useAttrs()
 const slotsNames = Object.keys(slots).filter((name) => name !== 'label')
 
 // Get backend errors via vform

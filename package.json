@@ -22,6 +22,7 @@
     "emoji-mart-vue-fast": "^15.0.0",
     "laravel-echo": "^1.15.1",
     "laravel-permission-to-vuejs": "^3.0.1",
+    "lodash": "^4.17.21",
     "luxon": "^3.3.0",
     "mitt": "^3.0.0",
     "object-to-formdata": "^4.5.1",
@@ -35,6 +36,7 @@
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
     "vuetify": "^3.4.9",
+    "wavesurfer.js": "^7.1.2",
     "webfontloader": "^1.6.28",
     "yup": "^1.1.1"
   },

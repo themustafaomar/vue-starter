@@ -30,14 +30,13 @@ const chartData = computed(() => ({
 const { lineChartProps: lineChartProps1 } = useLineChart({
   chartData,
   options: {
-    // This type of charts holds a lot of data, so for performance reasons, It would be wise if we disable animations
+    // This type of charts holds a lot of data, so for
+    // performance reasons, It would be wise if we disable animationsions
     // https://www.chartjs.org/docs/latest/general/performance.html#disable-animations
     animation: { duration: 0 },
     hover: { animationDuration: 0 },
     responsiveAnimationDuration: 0,
     responsive: false,
-    // maintainAspectRatio: false,
-    // aspectRatio: 3.5,
 
     plugins: {
       legend: {

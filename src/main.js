@@ -12,6 +12,10 @@ const app = createApp({
   beforeCreate: () => useAppStore().init(),
 })
 
+app.config.globalProperties.$slice = (string, length = 25) => {
+  return string.length >= length ? string.slice(0, length) + '...' : string
+}
+
 // Register plugins
 plugins(app)
 

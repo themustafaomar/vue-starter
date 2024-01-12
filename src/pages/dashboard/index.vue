@@ -238,6 +238,17 @@
           <LineChart class="active-users-chart" v-bind="lineChartProps" />
         </div>
       </v-sheet>
+
+      <v-sheet
+        rounded="lg"
+        class="shadow-sm text-center opacity-50 pa-5 mt-5"
+        style="min-height: 350px"
+      >
+        <h3 class="font-weight-medium text-muted mb-2">Coming soon...</h3>
+        <p class="text-medium-emphasis">
+          A collection of awesome weidgets are coming soon, be right back!
+        </p>
+      </v-sheet>
     </v-col>
   </v-row>
 </template>

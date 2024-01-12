@@ -23,10 +23,10 @@
         <h3 class="font-weight-medium">Enable Unread Notification</h3>
         <p>Receive notification all of the messages, contracts, documents.</p>
       </div>
-      <v-switch hide-details inset color="primary" class="d-flex justify-end"></v-switch>
+      <v-switch hide-details inset color="primary" class="d-flex justify-end" />
     </v-sheet>
 
-    <v-divider class="mx-n6 my-6"></v-divider>
+    <v-divider class="mx-n6 my-6" />
 
     <h3 class="mb-3">Email Notifications</h3>
 
@@ -35,7 +35,7 @@
         <h3 class="font-weight-medium">Communication Emails</h3>
         <p>Receive email for messages, contracts, documents.</p>
       </div>
-      <v-switch hide-details inset color="primary" class="d-flex justify-end"></v-switch>
+      <v-switch hide-details inset color="primary" class="d-flex justify-end" />
     </v-sheet>
 
     <v-sheet class="d-flex justify-space-between align-center">
@@ -43,7 +43,7 @@
         <h3 class="font-weight-medium">Announcements &amp; Updates</h3>
         <p>Receive email about product updates, improvments etc..</p>
       </div>
-      <v-switch hide-details inset color="primary" class="d-flex justify-end"></v-switch>
+      <v-switch hide-details inset color="primary" class="d-flex justify-end" />
     </v-sheet>
   </app-sheet>
   <!-- <app-sheet title="Account Settings">

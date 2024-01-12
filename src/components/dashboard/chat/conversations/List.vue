@@ -1,112 +1,93 @@
 <template>
-  <v-navigation-drawer elevation="0" :border="0" width="350" rounded="lg">
-    <template #prepend>
-      <v-list-item
-        lines="two"
-        :prepend-avatar="user.avatar"
-        density="comfortable"
-        class="d-flex py-3"
-      >
-        <h4 class="font-weight-medium mb-0">{{ user.name }}</h4>
-        <div class="d-flex align-center text-medium-emphasis text-body-2">
-          <v-badge location="end center" color="green" dot inline class="ms-n1" />
-          {{ (permissions?.roles?.[0] || '').replace('-', ' ') }}
-        </div>
-        <!-- <template #append>
-          <v-btn @click="$refs.settings.open()" variant="flat" icon>
-            <v-icon>mdi-cog-outline</v-icon>
-          </v-btn>
-        </template> -->
-      </v-list-item>
-    </template>
-
-    <chat-settings ref="settings" />
-
-    <v-divider color="grey-darken-1" />
+  <v-navigation-drawer elevation="0" :border="0" width="320" rounded="lg">
+    <!-- <chat-settings ref="settings" /> -->
 
     <template v-if="!isLoadingConversations">
       <h3 class="font-weight-medium px-4 my-4">Chats</h3>
 
       <v-list
         density="comfortable"
-        @click:select="loadChat"
+        @click:select="fetchChat($event)"
         @keyup.esc="closeChat"
         mandatory
-        class="py-0"
+        class="conversations-list py-0"
       >
-        <template v-for="conversation in getConversations">
-          <v-list-item color="primary" class="py-3" :value="conversation">
-            <template #prepend>
-              <v-avatar>
-                <v-img :src="conversation.avatar"></v-img>
-              </v-avatar>
-            </template>
+        <v-list-item
+          v-for="conversation in conversations"
+          :value="conversation"
+          :key="conversation.id"
+          color="primary"
+          class="py-3"
+        >
+          <template #prepend>
+            <v-avatar :image="conversation.avatar" />
+          </template>
 
-            <h4 class="font-weight-medium">{{ conversation.name }}</h4>
-
-            <small class="text-grey-darken-1">
-              {{ conversation.from_id === user.id ? 'You:' : '' }}
-
-              <!-- prettier-ignore -->
-              <template v-if="conversation.type === 'text'">
-              {{ conversation.body?.length >= 25? conversation.body?.slice(0, 20) + '...': conversation.body }}
-              </template>
-
-              <template v-if="conversation.type === 'voice'">
-                <v-icon color="grey-darken-2">mdi-microphone-outline</v-icon>
-                Voice Message
-              </template>
+          <h4 class="font-weight-medium d-flex align-center justify-space-between">
+            {{ conversation.name }}
+            <small class="font-weight-regular text-grey">
+              {{ dayjs(conversation.max_created_at).format('d MMMM') }}
             </small>
+          </h4>
 
-            <template #append>
-              <div class="d-flex justify-start flex-column">
-                <small class="text-grey-darken-1 mt-n3">
-                  {{ dayjs(conversation.max_created_at).format('MMMM d') }}
-                </small>
-                <v-badge
-                  v-if="conversation.unreadCount"
-                  inline
-                  size="small"
-                  :content="conversation.unreadCount"
-                  color="red"
-                  class="mt-2 ms-n1"
-                ></v-badge>
-              </div>
+          <small class="text-grey-darken-1">
+            {{ conversation.from_id === user.id ? 'You:' : '' }}
+
+            <template v-if="conversation.type === 'text'">
+              {{ $slice(conversation.body, 20) }}
             </template>
-          </v-list-item>
-        </template>
+
+            <template v-if="conversation.type === 'voice'">
+              <v-icon color="grey-darken-2">mdi-microphone-outline</v-icon>
+              Voice Message
+            </template>
+          </small>
+
+          <template #append>
+            <v-badge
+              v-if="conversation.unread_count"
+              inline
+              size="small"
+              :content="conversation.unread_count"
+              color="red"
+              class="mt-5"
+            ></v-badge>
+          </template>
+        </v-list-item>
       </v-list>
     </template>
 
-    <div v-else class="px-5 pt-5">
+    <div v-else class="px-3 pt-3">
       <v-skeleton-loader max-width="85%" type="list-item-two-line" />
       <v-skeleton-loader
         class="mx-auto"
         type="list-item-avatar-two-line, list-item-three-line, sentences, list-item-avatar-two-line, list-item-three-line"
-      ></v-skeleton-loader>
+      />
     </div>
   </v-navigation-drawer>
 </template>
 
 <script setup>
 import dayjs from 'dayjs'
-import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { useChatStore } from '@/stores/chats'
-import ChatSettings from '@/components/dashboard/chat/Settings.vue'
+// import ChatSettings from '@/components/dashboard/chat/Settings.vue'
 
 const authStore = useAuthStore()
 const chatStore = useChatStore()
-const { user, permissions } = storeToRefs(authStore)
-const { getConversations, isLoadingConversations } = storeToRefs(chatStore)
+const { user } = storeToRefs(authStore)
+const { conversations, isLoadingConversations } = storeToRefs(chatStore)
 const { fetchConversations, fetchChat, closeChat } = chatStore
 
-onMounted(() => {
-  fetchConversations()
-})
-
-const loadChat = (conversation) => {
-  fetchChat(conversation)
-}
+fetchConversations()
 </script>
+
+<style lang="scss">
+.conversations-list {
+  .v-list-item__append {
+    position: absolute;
+    right: 0;
+  }
+}
+</style>

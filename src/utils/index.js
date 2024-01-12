@@ -1,4 +1,5 @@
 import mitt from 'mitt'
+
 function bytesToSize(bytes) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
 
@@ -40,7 +41,7 @@ function isValidFile(file, callback) {
 }
 
 function isDev() {
-  return import.meta.env.DEV === 'development'
+  return import.meta.env.DEV
 }
 
 const emitter = mitt()

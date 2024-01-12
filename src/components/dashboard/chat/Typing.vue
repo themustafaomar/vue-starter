@@ -4,16 +4,16 @@
       <source src="/typing.mp3" type="audio/mpeg" />
       Your browser does not support the audio tag.
     </audio>
+
     <v-avatar>
       <v-img cover :src="partner.avatar"></v-img>
     </v-avatar>
-    <div>
-      <div class="bg-grey-lighten-3 rounded-lg ms-4 py-2 px-3">
-        <div class="typing">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+
+    <div class="bg-grey-lighten-3 rounded-lg ms-4 py-2 px-3">
+      <div class="typing">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
       </div>
     </div>
   </li>

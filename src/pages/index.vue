@@ -10,8 +10,49 @@
       earum iusto! Fugit maiores doloremque veritatis eius ab voluptas? Maxime modi ratione commodi
       recusandae distinctio earum quaerat!
     </p>
+    <v-btn @click="deploy" :disabled="isLoading" :loading="isLoading" color="primary" elevation="0">
+      Deploy
+    </v-btn>
+  </v-sheet>
+
+  <v-sheet color="grey-darken-4" width="75%" class="rounded-lg mx-auto pa-5 mt-6">
+    <pre><code ref="content"></code></pre>
   </v-sheet>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+const content = ref()
+const isLoading = ref(false)
+
+onMounted(() => {
+  Echo.channel('Deployer').listen('DeployerLine', ({ line }) => {
+    content.value.innerHTML = content.value.innerHTML + line + '<br>'
+  })
+})
+
+const deploy = () => {
+  isLoading.value = true
+
+  // axios.get('/api/deploy').then((res) => {
+  // console.log(res)
+  // })
+  // Start the AJAX request
+  // const eventSource = new EventSource('/api/deploy')
+
+  // eventSource.onmessage = function (event) {
+  // Update the output div with the received message
+  // console.log(event.data)
+  // }
+
+  // eventSource.onerror = function () {
+  // Handle any errors
+  //   console.log('Error occurred')
+  // }
+}
+</script>
 
 <style>
 #welcome__page {

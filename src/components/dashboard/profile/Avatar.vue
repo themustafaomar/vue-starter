@@ -42,7 +42,10 @@ import { useAppStore } from '@/stores/app'
 import Cropper from 'cropperjs'
 import 'cropperjs/src/css/cropper.scss'
 
-const props = defineProps({ user: Object })
+defineProps({
+  user: Object,
+})
+
 const url = ref(null)
 const isDialogActive = ref(false)
 const uploader = ref(null)
