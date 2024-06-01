@@ -16,14 +16,11 @@ app.config.globalProperties.$slice = (string, length = 25) => {
   return string.length >= length ? string.slice(0, length) + '...' : string
 }
 
+app.use(pinia)
+app.use(router)
+
 // Register plugins
 plugins(app)
-
-// Use Vue plugins
-app.use(pinia).use(router)
-
-// Run before each method of the router
-router.watch(app)
 
 // Mount!
 app.mount('#app')

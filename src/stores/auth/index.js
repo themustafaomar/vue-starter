@@ -41,9 +41,7 @@ export const useAuthStore = defineStore('auth', {
       })
     },
     login({ user, permissions }) {
-      window.Laravel = {
-        jsPermissions: permissions || 0,
-      }
+      window.Laravel = permissions
 
       this.$patch({
         _isLoggedIn: true,
