@@ -44,6 +44,13 @@ function isDev() {
   return import.meta.env.DEV
 }
 
+function groupBy(xs, key) {
+  return xs.reduce((rv, x) => {
+    ;(rv[x[key]] = rv[x[key]] || []).push(x)
+    return rv
+  }, {})
+}
+
 const emitter = mitt()
 
-export { emitter, bytesToSize, isValidFile, isDev }
+export { emitter, bytesToSize, isValidFile, groupBy, isDev }

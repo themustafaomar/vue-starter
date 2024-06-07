@@ -7,7 +7,7 @@
       <template #badge>
         <v-icon size="23" color="grey-darken-2">mdi-microphone</v-icon>
       </template>
-      <v-avatar size="40" :image="data.user.avatar" />
+      <v-avatar size="40" :image="data.user.avatar_url" />
     </v-badge>
 
     <!-- The message body -->

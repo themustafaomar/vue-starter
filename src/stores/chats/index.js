@@ -119,7 +119,7 @@ export const useChatStore = defineStore('chats', {
       const newConversation = {
         id: conversationId,
         name: data.name,
-        avatar: data.avatar,
+        avatar_url: data.avatar,
         from_id: conversationId,
         body: '...',
         type: 'text',

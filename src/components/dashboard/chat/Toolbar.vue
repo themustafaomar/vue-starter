@@ -15,7 +15,7 @@
     <v-list-item
       v-else
       lines="two"
-      :prepend-avatar="conversation.avatar"
+      :prepend-avatar="conversation.avatar_url"
       density="comfortable"
       :title="conversation.name"
       subtitle="Driver"

@@ -87,7 +87,7 @@ import AppAuthHeading from '@/components/auth/Heading.vue'
 const appStore = useAppStore()
 const authStore = useAuthStore()
 const form = useForm({
-  email: 'admin@starter',
+  email: 'themustafaomar@gmail.com',
   password: 'password',
 })
 
