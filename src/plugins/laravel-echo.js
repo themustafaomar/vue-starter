@@ -6,11 +6,11 @@ const env = import.meta.env
 
 window.Pusher = Pusher
 window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: env.VITE_PUSHER_KEY,
-  cluster: env.VITE_PUSHER_CLUSTER,
-  wsHost: env.VITE_PUSHER_HOST,
-  wsPort: 6001,
+  broadcaster: 'reverb',
+  key: env.VITE_REVERB_KEY,
+  cluster: env.VITE_REVERB_CLUSTER,
+  wsHost: env.VITE_REVERB_HOST,
+  wsPort: env.VITE_REVERB_PORT,
   forceTLS: false,
   enctyped: true,
   logToConsole: true,
