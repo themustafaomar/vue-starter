@@ -8,7 +8,7 @@
     icon="mdi-camera"
     style="cursor: pointer"
   >
-    <v-avatar size="90" :image="url ? url : user.avatar" />
+    <v-avatar size="90" :image="url ? url : user.avatar_url" />
   </v-badge>
 
   <input @change="init" ref="uploader" type="file" accept="image/*" class="d-none" />

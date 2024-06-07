@@ -4,7 +4,7 @@
     :class="{ 'justify-start': !current, 'flex-end flex-row-reverse': current }"
   >
     <v-avatar v-if="data.type === 'text'" size="40">
-      <v-img cover :src="data.user.avatar"></v-img>
+      <v-img cover :src="data.user.avatar_url"></v-img>
     </v-avatar>
 
     <!-- The message body -->

@@ -20,7 +20,7 @@
           class="py-3"
         >
           <template #prepend>
-            <v-avatar :image="conversation.avatar" />
+            <v-avatar :image="conversation.avatar_url" />
           </template>
 
           <h4 class="font-weight-medium d-flex align-center justify-space-between">

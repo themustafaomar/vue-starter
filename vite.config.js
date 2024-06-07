@@ -18,9 +18,7 @@ export default ({ mode }) => {
     },
     plugins: [
       vue(),
-      Components({
-        directoryAsNamespace: true,
-      }),
+      Components({ directoryAsNamespace: true }),
       vuetify({
         autoImport: true,
         styles: {

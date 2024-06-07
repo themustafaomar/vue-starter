@@ -1,8 +1,8 @@
 <template>
-  <v-dialog width="700">
+  <v-dialog v-model="isActive" @update:model-value="close" width="700">
     <v-card rounded="lg">
       <v-card-title class="px-6 py-3 border-b">
-        <h4 class="font-weight-medium">{{ compose.title }}</h4>
+        <h4 class="font-weight-medium">{{ action.title }}</h4>
       </v-card-title>
 
       <v-skeleton-loader
@@ -73,6 +73,7 @@
             ]"
             required
           />
+          <pre>{{ editPayload }}</pre>
 
           <app-uploader
             v-model="form.avatar"
@@ -80,13 +81,13 @@
             label="Upload a profile picture"
             accept="image/*"
             extensions="jpg,svg,jpeg,png,bmp,gif,webp"
-            :preview-url="compose.data?.avatar"
-            :is-updating="compose.isUpdating"
+            :preview-url="editPayload?.avatar_url"
+            :is-updating="isEditing()"
           />
         </v-card-text>
 
         <v-card-actions class="border-t px-4 py-3 mt-3">
-          <v-btn @click="compose.close()" variant="plain" color="red">Discard</v-btn>
+          <v-btn @click="close" variant="plain" color="red">Discard</v-btn>
 
           <v-btn
             type="submit"
@@ -96,7 +97,7 @@
             color="primary"
             class="ms-4"
           >
-            {{ compose.action }}
+            {{ action.saveButton }}
           </v-btn>
         </v-card-actions>
       </Form>
@@ -105,18 +106,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { Form } from 'vee-validate'
 import { useAppStore } from '@/stores/app'
-import { useForm } from '@/composables/useForm'
+import { useForm, useEdit } from '@/composables'
 import { composeUserValidation } from '@/validations/users'
 import axios from '@/plugins/axios'
 
-const emit = defineEmits(['created'])
-const props = defineProps({ compose: Object })
+const emit = defineEmits(['created', 'update:modelValue'])
 
 const isLoading = ref(false)
-const updateId = ref(null)
 const roles = ref([])
 const { notify } = useAppStore()
 const form = useForm({
@@ -126,52 +125,45 @@ const form = useForm({
   role: '',
   status: 1,
   team: '',
+  avatar: null,
+})
+const { isActive, isEditing, onCreate, onEdit, editPayload, close, action } = useEdit(form, {
+  title: 'User',
 })
 
-props.compose.onUpdate(() => {
-  const data = props.compose.data
-  if (data) {
-    form.fill({
-      ...data,
-      role: data.role.id,
-      status: data.status.value,
-    })
-    form._method = 'PUT'
-    updateId.value = data.id
-  } else {
-    form.reset()
-  }
-})
-
-// Lifeycle hooks
-
-onMounted(async () => {
+const fetchRoles = async () => {
   roles.value = (await axios.get('/roles')).data.data
   form.role = roles.value.find((role) => role.name === 'admin').id
-})
-
-// Functions
-
-const saveOrUpdate = () => {
-  props.compose.isUpdating ? _update() : _save()
 }
 
-const _save = () => {
-  form.post('/users').then(() => _reset())
-}
+fetchRoles()
 
-const _update = () => {
-  form.post(`/users/${updateId.value}`).then(() => _reset())
+const saveOrUpdate = async () => {
+  if (isEditing()) {
+    await form.post(`/users/${editPayload.value.id}`)
+  } else {
+    await form.post('/users')
+  }
+  _reset()
 }
 
 const _reset = () => {
-  props.compose.close()
   emit('created')
   notify(
-    props.compose.isUpdating
+    isEditing()
       ? 'The user info has been successfully updated!'
       : 'A new user has been successfully created!'
   )
-  form.reset()
+  close()
 }
+
+defineExpose({
+  create: onCreate,
+  edit: (data) =>
+    onEdit({
+      ...data,
+      role: data.role.id,
+      status: data.status.value,
+    }),
+})
 </script>

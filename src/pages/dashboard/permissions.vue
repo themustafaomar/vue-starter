@@ -16,23 +16,14 @@
       </template>
     </v-data-table>
   </app-sheet>
-
-  <useComposer ref="composer" title="Permission" v-slot="{ props }">
-    <!-- @deprecated -->
-    <app-dashboard-permissions-create v-bind="props" @created="fetch()" />
-  </useComposer>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useLoader } from '@/composables/useLoader'
+import { ref } from 'vue'
 import axios from '@/plugins/axios'
-import useComposer from '@/hoc/useComposer.vue'
 
-const composer = ref(null)
 const permissions = ref([])
 const page = ref(1)
-const loader = useLoader()
 const headers = ref([
   { title: 'Name', key: 'name' },
   { title: 'Guard Name', key: 'guard_name' },
@@ -41,9 +32,10 @@ const headers = ref([
   { title: 'Actions', key: 'actions' },
 ])
 
-onMounted(async () => {
-  permissions.value = (await axios.get('/permissions?roles=true')).data.data
+const getPermissions = async () => {
+  const { data } = await axios.get('/permissions?roles=true')
+  permissions.value = data.data
+}
 
-  loader.markAsLoaded()
-})
+getPermissions()
 </script>

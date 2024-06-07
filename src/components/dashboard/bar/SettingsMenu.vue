@@ -12,7 +12,7 @@
         <v-img
           aspect-ratio="1/1"
           cover
-          :src="authStore.user.avatar"
+          :src="authStore.user.avatar_url"
           width="40"
           class="rounded-pill"
         >

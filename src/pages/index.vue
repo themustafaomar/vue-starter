@@ -8,7 +8,7 @@
 <script>
 export default {
   beforeRouteEnter(_to, _from, next) {
-    return next('/test')
+    return next('/login')
   },
 }
 </script>

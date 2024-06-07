@@ -6,7 +6,7 @@
     </audio>
 
     <v-avatar>
-      <v-img cover :src="partner.avatar"></v-img>
+      <v-img cover :src="partner.avatar_url"></v-img>
     </v-avatar>
 
     <div class="bg-grey-lighten-3 rounded-lg ms-4 py-2 px-3">
