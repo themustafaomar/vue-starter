@@ -38,13 +38,60 @@ Install the dependencies and run the project using:
 npm i && npm run dev
 ```
 
-## Broadcasting Directory
+### Docker
 
-This project has a server-side part please take a look at the next section
+To work with Docker please navigate to the [backend project](https://github.com/themustafaomar/vue-starter-server) and run the following command:
 
-As for broadcasting we're using the offical reverb websocket section.
+```bash
+./vendor/bin/sail up --build
+```
 
-For more information about Reverb please visit the offical website: https://laravel.com/docs/reverb
+You can call sail directly if you have it installed globally with the following command, more information about sail please visit the offical [documentation](https://laravel.com/docs/10.x/sail).
+
+```bash
+sail up --build
+```
+
+This will run the frontend and the backend without doing anything, you'll just need to run the migrations:
+
+```bash
+sail artisan migrate --seed
+```
+
+#### Broadcasting
+
+As for broadcasting we're using the offical Reverb websocket server, for more information about Reverb please visit the offical documentation: https://laravel.com/docs/10.x/reverb
+
+Once you run `sail up` in your terminal the websocket server will run automatically using supervisor which I already done it for you, it's configured in ./docker/8.3/supervisord.conf this is what it looks like:
+
+```conf
+[program:reverb]
+command=php /var/www/html/artisan reverb:start --host="0.0.0.0" --port=8080
+autostart=true
+autorestart=true
+user=%(ENV_SUPERVISOR_PHP_USER)s
+redirect_stderr=true
+stdout_logfile=/var/www/html/storage/logs/reverb.log
+```
+
+#### Queues
+
+I chose not to add laravel worker configuration for you, I prefer running the following command each time because I need to restart the queues a lot, however this is the supervisor worker configuration.
+
+```conf
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/html/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=sail
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/html/storage/logs/worker.log
+stopwaitsecs=3600
+```
 
 ## Server Side
 
