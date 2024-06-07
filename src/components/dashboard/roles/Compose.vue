@@ -1,8 +1,8 @@
 <template>
-  <v-dialog width="700">
+  <v-dialog v-model="isActive" @update:model-value="close" width="700">
     <v-card rounded="lg">
       <v-card-title>
-        <h3 class="font-weight-regular text-h6">{{ compose.title }}</h3>
+        <h3 class="font-weight-regular text-h6">{{ action.title }}</h3>
       </v-card-title>
 
       <v-skeleton-loader
@@ -44,8 +44,8 @@
                     :value="item[index].id"
                     hide-details
                     color="primary"
-                  ></v-checkbox>
-                  <v-checkbox v-else :label="label" hide-details disabled></v-checkbox>
+                  />
+                  <v-checkbox v-else :label="label" hide-details disabled />
                 </td>
               </tr>
             </tbody>
@@ -53,7 +53,7 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn @click="isOpen = false" variant="flat" color="red">Discard</v-btn>
+          <v-btn @click="close" variant="flat" color="red">Discard</v-btn>
           <v-btn
             :disabled="form.busy || !meta.valid"
             :loading="form.busy"
@@ -62,7 +62,7 @@
             class="ms-4"
             @click="saveOrUpdate"
           >
-            {{ compose.action }}
+            {{ action.saveButton }}
           </v-btn>
         </v-card-actions>
       </Form>
@@ -71,20 +71,17 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { Form } from 'vee-validate'
 import { useAppStore } from '@/stores/app'
-import { useForm } from '@/composables/useForm'
+import { useForm, useEdit } from '@/composables'
 import { createRoleValidation } from '@/validations/roles'
+import { groupBy } from '@/utils'
 import axios from '@/plugins/axios'
 
-const emit = defineEmits(['created'])
-const props = defineProps({
-  compose: Object,
-})
+const emit = defineEmits(['created', 'update:modelValue'])
 
 const isLoading = ref(false)
-const updateId = ref(null)
 const permissions = ref([])
 const normalizePermissions = computed(() => groupBy(permissions.value, 'group_name'))
 const { notify } = useAppStore()
@@ -92,80 +89,41 @@ const form = useForm({
   name: '',
   permissions: [],
 })
-
-// Lifecycle hooks
-
-onMounted(async () => {
-  permissions.value = (await axios.get('/permissions')).data.data
+const { isActive, isEditing, onCreate, onEdit, editPayload, close, action } = useEdit(form, {
+  title: 'Role',
 })
 
-props.compose.onUpdate(() => {
-  const data = props.compose.data
-  if (data) {
-    form.fill({
-      name: data.name,
-      permissions: permissions.value.map(({ id }) => id),
-    })
-    form._method = 'PUT'
-    updateId.value = data.id
+const fetchPermissions = async () => {
+  const { data } = await axios.get('/permissions')
+  permissions.value = data.data
+}
+
+fetchPermissions()
+
+const saveOrUpdate = async () => {
+  if (isEditing()) {
+    await form.post(`/roles/${editPayload.value.id}`)
   } else {
-    form.reset()
+    await form.post('/roles')
   }
-})
-
-// Functions
-
-const groupBy = (xs, key) => {
-  return xs.reduce((rv, x) => {
-    ;(rv[x[key]] = rv[x[key]] || []).push(x)
-    return rv
-  }, {})
+  _reset()
 }
 
-const saveOrUpdate = () => {
-  props.compose.isUpdating ? _update() : _save()
-}
-
-const _update = () => {
-  form.post(`/roles/${updateId.value}`).then(() => _reset())
-}
-
-const _save = () => {
-  form.post('/roles').then(() => _reset())
-}
-
-// const prepareForUpdate = (id) => {
-//   isLoading.value = true
-//   axios.get(`/roles/${id}`).then(({ data: { data } }) => {
-//     updateId.value = id
-//     isLoading.value = false
-//     form.fill({
-//       name: data.name,
-//       permissions: data.permissions.map(({ id }) => id),
-//     })
-//     form._method = 'PUT'
-//   })
-// }
 const _reset = () => {
-  props.compose.close()
   emit('created')
-  notify(
-    props.compose.isUpdating
-      ? 'The role has been successfully updated!'
-      : 'A new role has been successfully created!'
-  )
+  const message = isEditing()
+    ? 'The role has been successfully updated!'
+    : 'A new role has been successfully created!'
+  notify(message)
+  close()
 }
 
-// const open = (id) => {
-//   if (id) {
-//     isEdit.value = true
-//     prepareForUpdate(id)
-//   } else {
-//     isEdit.value = false
-//     form.reset()
-//   }
-//   isOpen.value = true
-// }
-
-// defineExpose({ open })
+defineExpose({
+  create: onCreate,
+  edit: (data) =>
+    onEdit({
+      ...data,
+      permissions: data.permissions.map(({ id }) => id),
+    }),
+})
 </script>

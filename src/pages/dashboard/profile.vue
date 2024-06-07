@@ -158,11 +158,11 @@ async function saveAvatar({ avatar, coords, url }) {
 
   notify('Your profile picture has been successfully changed!')
 
-  user.avatar = url
+  user.avatar_url = url
 
   const currentUser = JSON.parse(storage.get('user'))
 
-  currentUser.avatar = data.avatar
+  currentUser.avatar_url = data.avatar
   storage.set('user', JSON.stringify(currentUser))
 }
 </script>
