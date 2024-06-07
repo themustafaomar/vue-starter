@@ -40,25 +40,11 @@ npm i && npm run dev
 
 ## Broadcasting Directory
 
-This project has a server-side part please take a look at the following section
+This project has a server-side part please take a look at the next section
 
-As for broadcasting we're not using laravel webosckets instead, we're using soketi to install soketi please follow the instructions below:
+As for broadcasting we're using the offical reverb websocket section.
 
-soketi may be easily installed via the NPM CLI:
-
-```bash
-npm install -g @soketi/soketi
-```
-
-Now we can run the websockets server, at your client-side root directory run the following command:
-
-```bash
-soketi start --config ./broadcasting/soketi.json
-```
-
-For more information about soketi please visit the offical website: https://soketi.app/
-
-**Notice** that you can still using the laravel websockets but you will need to install it by your own on the server-side project.
+For more information about Reverb please visit the offical website: https://laravel.com/docs/reverb
 
 ## Server Side
 
