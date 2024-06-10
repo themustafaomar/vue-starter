@@ -76,7 +76,7 @@ stdout_logfile=/var/www/html/storage/logs/reverb.log
 
 #### Queues
 
-I chose not to add laravel worker configuration for you, I prefer running the following command each time because I need to restart the queues a lot, however this is the supervisor worker configuration.
+I chose not to add laravel worker configuration for you, I prefer running the command `sail artisan queue:work` each time because I need to restart the queues a lot, however this is the supervisor worker configuration.
 
 ```conf
 [program:laravel-worker]
