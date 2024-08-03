@@ -63,9 +63,9 @@
 </template>
 
 <script setup>
-import { ref, toRef, onBeforeMount } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { bytesToSize } from '@/utils'
+import { onBeforeMount, ref, toRef } from 'vue'
 
 const props = defineProps({
   label: String,

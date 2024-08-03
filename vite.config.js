@@ -1,8 +1,8 @@
+import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
-import Components from 'unplugin-vue-components/vite'
-import vue from '@vitejs/plugin-vue'
 
 export default ({ mode }) => {
   process.env = {
@@ -18,7 +18,9 @@ export default ({ mode }) => {
     },
     plugins: [
       vue(),
-      Components({ directoryAsNamespace: true }),
+      Components({
+        dirs: ['./src/components/app'],
+      }),
       vuetify({
         autoImport: true,
         styles: {
