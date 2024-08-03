@@ -13,6 +13,7 @@
   "arrowParens": "always",
   "singleAttributePerLine": false,
   "htmlWhitespaceSensitivity": "ignore",
+  "plugins": ["prettier-plugin-organize-imports"],
   "overrides": [
     {
       "files": "*.vue",
