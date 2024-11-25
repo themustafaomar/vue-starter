@@ -24,6 +24,7 @@
     "laravel-permission-to-vuejs": "^3.0.2",
     "lodash": "^4.17.21",
     "luxon": "^3.4.4",
+    "mitt": "^3.0.1",
     "object-to-formdata": "^4.5.1",
     "pinia": "^2.2.0",
     "pusher-js": "^7.6.0",
